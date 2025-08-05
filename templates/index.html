@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* background-color: rgb(18, 18, 235); */
+            /* background-image: ; */
+        }
+
+
+        #background-video {
+            position: fixed; /* Fixa o vídeo na tela, mesmo com rolagem */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* ESSENCIAL: Faz o vídeo preencher o container, cortando se necessário, mantendo proporções */
+            z-index: -2; /* Coloca o vídeo BEM atrás de todo o conteúdo e do overlay */
+        }
+
+        #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Exemplo: Camada preta com 50% de opacidade */
+            z-index: -1; /* Fica entre o vídeo e o conteúdo, escurecendo o vídeo */
+            pointer-events: none; /* Permite que o mouse interaja com o conteúdo por baixo */
+        }
+
+        /* Estilos para o conteúdo principal da sua página */
+        .content {
+            position: relative; /* Importante para que o z-index funcione e o conteúdo fique SOBRE o vídeo */
+            z-index: 0; /* Garante que seu conteúdo apareça acima do vídeo e do overlay */
+            min-height: 100vh; /* Garante que o conteúdo ocupe a altura total para que o vídeo seja visível */
+            padding: 20px; /* Adicione padding para o conteúdo não colar nas bordas */
+            color: white; /* Exemplo: Cor do texto para contraste com o fundo escuro */
+            /* ... Adicione aqui outros estilos para o layout do seu site ... */
+        }
+
+        /* Opcional: Fallback para dispositivos móveis ou navegadores que não suportam vídeo */
+        /* @media (max-width: 768px) {
+            #background-video {
+                display: none; /* Esconde o vídeo em telas pequenas */
+            }
+            #video-overlay {
+                display: none; /* Esconde o overlay também */
+            }
+
+            body {
+                /* Define uma imagem de fundo estática para mobile */
+                background-image: url('caminho/para/sua/imagem-fallback-mobile.jpg'); 
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                /* Garanta que o texto continue legível no mobile */
+                color: #333; /* Exemplo: Mude a cor do texto se a imagem de fallback for clara */
+            }
+        } */
+
+
+
+
+
+
+
+        #topo {
+            background-color: rgb(0, 0, 197);
+            height: 65px;
+            width: 100dvw;
+            display: flex;
+        }
+
+        
+        #p-feed {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: white;
+            font-size: 25px;
+            padding-top: 15px;
+            padding-left: 8px;
+        }
+
+        #espaco-externo {
+            /* background-color: white; */
+            /* background-color: red; */
+
+
+            border-radius: 10px;
+            /* height: 500px; */
+            width: 400px;
+            display: flex;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            /* align-items: center; */
+            justify-content: center;
+            margin-top: 120px;
+
+            justify-self: center;
+
+
+            /* background-color: rgba(255, 255, 255, 0.15); Branco com 15% de opacidade */
+            backdrop-filter: blur(15px); /* Desfoque de 15px ao que está por trás */
+            -webkit-backdrop-filter: blur(15px); /* Compatibilidade Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Borda fina semi-transparente */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Sombra mais pronunciada */
+
+            animation: entrada 1s ease-out forwards;
+
+        }
+
+
+        /* Animação para entrada do login */
+
+        @keyframes entrada {
+            0% {
+                opacity: 0;
+                transform: translate(0%, -200px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(0%, 0px);
+            }
+        }
+
+        #espaco-interno {
+            /* background-color: red; */
+            height: 10px;
+            width: 10px;
+        }
+
+        #bem-vindo-externo {
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #bem-vindo-interno {
+            /* color: black; */
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+        }
+        input {
+            border: none;
+            /* background-color: rgb(222, 222, 222); */
+            width: 300px;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border-width: 3px;
+            /* border-color: rgba(0, 110, 255, 0.747); */
+
+
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white; /* Texto branco para contraste com o fundo escuro do vídeo */
+            font-size: 1em; /* Tamanho da fonte */
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dentro */
+            outline: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo um pouco mais opaco ao focar */
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2), 0 0 5px rgba(255, 255, 255, 0.5); /* Sombra interna mais forte e um brilho externo suave */
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6); /* Placeholder um pouco mais transparente */
+        }
+
+        #entrar {
+            border: none;
+            width: 320px;
+            padding: 10px;
+            /* background-color: rgb(54, 54, 255); */
+            /* color: white; */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            border-radius: 3px;
+
+            background-color: rgba(0, 123, 255, 0.8); /* Seu azul com 80% de opacidade */
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            
+        }
+
+        #entrar:hover {
+            /* background-color: rgb(0, 0, 196); */
+
+            background-color: rgba(0, 123, 255, 0.95); /* Azul um pouco mais opaco */
+            transform: translateY(-2px); /* Pequeno levantamento */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais intensa */
+        }
+
+        #esqueceu-senha-externo {
+            /* background-color: red; */
+            margin: 20px 0 2px 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #esqueceu-senha-texto {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: white;
+
+        }
+
+        #recuperar {
+            border: none;
+            width: 320px;
+            padding: 10px;
+            /* background-color: rgb(54, 54, 255); */
+            /* color: white; */
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            border-radius: 3px;
+
+
+            background-color: rgba(0, 123, 255, 0.8); /* Seu azul com 80% de opacidade */
+            color: white; /* Texto branco */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        #recuperar:hover {
+            /* background-color: rgb(0, 0, 196); */
+
+            background-color: rgba(0, 123, 255, 0.95); /* Azul um pouco mais opaco */
+            transform: translateY(-2px); /* Pequeno levantamento */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais intensa */
+        }
+
+
+        /* aqui é uma adaptação de telas menores, quando a tela
+        chegar em 430px, essas configurações vão acontecer (max-width: 430px;) 
+        isso eu digo que quando a tela chegar em 430px; */
+        @media (max-width: 430px) {
+            #espaco-externo {
+                /* background-color: red; */
+                width: 300px;
+            }
+
+            #recuperar {
+                width: 250px;
+            }
+
+            #entrar {
+                width: 250px;
+            }
+
+            input {
+                width: 230px;
+            }
+        }
+
+
+
+        #notificacao_global {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: fit-content; /* novo para mim */
+            max-width: 90%;
+            pointer-events: none; /* novo para mim */
+
+            padding: 12px 25px;
+            border-radius: 8px;
+            /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); */
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            display: flex;
+            align-items: center; /* alinhamento vertical */
+            gap: 10px;
+
+            /* opacity: 0; */
+            /* transform: translateX(-50%) translateY(-20px); */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+
+        #simbolo_da_notificacao {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+
+        }
+
+        #mensagem {
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        .notificacao_success {
+            background-color: #28a745;
+        }
+
+        .notificacao_falha {
+            background-color: #dc3545;
+        }
+
+        .notificacao_visivel {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0); /* DESLIZA PARA A POSICÃO FINAL */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .notificacao_invisivel {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px); /* VOLTA PARA A POSICÃO INICIAL */
+        }
+
+
+        
+
+    </style>
+</head>
+<body>
+
+
+    
+    <!-- <div id="video-overlay"></div> -->
+
+   
+   <div id="notificacao_global">
+    <p id="simbolo_da_notificacao"></p>
+    <p id="mensagem"></p>
+   </div>
+
+
+   <main id="espaco-externo"> 
+ 
+
+    <div>
+        <div id="bem-vindo-externo">
+            <div id="bem-vindo-interno">Bem Vindo</div>
+        </div>
+
+        <input type="text" name="funcionario" id="funcionario" placeholder="Nome"> <br>
+
+        <p id="nome-vazio" 
+        style="
+        color: red;
+        font-size: 15px;
+        display: none;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        ">Campo vázio.</p>
+
+        <input type="text" name="senha-do-funcionario" id="senha-do-funcionario" placeholder="Senha"> <br>
+        
+        <p id="senha/vazio" 
+        style="
+        color: red;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+        display: none;
+        ">Campo senha vazio / inválido</p>
+
+        <button type="submit" id="entrar" onclick="entrar()">Login</button>
+        <br>
+        <p
+        id="dadosInvalidos"
+        style="
+        color: red;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+        display: none;
+        ">
+            Dados Inválidos. Tente novamente
+        </p>
+
+        <div id="esqueceu-senha-externo">
+            <div id="esqueceu-senha-texto">Caso tenha esquecido a Senha:</div>
+            
+        </div>
+
+        <input type="text" name="email" id="cpf" placeholder="Digite seu CPF, para recuperação da senha"><br>
+        <button type="submit" id="recuperar" onclick="recuperar()">Recuperar</button>
+        <br>
+        <p
+        id="recuperacao"
+        style="
+        color: red;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+        display: none;
+        ">
+            Para recuperar, preencha esse campo.
+        </p>
+        <p
+        id="dados_recuperados"
+        style="
+        color: rgb(26, 255, 0);
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 15px;
+        display: none;
+        ">
+            Dados coletados com sucesso...
+        </p>
+    
+     </div>
+    
+   </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+   <video autoplay muted loop playsinline id="background-video">
+        <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4">
+        <!-- <source src="caminho/para/seu/video.webm" type="video/webm"> -->
+
+        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
+        Seu navegador não suporta vídeos de fundo.
+    </video>
+
+    <div id="video-overlay"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <script>
+    // notificacao(texto, status, duration)
+
+    function notificacao(texto, status, duration = 3000) {
+        const container_da_notificacao = document.getElementById('notificacao_global');
+        const simbolo = document.getElementById('simbolo_da_notificacao');
+        const mensagem = document.getElementById('mensagem');
+
+        if (!container_da_notificacao || !simbolo || !mensagem) {
+            console.error(`Um ou mais elementos de notificação não foram encontrados`);
+            return;
+        }
+
+
+        if (status === "success") {
+            simbolo.textContent = '✔';
+        } else if (status === "error") {
+            simbolo.textContent = '✖';
+        } else {
+            simbolo.textContent = '';
+        }
+
+        mensagem.textContent = texto;
+
+        container_da_notificacao.classList.remove('notificacao_success', 'notificacao_falha');
+        if (status === 'success') {
+            container_da_notificacao.classList.add('notificacao_success');
+        } else if (status === 'error') {
+            container_da_notificacao.classList.add('notificacao_falha');
+        } 
+
+
+        container_da_notificacao.classList.add('notificacao_visivel');
+        container_da_notificacao.classList.remove('notificacao_invisivel');
+
+        setTimeout(() => {
+            container_da_notificacao.classList.remove('notificacao_visivel');
+            container_da_notificacao.classList.add('notificacao_invisivel');
+
+            setTimeout(() => {
+                simbolo.textContent = '';
+                mensagem.textContent = '';
+            }, 500)
+        }, duration);
+    }
+
+
+
+
+    function entrar() {
+        let inputnome = document.getElementById('funcionario');
+        let inputsenha = document.getElementById('senha-do-funcionario');
+
+        let nomevazio = document.getElementById('nome-vazio');
+        let senhavazio = document.getElementById('senha/vazio');
+
+        if (inputnome.value == '' && inputsenha.value == '') {
+            nomevazio.style.display = "block";
+            senhavazio.style.display = "block";
+
+        } else if (inputnome.value == '') {
+            nomevazio.style.display = "block";
+            senhavazio.style.display = 'none';
+
+        } else if (inputsenha.value == '') {
+            senhavazio.style.display = 'block';
+            nomevazio.style.display = 'none';
+
+        } else {
+            nomevazio.style.display = 'none';
+            senhavazio.style.display = 'none';
+
+            const dados = {
+                funcionario: inputnome.value,
+                senha: inputsenha.value
+            };
+
+            enviarDadosParaServidor();
+        }
+
+    }
+
+
+
+
+    async function enviarDadosParaServidor() {
+
+        try {
+            let dados_recuperados = document.getElementById("dados_recuperados");
+            let inputnome = document.getElementById('funcionario');
+            let inputsenha = document.getElementById('senha-do-funcionario');
+            let recado = document.getElementById('dadosInvalidos');
+            let funcionario = inputnome.value;
+            let senha = inputsenha.value;
+
+            const dados = {
+                nome: funcionario,
+                senhar: senha
+            }
+
+            const resposta = await fetch('/receber_dados', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(dados)
+            });
+
+            if (!resposta.ok) {
+                const erro = await resposta.json().catch(() => ({}));
+                console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Erro desconhecido"}`);
+                notificacao(`${resposta.status}; ${erro.msg || "Mensagem Indisponível"}`,'error');
+                return;
+            }
+
+            const retorno = await resposta.json();
+
+            if (retorno.success) {
+                console.log(`SUCCESS: (TRUE); MSG: ${retorno.msg}`);
+                notificacao(`${retorno.msg}`,"success");
+                recado.style.display = 'none';
+                
+                const data = new Date();
+                let dia = data.getDate();
+                let mes = data.getMonth();
+                mes = mes + 1;
+                let hora = data.getHours();
+                let minuto = data.getMinutes();
+                let segundos = data.getSeconds();
+                let ano = data.getFullYear();
+
+                if (dia < 10) {dia = ('0'+dia); }
+                if (mes < 10) {mes = ('0'+mes); }
+                if (hora < 10) {hora = ('0'+hora); }
+                if (minuto < 10) {minuto = ('0'+minuto); }
+                if (segundos < 10) {segundos = ('0'+segundos); }
+
+                const registro_frequencia = {
+                    nome:inputnome.value,
+                    dia:dia,
+                    mes:mes,
+                    ano:ano,
+                    hora:hora,
+                    minuto:minuto,
+                    segundo:segundos,
+                    funcao:retorno.funcao
+                }
+
+                const segunda_resposta = await fetch('/frequencia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(registro_frequencia)
+                });
+
+                if (!segunda_resposta.ok) {
+                    const erro = await segunda_resposta.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${segunda_resposta.status}; MSG: ${erro.msg || 'Menssagem Indisponível'}`);
+                    // (`ERRO HTTP: ${segunda_resposta.status}; MSG: ${erro.msg || 'Menssagem Indisponível'}`);
+                    return;
+                }
+
+                const segundo_retorno = await segunda_resposta.json();
+
+                if (segundo_retorno.success) {
+                    console.log(`SUCCESS: TRUE; MSG: ${segundo_retorno.msg}`);
+                    recado.style.display = 'none';
+
+                    if (retorno.funcao === 'pintura') {
+                        window.location = '/pintura';
+
+                    } else if (retorno.funcao === 'eletrica') {
+                        window.location = '/eletrica';
+
+                    } else if (retorno.funcao === 'adm' || retorno.funcao === 'seguranca' || retorno.funcao === 'administrativo') {
+                        window.location = '/adm';
+
+                    } else if (retorno.funcao === 'telhado') {
+                        window.location = '/telhado';
+
+                    } else if (retorno.funcao === 'mecanica') {
+                        window.location = '/mecanica';
+                    }
+
+                    inputnome.value = '';
+                    inputsenha.value = '';
+                    dados_recuperados.style.display = 'none';
+
+
+                } else {
+                    console.log(`SUCCESS: FALSE; MSG: ${segundo_retorno.msg}`);
+                    // alert(`SUCCESS: FALSE; MSG: ${segundo_retorno.msg}`);
+                    notificacao(`${segundo_retorno}`,'error');
+                    recado.style.display = 'block';
+                }
+
+            } else {
+                console.log(`SUCCESS: (FALSE); MSG: ${retorno.msg}`);
+                // alert(`SUCCESS: (FALSE); MSG: ${retorno.msg}`);
+                notificacao(`${retorno.msg}`,'error');
+            }
+
+
+        } catch (erro) {
+            console.log('ERRO ao processar ou se conectar ao servidor');
+            // alert(`ERRO ao processar ou se conectar ao servidor`);
+            notificacao(`ERRO ao processar ou se conectar ao servidor`,'error');
+        }
+        
+    }
+
+
+    
+
+
+    async function recuperar() {
+        let dados_recuperados = document.getElementById("dados_recuperados");
+        let inputnome = document.getElementById('funcionario');
+        let inputsenha = document.getElementById('senha-do-funcionario');
+        let inputcpf = document.getElementById('cpf');
+        let cpf = inputcpf.value;
+        let recado = document.getElementById('recuperacao');
+
+        try {
+            if (!cpf) {
+                notificacao(`Por favor, digite o seu CPF para recuperar o nome do usuário`,'error');
+                inputcpf.value = '';
+                return;
+            }
+            // recado.style.display = 'none';
+
+
+            const resposta = await fetch(`/recuperar-senha?cpf=${encodeURIComponent(cpf)}`, {
+                method: "GET", 
+                headers: {
+                    "Content-Type":"application/json"
+                }
+            });
+
+            if (!resposta.ok) {
+                const erro = await resposta.json().catch(() => ({}));
+                console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem Indisponível"}`);
+                // recado.style.display = 'block';
+                notificacao(`${resposta.status}; ${erro.msg || "Mensagem Indisponível"}`,'error');
+                return;
+            }
+
+            const retorno = await resposta.json();
+
+            if (retorno.success) {
+                console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                notificacao(`${retorno.msg}`,'success');
+
+
+                
+                inputnome.value = retorno.nome;
+                inputsenha.value = '';
+                dados_recuperados.style.display = 'block';
+
+                // recado.textContent = retorno.msg + " Agora, tente fazer login com a senha que você se lembra";
+                // recado.style.display = "none";
+                
+
+
+            } else {
+                console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                // recado.style.display = 'block';
+                notificacao(`${retorno.msg}`,'error');
+            }
+
+        } catch (erro) {
+            console.log('ERRO ao processar ou se conectar ao servidor');
+            // recado.style.display = "block";
+            notificacao(`ERRO ao processar ou se conectar ao servidor`,'error');
+        } finally {
+            inputcpf.value = '';
+        }
+    }
+
+    // notificacao(texto, status, duration)
+
+   </script>
+</body>
+</html>

@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* background-color: rgb(18, 18, 235); */
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            z-index: 1;
+            position: relative;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        #imagem_de_fundo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* opacity: 0.8; */
+        }
+
+        
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -2;
+            position: fixed;
+        }
+
+        #background-video {
+            margin-top: 0px;
+            min-width: 100%;
+            min-height: 100dvh;
+            width: auto;
+            height: auto;
+            /* position: absolute; */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            min-height: 100dvh;
+
+            opacity: 0.6;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* background-color: red; */
+            z-index: -1;
+        }
+
+        #corpo-principal {
+            /* ... suas propriedades existentes ... */
+            position: relative; /* Garante que z-index funcione para este elemento */
+            z-index: 2; /* Coloca seu conteúdo principal ACIMA do overlay (-1) e do vídeo (-2) */
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        input {
+            border: none;
+            background-color: rgb(222, 222, 222);
+            width: 300px;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            border-width: 3px;
+            border-color: rgba(0, 110, 255, 0.747);
+        }
+
+        table {
+            /* background-color: white; */
+
+            width: 90dvw;
+            border-collapse: collapse;
+            margin-top: 20px;
+            /* border-radius: 10px; */
+
+            /* background-color: rgba(255, 255, 255, 0.1); */
+            background-color: rgba(0, 0, 0, 0.285);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+            display: block;
+            overflow-x: auto;
+        }
+
+        th {
+            text-align: center;
+            padding: 10px;
+            border: 2px solid black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            color: white;
+            /* background-color: blue; */
+
+            background-color: rgba(0, 0, 200, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        td {
+            text-align: center;
+            padding: 2px;
+            border: 2px solid black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            color: white;
+            /* background-color: rgb(0, 0, 154); */
+
+
+            background-color: rgba(0, 0, 154, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borda inferior sutil */
+            border-right: 1px solid rgba(255, 255, 255, 0.05); /* Borda direita sutil */
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.05); /* Leve brilho translúcido ao passar o mouse */
+        }
+
+    
+
+
+        /* aqui é uma adaptação de telas menores, quando a tela
+        chegar em 430px, essas configurações vão acontecer (max-width: 430px;) 
+        isso eu digo que quando a tela chegar em 430px; */
+        @media (max-width: 430px) {
+            
+        }
+
+        #corpo-principal {
+            /* background-color: blue; */
+            border-radius: 5px;
+            width: 90dvw;
+            margin: auto 0;
+            margin-top: 100px;
+            justify-self: center;
+            padding: 15px;
+
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            
+        }
+
+        #programacao {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 18px;
+            justify-self: center;
+            color: white;
+            
+        }
+
+        #eletrica {
+            font-size: 25px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            justify-self: center;
+            color: white;
+            margin-top: 40px;
+            margin-bottom: -50px;
+            z-index: 1;
+            position: relative;
+        }
+
+        #registrar {
+            padding: 2px;
+            /* background-color: rgb(64, 199, 64); */
+
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+
+        #tela {
+            margin-top: 10px;
+            padding: 20px;
+            display: none;
+
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            
+            position: fixed;
+            margin-top: 50px;
+            left: 50%;
+            transform: translate(-50%);
+
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #tela02 {
+            margin-top: 10px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            color: white;
+            position: fixed;
+            display: none;
+            left: 50%;
+            transform: translate(-50%);
+            width: 80dvw;
+            margin-top: 100dvh;
+
+            opacity:0;
+            visibility: hidden;
+            transform: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .tela_ativa {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+
+        #camera {
+            background-color: black;
+            width: 80dvw;
+            height: 350px;
+            justify-self: center;
+            
+        }
+
+        #div-botao-tirar-foto {
+            padding-top: 10px;
+            justify-self: center;
+        }
+
+
+
+
+
+
+
+
+
+
+
+        #botao-tirar-foto {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            color: black;
+            background-color: rgba(300, 300, 300, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        #botao-tirar-foto:hover {
+            background-color: rgba(300, 300, 300, 1);
+        }
+
+
+
+
+        #div-input-legenda {
+            width: 80dvw;
+            justify-self: center;
+        }
+
+        input {
+            border-radius: 5px;
+            width: 76dvw;
+            
+
+            border: none;
+            background-color: rgba(255, 255, 255, 0.5);
+            color: white;
+        }
+
+        
+
+        
+
+    
+        #div-texto-fotos {
+            /* background-color: red; */
+        }
+
+        #texto-fotos {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            
+        }
+
+        video {
+            width: 100%;
+            height: 370px;
+            max-width: 640px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: 10px;
+            margin-bottom: 10px;
+            justify-self: center;
+            display: flex;
+
+
+
+
+        }
+
+        canvas {
+            display: none;
+        }
+
+        .foto-capturada-dinamica {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+
+
+
+
+
+
+        #imagemCapturada {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            margin-top: 50px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            transition: 0.5s;
+
+
+
+            max-width: 600px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+
+            /* margin-top: 10px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 8px 32px 0 rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            color: white */
+
+
+
+
+
+
+
+
+        @media (min-width: 700px) {
+
+            #imagemCapturada {
+                margin-top: 10px;
+                /* background-color: red; */
+                height: auto;
+                border-radius: 10px;
+                margin-top: 50px;
+            }
+
+        }
+
+        
+
+        #id-fotos {
+            /* background-color: rgb(54, 51, 51); */
+            padding: 3px;
+            padding-top: 10px;
+            margin-top: -12px;
+            /* border-radius: 5px; */
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            box-shadow:0px 8px 32px 0 rgba(0, 0, 0, 0.3);
+            /* border-radius: 10px; */
+            color: white;
+            margin-bottom:12px;
+
+
+
+            max-width: 600px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #id-fotos {
+
+        }
+
+
+
+        #n0 {
+            background-color: red;
+        }
+
+        #n1 {
+            background-color: rgb(0, 191, 0);
+        }
+
+
+        .n3 {
+            background-color: red; /* Cor inicial (vermelho) */
+            animation: piscarVermelhoBranco 0.5s infinite alternate; /* Aplica a animação */
+            border: 2px solid darkred; /* Borda para destaque, se desejar */
+        }
+
+        /* Definição da animação keyframes */
+        @keyframes piscarVermelhoBranco {
+            0% {
+                background-color: red; /* Início: vermelho */
+            }
+            100% {
+                background-color: white; /* Fim: branco */
+            }
+        }
+
+
+
+        #notificacao_global {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: fit-content; /* novo para mim */
+            max-width: 90%;
+            pointer-events: none; /* novo para mim */
+
+            padding: 12px 25px;
+            border-radius: 8px;
+            /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); */
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            display: flex;
+            align-items: center; /* alinhamento vertical */
+            gap: 10px;
+
+            /* opacity: 0; */
+            /* transform: translateX(-50%) translateY(-20px); */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+
+        #simbolo_da_notificacao {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+
+        }
+
+        #mensagem {
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        .notificacao_success {
+            background-color: #28a745;
+        }
+
+        .notificacao_falha {
+            background-color: #dc3545;
+        }
+
+        .notificacao_visivel {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0); /* DESLIZA PARA A POSICÃO FINAL */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .notificacao_invisivel {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px); /* VOLTA PARA A POSICÃO INICIAL */
+        }
+
+    </style>
+</head>
+<body>
+
+
+    
+    <!-- <video autoplay muted loop playsinline id="background-video">
+        <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4">
+
+
+        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
+        Seu navegador não suporta vídeos de fundo.
+    </video> -->
+
+    <div id="video-overlay"></div>
+
+    <img id="imagem_de_fundo" src="/PROJETO FEED/static/images/eletricista.jpg" alt="eletrica">
+    <img id="imagem_de_fundo"  src="{{ url_for('static', filename='images/eletricista.jpg') }}" alt="">
+
+
+    <div id="notificacao_global">
+    <p id="simbolo_da_notificacao"></p>
+    <p id="mensagem"></p>
+   </div>
+
+    <p id="eletrica">ELÉTRICA</p>
+    <div id="corpo-principal">
+        <p id="programacao">
+            PROGRAMAÇÃO
+        </p>
+        <button id="registrar" style="border: none;">
+            <!-- <img src="/PROJETO FEED/static/images/camera_de_cor_preta.png" alt="Tirar foto" style="width: 20px;"> -->
+            <img src="{{ url_for('static', filename='images/camera_de_cor_preta.png') }}" alt="Tirar foto" style="width: 20px;">
+        </button>
+
+
+        <table>
+            <tr >
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Eletricista</th>
+                <th>Armazenna</th>
+                <th>Cliente</th>
+                <th>Data</th>
+                <th>Status</th>
+            </tr>
+            <tbody id="tbodyEletrica">
+                
+                <!-- <tr>
+                    <td id="n3">01</td>
+                    <td id="n3">Limpeza</td>
+                    <td id="n3">berg</td>
+                    <td id="n3">A5</td>
+                    <td id="n3">Amazon</td>
+                    <td id="n3">14-07-25</td>
+                    <td id="n3" class="n">3</td>
+                </tr> -->
+
+                
+            </tbody>
+        </table>
+
+        <div id="tela">
+            <div id="camer">
+                <video id="videoStream" autoplay></video>
+            </div>
+
+            <div id="div-input-legenda">
+                <input type="number" placeholder="ID" id="inputID">
+                <br>
+                <input type="text" placeholder="Legenda da foto.." id="inputLegenda">
+            </div>
+            
+
+            <div id="div-botao-tirar-foto">
+                <button id="botao-tirar-foto" onclick="TirarFoto()"  class="tirarfoto">
+                    <!-- <img src="/PROJETO FEED/static/images/camera_de_cor_preta.png" alt="" style="width: 20px;"> -->
+                     <img src="{{ url_for('static', filename='images/camera_de_cor_preta.png') }}" alt="Tirar foto" style="width: 20px;">
+                </button>
+
+
+
+                <button id="botao-tirar-foto" onclick="enviarFotos()">
+                    <!-- Enviar -->
+
+                    <!-- <img src="/PROJETO FEED/static/images/enviar.png" alt="Enviar" style="width:20px;"> -->
+                    <img src="{{ url_for('static', filename='images/enviar.png') }}" alt="Enviar" style="width: 20px;">
+                </button>
+                
+                <button id="deletarfoto"
+                style="
+                padding: 10px 15px;
+                border-radius: 10px;
+                background-color: rgba(255, 0, 0, 0.6);
+                color: white;
+                border: 1px solid rgba(255, 0, 0, 0.7);
+                cursor: pointer;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                " >
+                <!-- Deletar -->
+                 <!-- <img src="/PROJETO FEED/static/images/excluir.png" alt="Excluir" style="width: 20px;"> -->
+                 <img src="{{ url_for('static', filename='images/excluir.png') }}" alt="Excluir" style="width: 20px;">
+            </button>
+
+            </div>
+        
+        </div>
+
+        <div id="tela02">
+
+            <div id="div-texto-fotos">
+                <p id="texto-fotos">Fotos</p>
+                <canvas id="photoCanvas"></canvas>
+                
+                <div id="fotoscapturadas">
+
+                    <!-- <div>
+                        <img id="imagemCapturada" src="data:image/jpeg;base64,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" alt="">
+                        <p id="id-fotos">ID: 01</p>
+                        <p id="id-fotos">Descrição:  Foi feita a</p>
+                    </div> -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+        
+
+    </div>
+    <script>
+        function notificacao(texto, status, duration = 3000) {
+        const container_da_notificacao = document.getElementById('notificacao_global');
+        const simbolo = document.getElementById('simbolo_da_notificacao');
+        const mensagem = document.getElementById('mensagem');
+
+        if (!container_da_notificacao || !simbolo || !mensagem) {
+            console.error(`Um ou mais elementos de notificação não foram encontrados`);
+            return;
+        }
+
+
+        if (status === "success") {
+            simbolo.textContent = '✔';
+        } else if (status === "error") {
+            simbolo.textContent = '✖';
+        } else {
+            simbolo.textContent = '';
+        }
+
+        mensagem.textContent = texto;
+
+        container_da_notificacao.classList.remove('notificacao_success', 'notificacao_falha');
+        if (status === 'success') {
+            container_da_notificacao.classList.add('notificacao_success');
+        } else if (status === 'error') {
+            container_da_notificacao.classList.add('notificacao_falha');
+        } 
+
+
+        container_da_notificacao.classList.add('notificacao_visivel');
+        container_da_notificacao.classList.remove('notificacao_invisivel');
+
+        setTimeout(() => {
+            container_da_notificacao.classList.remove('notificacao_visivel');
+            container_da_notificacao.classList.add('notificacao_invisivel');
+
+            setTimeout(() => {
+                simbolo.textContent = '';
+                mensagem.textContent = '';
+            }, 500)
+        }, duration);
+    }
+
+
+
+
+        let registrar = document.getElementById('registrar');
+        const video = document.getElementById('videoStream');
+        const canvas = document.getElementById('photoCanvas');
+        const context = canvas.getContext('2d');
+        let capturePhoto = [];
+        let currentStream;
+        let tbody = document.getElementById('tbodyEletrica');
+        let deletarFotos = document.getElementById('deletarfoto');
+
+
+        deletarFotos.addEventListener('click', function(event) {
+            const listaDeFotos = document.getElementById('fotoscapturadas');
+            console.log('lista de fotos: ', listaDeFotos);
+            console.log(' CAPTUREPHOTO: ',capturePhoto);
+
+            const divFilho = listaDeFotos.querySelectorAll('div');
+            capturePhoto = [];
+
+            divFilho.forEach(filho => {
+                const img = filho.querySelector('img');
+                
+                if (img.style.border == '5px solid red') {
+                    filho.remove();
+                    console.log(' - DIV FILHO = DELETADO');
+
+                } else {
+                    // se n for para deletar, após ter zerado a lista, eu vou pegar seus dados e atualizar a lista antes de ser enviado
+                    const Ps = filho.querySelectorAll('p');
+
+                    let idd = Ps[0].textContent.trim();
+                    let legendaa = Ps[1].textContent.trim();
+                    let srcc = img.src;
+
+                    const conteudo = {
+                        id: idd,
+                        legenda: legendaa,
+                        imagemData: srcc
+                    };
+                    capturePhoto.push(conteudo);
+                }
+            });
+            console.log(' CAPTUREPHOTO: ',capturePhoto);
+        })
+
+
+        
+
+
+
+        async function tabelaEletrica() {
+            // atividades de mecanica
+            // atividades de pintura
+            // atividades de telhado
+
+            try {
+                const dados = {
+                    'msg':'atividades de elétrica'
+                }
+
+                const resposta = await fetch('/mostrar_atividades', {method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(dados)});
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`FUNÇÃO MOSTRAR ATIVIDADES; ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                    tbody.innerHTML = '';
+                    retorno.lista.forEach(registro => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td class="n${registro.status}">${registro.id_atividade}</td>
+                        <td class="n${registro.status}">${registro.descricao}</td>
+                        <td class="n${registro.status}">${registro.quem}</td>
+                        <td class="n${registro.status}">${registro.armazenna}</td>
+                        <td class="n${registro.status}">${registro.empresa}</td>
+                        <td class="n${registro.status}">${registro.data}</td>
+                        <td id="n${registro.status}" class="n${registro.status}">${registro.status}</td>
+                        `
+                        tbody.appendChild(row);
+                    });
+
+                } else {
+                    console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    // alert(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    return;
+                }
+
+            } catch (erro) {
+                console.log('ERRO ao processar ou se conectar ao servidor');
+            }
+        }
+
+
+        setInterval(tabelaEletrica, 3000);
+
+        
+        function TirarFoto() {
+            let id = document.getElementById('inputID');
+            let legenda = document.getElementById('inputLegenda');
+            let divPai = document.getElementById('fotoscapturadas');
+            const fotosarmazenadas = [];
+            // capturePhoto = []; // limpar antes de usar
+
+
+            if (id.value == '' && legenda.value == '') {
+                id.style.border = '2px solid red';
+                legenda.style.border = '2px solid red';
+
+            } else if (id.value == '') {
+                legenda.style.border = '';
+                id.style.border = '2px solid red';
+
+            } else if (legenda.value == '') {
+                legenda.style.border = '2px solid red';
+                id.style.border = '';
+
+            } else {
+                legenda.style.border = '2px solid green';
+                id.style.border = '2px solid green';
+
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    // alert('foto capturada com sucesso 316');
+
+                    let divFilho = document.createElement('div');
+                    divFilho.id = 'fotoscapturadas';
+
+                    const foto = canvas.toDataURL('image/jpeg');
+                    let imagem = document.createElement('img');
+
+                    let pID = document.createElement('p');
+                    let pLEGENDA = document.createElement('p');
+
+                    let data = new Date();
+                    let hora = data.getHours();
+                    let minuto = data.getMinutes();
+
+                    if (minuto < 10) {
+                        minuto = `0${minuto}`;
+                    }
+
+                    if (hora < 10) {
+                        hora = `0${hora}`;
+                    }
+
+                    
+                    pID.id = 'id-fotos';
+                    pID.textContent = `${id.value}`;
+                    // pID.innerHTML = `ID: ${id.value}`;
+
+
+                    pLEGENDA.id = 'id-fotos';
+                    pLEGENDA.textContent = `[${hora}:${minuto}] - Legenda: ${legenda.value}`;
+
+
+                    imagem.id = 'imagemCapturada';
+                    imagem.src = foto;
+                    divFilho.appendChild(imagem);
+                    divFilho.appendChild(pID);
+                    divFilho.appendChild(pLEGENDA);
+                    divPai.appendChild(divFilho);
+                    
+                    //essa é outra parte que tenho que trabalhar.
+                    const imageDataURL = canvas.toDataURL('image/jpeg');
+
+
+                    const photoData = {
+                        id: id.value,
+                        legenda: `[${hora}:${minuto}] - ${legenda.value}`,
+                        imagemData: imageDataURL
+                    };
+                    capturePhoto.push(photoData);
+
+                } else {
+                    console.log('Foto capturada com sucesso, linha 301');
+                }
+
+                legenda.value = '';
+                // id.value = '';
+                legenda.style.border = '';
+                id.style.border = '';
+            }
+            
+        }
+
+
+
+
+        async function enviarFotos() {
+            try {
+                let id = document.getElementById('inputID');
+                let legenda = document.getElementById('inputLegenda');
+                let divPai = document.getElementById('fotoscapturadas');
+
+                console.log('DivPai: '+divPai);
+                console.log('CAPTUREPHOTO: '+capturePhoto);
+
+                const resposta = await fetch('/album_de_fotos_das_atividades', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(capturePhoto)
+                });
+
+                
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                    // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                    notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
+                    return;
+                }
+
+                const retorno = await resposta.json();
+                if (retorno.success) {
+                    console.log(`Mensagem do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,"success");
+
+                    id.value = '';
+                    legenda.value = '';
+                    divPai.innerHTML = '';
+                    capturePhoto = [];
+
+                } else {
+                    console.log(`ERRO do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`Verifique sua conexão, ${erro}`,'error');
+            }
+        }
+
+
+
+
+
+        let grupo = document.getElementById('fotoscapturadas');
+        grupo.addEventListener('click', function(event) {
+        
+            let objeto = event.target;
+
+            const divFoto = objeto.parentElement;
+            console.log('Div da foto: ', divFoto);
+
+            const listaP = divFoto.querySelectorAll('p');
+
+
+            if (objeto.style.border == '') {
+                objeto.style.border = '5px solid red';
+                listaP.forEach(p => {
+                    p.style.backgroundColor = 'red';
+                });
+
+            } else {
+                objeto.style.border = '';
+                listaP.forEach(p => {
+                    p.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+                });
+
+            }
+            console.log(' ');
+        })
+
+
+
+        function stopCamera() {
+            if (currentStream) {
+                // Percorre cada track (faixa) do stream (vídeo, áudio)
+                currentStream.getTracks().forEach(track => {
+                    track.stop(); // para cada track individualmente
+                });
+                video.srcObject = null; //Limpa o srcObject do elemento de vídeo
+                currentStream = null; // zera a variável do stream
+            }
+        }
+
+
+
+
+
+
+        let valor = 0;
+        registrar.addEventListener('click', function() {
+            console.log('FUNÇÃO REGISTRAR CHAMADA');
+            let tela = document.getElementById('tela');
+            let tela02 = document.getElementById('tela02');
+            let tirarfoto = document.getElementsByClassName('tirarfoto');
+            
+
+            if (valor == 0) {
+                // alert('IF 01');
+                // alert(`valor: ${valor}`);
+                valor = 1;
+                tela.style.display = 'block';
+                tela.style.opacity = '1';
+                tela.style.visibility = 'visible';
+
+                tela02.style.display = 'block';
+                tela02.style.opacity = '1';
+                tela02.style.visibility = 'visible';
+
+                startCamera(tirarfoto);
+                
+                // tela.classList.remove('tela_ativa');
+                // tela02.classList.remove('tela_ativa');
+
+                // tela.addEventListener('transitionend', function esconderHande() {
+                //     if (!tela.classList.contains('tela_ativa')) {
+                //         alert('IF 02');
+                //         tela.style.display = 'none';
+                //         tela02.style.display = 'none';
+                //         tela.removeEventListener('transitionend', esconderHande);
+                //     }
+                // });
+                // stopCamera();
+            } else {
+                // alert('ELSE 01');
+                // alert(`valor: ${valor}`);
+                valor = 0;
+                tela.style.display = 'none';
+                tela.style.opacity = '0';
+                tela.style.visibility = 'hidden';
+
+                tela02.style.display = 'none';
+                tela02.style.opacity = '1';
+                tela02.style.visibility = 'visible';
+
+                stopCamera(tirarfoto);
+                notificacao(`Câmera desligada`,'success');
+            }
+
+            async function startCamera() {
+                // alert('Função [ startCamera ] chamada');
+                console.log('FUNÇÃO START CAMERA() CHAMADA');
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'environment' // 'user' para camera frontal
+                        }
+                    });
+                    video.srcObject = stream;
+                    currentStream = stream;
+                    notificacao(`Câmera acessada`,'success');
+
+                } catch (err) {
+                    notificacao(`Falha ao conectar com a Câmera;`,'error');
+                    tirarfoto.disabled = true;
+                }
+            }
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //     if (tela.classList.contains('tela_ativa')) {
+        //         tela.classList.remove('tela_ativa');
+        //         tela02.classList.remove('tela_ativa');
+
+        //         tela.addEventListener('transitionend', function esconder() {
+        //             if (!tela.classList('tela_ativa')) {
+        //                 tela.style.display = 'none';
+        //                 tela02.style.display = 'none';
+        //                 tela.removeEventListener('transitionend', esconder);
+        //             }
+        //         });
+        //         stopCamera();
+                
+        //     } else {
+        //         tela.style.display = 'block';
+        //         tela02.style.display = 'block';
+
+        //         setTimeout(() => {
+        //             tela.classList.add('tela_ativa');
+        //             tela02.classList.add('tela_ativa');
+        //         }, 10);
+        //     }
+
+        //     async function startCamera() {
+        //         try {
+        //             const stream = await navigator.mediaDevices.getUserMedia({
+        //                 video: {
+        //                     facingMode: 'environment' // 'user' para câmera frontal e 'environment' = traseira
+        //                 }
+        //             });
+
+        //             video.srcObject = stream;
+        //             currentStream = stream;
+
+        //         } catch (err) {
+        //             console.error('erro ao processar a câmera: ', err);
+        //             tirarfoto.disabled = true;
+        //         }
+        //         stopCamera();
+        //     }
+        // })
+
+            
+        //     if (tela.style.display == 'none') {
+        //         tela.style.display = 'block';
+        //         tela02.style.display = 'block';
+
+        //         async function startCamera() {
+        //             try {
+        //                 const stream = await navigator.mediaDevices.getUserMedia({
+        //                     video: {
+        //                         facingMode: 'environment' // 'user' para câmera frontal e 'environment' para câmera traseira
+        //                     }
+        //                 });
+        //                 video.srcObject = stream;
+        //                 currentStream = stream;
+        //             } catch (err) {
+        //                 console.erro('erro ao acessar a câmera: ', err);
+        //                 tirarfoto.disabled = true;
+        //             }
+        //         }
+                
+
+        //     } else {
+        //         tela.style.display = 'none';
+        //         tela02.style.display = 'none';
+        //         stopCamera();
+        //         // alert('desligar');
+        //     }
+        // })
+
+    </script>
+</body>
+</html>

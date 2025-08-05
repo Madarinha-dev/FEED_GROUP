@@ -1,0 +1,130 @@
+por isso usar o AJAX e JSON 
+setInterval(função, período);
+
+- possiveis telas;
+- possíveis funções das telas;
+- Lógica de banco de dados;
+  - Quais tabelas vou precisar ter:
+    - Tabela login (Funcionário N°, Nome, Senha)
+    - Tabela Ordem de Serviço (OS N° (INT), que tipo de serviço (select.Text), Quem? (text/Select), Descrição do serviço(Text) )
+
+- back, interligando tudo;
+Referência: https://www.landingfolio.com
+[
+  [
+    [
+      [
+        [
+          [
+            [
+              [
+                Pensar num painel para programação com datas, para 'limpeza de casa de bomba'; 'SPDA';
+                a plataforma iria notificar na tela, ex: " Dia 30/05/2025 - Limpeza de subestação ", uma corzinha
+
+                Projeto FEED: Funcionalidade de faltas; é tecnicamente possivelmente, pesquisando com o bard, nos consegue.
+
+                Projeto FEED: serviços
+                - Quantidade de pendências; 
+                - Quantidade de totais; 
+                - Quantidade de concluídas, 
+                - Tentar colocar função para ordenar as informações na tela (ADM);
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+]
+
+- Tela de login:
+  - nome do usuário (cadastrar o usuário).
+  - senha de acesso. 
+    (senha de adm = para definir as atividades e recado (caso tenha);) 
+    (senha-de-funcionario = para visualizar;) uma tela para cada grupo de serviço
+  - validação do campo [nome] e o campo [senha] ex: 'senha/usuário incorreto', para
+    fazer a busca no banco de dados.
+  - botão para validar os dados e liberar a rota certa.
+
+
+- Tela: (VISUALIZAÇÃO): 
+  - Tópico: [Aviso/Recado] (pode ser de Sid ou Carlos, para geral);
+  -
+  - painel mostrando a data/hora/minutos e a próxima atividade na programação mostrando a data da atividade (próxima atividade: 12/03 - Parada)
+
+  - Um campo para eles registrar as fotos (opções (link por enquanto, mas vejo como posso adicionar mais opções) de registrar 
+    as fotos para Sid baixar);????
+
+  - Tópico: [Elétrica].Checklist de atividades. [atividade + quem + registro]
+  - Tópico: [Mecânica].Checklist de atividades. [atividade + quem + registro]
+  - Tópico: [Pintura].Checklist de atividades.  [atividade + quem + registro]
+  - Tópico: [Telhado].checklist de atividades.  [atividade + quem + registro]
+  - Tópico: [Inspeção].checklist de atividades.  [atividade + quem + registro]
+
+  - Tópico: [Relatório].checklist de atividades.  [atividade + quem + registro] (quais os relatórios em demanda talvez)
+  - Tópico: [Técnico de segurança].checklist de atividades.  [atividade + quem + registro] (/ listar material /)
+
+- Tela ADM (para colocar atividades / recados):  
+  - Recado (caso tenha), caixa de texto, e caso seja vazio, podemos colocar um comando de banco de dados
+    para quando um campo é vazio. DEFAULT
+  - ATIVIDADE: (formulário)
+    - PK, ex: 'OS.001', pensar numa forma de registrar essa atividade, ou um registro
+    - Que tipo de serviço ? 
+    - Quem está designado ?
+    - Descrição do serviço ?
+    - BANCO DE DADOS
+
+  - CADASTRO DE FUNCIONÁRIOS:
+    - Registrar/Definir um funcionário (Funcionário comum // ADM) telas específicas de acordo com o funcionário; validação de senha e nome
+    - Registrar/Definir uma senha de acesso.
+    - Alterar registros;
+    - Deletar/Excluir funcionário e sua senha
+    -
+    - PK, Funcionário N°: 001
+    - Nome;
+    - Senha;
+    - Observar o tratamento dessas informações;
+    - GUARDAR NO BANCO DE DADOS;
+
+  - SEGREDOS (3° Master):
+    - Nome (Fhellype)
+    - Senha (1984), !Por enquanto!
+
+
+
+
+
+
+
+
+
+
+
+
+
+sobre o projeto que pretendo fazer.
+
+Projeto: uma plataforma para usar como forma de programação e anunciar recados e tals, notificações.
+Fazer todo o processo de:
+
+- Comunicação
+  - Anotações e compreender como vai 
+    Funcionar o site.
+
+  - Requisitos:
+
+- Planejamento
+  - O sistema de banco de dados (o lógico).
+  - Montar toda a lógica, o sistema de dados e as requisições e as validações dos processos.
+
+- Modelagem
+   - Figma, 'expectativa' de entrega, posso pedir ajuda de um amigo Fabio ou de alguém que seja bom em Figma, para fazer um design (Mulher é bom com isso).
+   - Estilo (cores, público alvo), objetivo.
+
+- Construção
+  - Da início ao projeto.
+  - programador (Front.Html.css.js / Back.js.py / Banco de dados. Flask).
+
+- Entrega Final
+   - Custo do projeto / mensalidade.
+   - R$50/dia. 

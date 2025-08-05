@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #superior {
+            /* background-color: rgb(0, 0, 197); */
+            height: 65px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #controle {
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+        }
+
+        body {
+            background-color: rgba(0, 0, 0, 0.9);
+            /* background-color: rgb(0, 136, 255); */
+        }
+
+        #titulo-das-tabelas {
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 25px;
+        }
+        #bloco {
+            /* background-color: rgb(0, 0, 197); */
+            width: 80dvw;
+            border-radius: 10px;
+            /* padding: 2000px 0px 0px 10px; */
+            margin: 100px auto 100px;
+            padding: 20px 20px 20px 20px;
+
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.3)
+
+
+        }
+
+        #corpo-principal {
+            /* background-color: red; */
+            /* width: 90dvw; */
+        }
+
+        /* aqui é uma adaptação de telas menores, quando a tela
+        chegar em 430px, essas configurações vão acontecer (max-width: 430px;) 
+        isso eu digo que quando a tela chegar em 430px; */
+        @media (max-width: 430px) {
+            /* 430px */
+            #superior {
+                background-color: blue;
+            }
+
+            button {
+                width: 10px;
+                height: 10px;
+            }
+
+
+            th {
+                text-align: center;
+                padding: 3px;
+                border: 2px solid black;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 10px;
+                color: white;
+                background-color: blue;
+            }
+
+            td {
+                text-align: center;
+                padding: 3px;
+                border: 2px solid black;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 10px;
+                color: white;
+                background-color: rgb(0, 0, 154);
+            }
+
+
+        }
+
+
+
+        button {
+            
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* box-shadow: 0px 8px 32px 0px; */
+            box-shadow: 0px 4px 32px 0px;
+            transition: 0.5s;
+        }
+
+        button:hover{
+            width: 42px;
+            height: 42px;
+        }
+
+        
+
+        #aba-funcionario {
+            margin: 0 auto;
+            border-radius: 10px;
+            display: none;
+            
+        }
+
+        input {
+            /* width: 50dvw; */
+            border: none;
+            height: 25px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+
+        }
+
+        select {
+            height: 25px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border: none;
+            width: 170px;
+        }
+
+        /* #excluir_funcionario:hover {
+            background-color: red;
+            color: white;
+        } */
+
+        /* .excluir:hover {
+            background-color: red;
+            color:white;
+        } */
+
+        .adicionar:hover {
+            background-color: blue;
+            /* color: white; */
+        }
+
+        .alterar:hover {
+            color: black;
+            background-color:blanchedalmond;
+        }
+
+        
+
+
+
+
+
+
+
+
+
+
+
+        table {
+            /* background-color: white; */
+
+            /* width: 90dvw; */
+            border-collapse: collapse;
+            margin-top: 20px;
+            /* border-radius: 10px; */
+
+            /* background-color: rgba(255, 255, 255, 0.1); */
+            background-color: rgba(0, 0, 0, 0.285);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+
+            display: block;
+            overflow-x: auto;
+        }
+
+        th {
+            text-align: center;
+            padding: 10px;
+            border: 2px solid black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            color: white;
+            /* background-color: blue; */
+
+            background-color: rgba(0, 0, 200, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th:last-child {
+            border-right: none;
+        }
+
+        td {
+            text-align: center;
+            padding: 2px;
+            border: 2px solid black;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 14px;
+            color: white;
+            /* background-color: rgb(0, 0, 154); */
+
+
+            background-color: rgba(0, 0, 154, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borda inferior sutil */
+            border-right: 1px solid rgba(255, 255, 255, 0.05); /* Borda direita sutil */
+        }
+
+        td:last-child {
+            border-right: none;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.05); /* Leve brilho translúcido ao passar o mouse */
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #n0 {
+            background-color: rgba(255, 0, 0, 0.816);
+        }
+
+        #n1 {
+            background-color: rgba(0, 191, 0, 0.782);
+        }
+
+        #div-da-foto {
+            background-color: grey;
+            padding-left: 15px;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        #div-da-foto-foto {
+            background-color: red;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+
+        #div-da-foto-id {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: white;
+        }
+
+        #div-da-foto-legenda {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            color: white;
+        }
+
+        #baixar {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin: 0px 2px 5px 0px;
+            background-color: rgb(234, 234, 234);
+        }
+
+        #baixar:hover {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin: 0px 2px 5px 0px;
+            background-color: rgb(59, 59, 59);
+        }
+
+        #excluir {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin: 0px 2px 5px 0px;
+            background-color: rgb(234, 234, 234);
+        }
+
+        #excluir:hover {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            margin: 0px 2px 5px 0px;
+            background-color: rgb(59, 59, 59);
+        }
+
+
+        #notificacao_global {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: fit-content; /* novo para mim */
+            max-width: 90%;
+            pointer-events: none; /* novo para mim */
+
+            padding: 12px 25px;
+            border-radius: 8px;
+            /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); */
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+            display: flex;
+            align-items: center; /* alinhamento vertical */
+            gap: 10px;
+
+            /* opacity: 0; */
+            /* transform: translateX(-50%) translateY(-20px); */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+
+        #simbolo_da_notificacao {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+
+        }
+
+        #mensagem {
+            font-size: 1em;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+
+        .notificacao_success {
+            background-color: #28a745;
+        }
+
+        .notificacao_falha {
+            background-color: #dc3545;
+        }
+
+        .notificacao_visivel {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0); /* DESLIZA PARA A POSICÃO FINAL */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .notificacao_invisivel {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px); /* VOLTA PARA A POSICÃO INICIAL */
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -2;
+            position: fixed;
+        }
+
+        #background-video {
+            margin-top: 0px;
+            min-width: 100%;
+            min-height: 100dvh;
+            width: auto;
+            height: auto;
+            /* position: absolute; */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            min-height: 100dvh;
+
+            opacity: 0.9;
+        }
+
+        .video-overlay {
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            /* background-color: rgba(0, 0, 0, 0.7); */
+            /* background-color: red; */
+            z-index: -1;
+        }
+
+
+
+
+        
+
+    </style>
+</head>
+<body>
+
+
+
+    <!-- <video autoplay muted playsinline id="background-video">
+        <source src="/PROJETO FEED/static/videos/video_02.mp4" type="video/mp4">
+
+
+        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
+        Seu navegador não suporta vídeos de fundo.
+    </video> -->
+
+
+
+
+    <!-- <video src="/PROJETO FEED/static/videos/video_02.mp4" id="background-video"></video> -->
+    <video autoplay muted playsinline id="background-video"></video>
+    <div id="video-overlay"></div>
+    
+
+
+    <div id="notificacao_global">
+    <p id="simbolo_da_notificacao"></p>
+    <p id="mensagem"></p>
+   </div>
+
+
+    <div id="corpo-principal">
+
+        <div id="bloco">
+            <p id="titulo-das-tabelas">Funcionários
+                <button onmouseover="adicionarFuncionario()" style="background-color: white;" id="adicionar-funcionario" class="botoes-das-tabelas">
+                     <img src="{{ url_for('static', filename='images/botao_adicionar.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+
+                <button onmouseover="excluirFuncionario()" style="background-color: white;" id="excluir-funcionario" class="botoes-das-tabelas">
+                     <img src="{{ url_for('static', filename='images/excluir preto.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+
+                <button onmouseover="alterarRegistro()" id="alterar-funcionario" class="botoes-das-tabelas">
+                     <img src="{{ url_for('static', filename='images/botao_editar.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+
+                <select name="" id="ordenartabelafuncionario">
+                    <option value="id_funcionario">--Selecione--</option>
+                    <option value="id_funcionario">ID</option>
+                    <option value="nome">Nome</option>
+                    <option value="senha">Senha</option>
+                    <option value="cpf">CPF</option>
+                    <option value="funcao">Função</option>
+                </select>
+
+                <br>
+            </p>
+
+            <div>
+                <table>
+                    <tr>
+                        <th onclick="ordeid()">id</th>
+                        <th>Nome</th>
+                        <th onclick="ordesenha()">Senha</th>
+                        <th onclick="ordecpf()">CPF</th>
+                        <th onclick="ordefuncao()">Função</th>
+                    </tr>
+                    <tbody id="tbodyfuncionarios">
+                        
+                        <!-- <tr>
+                            <td>01</td>
+                            <td>Fhellype</td>
+                            <td>1984</td>
+                            <td>1681194945757</td>
+                            <td>eletricista</td>
+                        </tr> -->
+
+                    </tbody>
+                </table><br>
+            </div>
+
+            
+
+
+            <div id="aba-funcionario">
+                
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin: 0px 0px 10px 0px;
+                    ">Adicionar funcionário</p>
+                <input type="text" name="" id="inputnome" placeholder="  Nome..">
+                <br>
+                <input type="text" name="" id="inputsenha" placeholder="  Senha..">
+                <br>
+                <input type="text" name="" id="inputcpf" placeholder="  CPF...">
+                <br>
+
+                <select name="" id="inputfuncao">
+                    <option value="">Nenhum desses</option>
+                    <option value="eletrica">Elétrica</option>
+                    <option value="mecanica">Mecânica</option>
+                    <option value="pintura">Pintura</option>
+                    <option value="telhado">Telhado</option>
+                    <option value="seguranca">Téc. de Segurança</option>
+                    <option value="administrativo">Área administrativa</option>
+                    <option value="adm">MASTER</option>
+                </select>
+                <br>
+                <button 
+                style="
+                border-radius: 5px;
+                width: 170px;
+                margin-bottom: 10px;
+                " id="funcionario" onclick="ok()">ADICIONAR</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: rgb(255, 156, 156);
+                font-size: 17px;
+                display: none;
+                " id="campovazio">Todos os campos são obrigatórios...</p>
+            </div>
+
+
+
+            <div id="aba-excluir-funcionario" 
+            style="
+            display: none;
+            margin: 0 auto;
+            width: 70dvw;
+            border-radius: 5px;
+            padding: 5px;
+            ">
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin: 0px 0px 10px 0px;
+                ">Excluir Funcionário</p>
+                <input type="number" name="" id="inputid" placeholder="  Digite o ID do registro...">
+                <br>
+            
+                <button 
+                style="
+                border-radius: 5px;
+                width: 170px;
+                margin-bottom: 10px;
+                " id="excluir_funcionario" onclick="botaoexcluirFuncionario()">Deletar Registro</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 17px;
+                display: none;
+                " id="campovazioid">O campo ID é obrigatório para identificação...</p>
+            </div>
+
+
+            <div id="aba-alterar-funcionario" style="
+            display: none;
+            margin: 0 auto;
+            width: 70dvw;
+            border-radius: 5px;
+            padding: 5px;
+            ">
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin: 0px 0px 10px 0px;
+                ">Modificar dados do usuário</p>
+                
+                <input type="number" name="" id="inputidmodificar" placeholder="  Digite o ID">
+                <br>
+                <input type="text" name="" id="inputnomemodificar" placeholder="  Nome..">
+                <br>
+                <input type="text" name="" id="inputsenhamodificar" placeholder="  Senha..">
+                <br>
+                <input type="text" name="" id="inputcpfmodificar" placeholder="  CPF...">
+                <br>
+
+                <select name="" id="inputfuncaomodificar">
+                    <option value="">Nenhum desses</option>
+                    <option value="eletrica">Elétrica</option>
+                    <option value="mecanica">Mecânica</option>
+                    <option value="pintura">Pintura</option>
+                    <option value="telhado">Telhado</option>
+                    <option value="seguranca">Téc. de Segurança</option>
+                    <option value="administrativo">Área administrativa</option>
+                    <option value="adm">MASTER</option>
+                </select>
+
+                <br>
+                <button 
+                style="
+                border-radius: 5px;
+                width: 170px;
+                margin-bottom: 10px;
+                " id="funcionariomodificar" class="alterar" onclick="alterar()">ALTERAR</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 17px;
+                display: none;
+                " id="campovaziomodificar">Sem o ID não conseguimos identificar...</p>
+            </div>
+
+
+        </div>
+
+
+        <div id="bloco">
+            <p id="titulo-das-tabelas">Atividades
+                <button onmouseover="adicionaratividades()" style="background-color: white;" id="adicionar-atividades" class="botoes-das-tabelas">
+                    <img src="{{ url_for('static', filename='images/botao_adicionar.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+
+                <button onmouseover="excluiratividades()" style="background-color: white;" id="excluir-atividades" class="botoes-das-tabelas">
+                     <img src="{{ url_for('static', filename='images/excluir preto.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+
+                <button onmouseover="alteraratividades()" id="alterar-atividades" class="botoes-das-tabelas">
+                     <img src="{{ url_for('static', filename='images/botao_editar.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+                <!-- <br> -->
+            
+                <select name="" id="ordenartabelaatividades">
+                    <option value="id_atividade">--Selecione--</option>
+                    <option value="tipo_de_servico">Serviço</option>
+                    <option value="descricao">Descrição</option>
+                    <option value="quem">Pessoas</option>
+                    <option value="armazenna">Armazenna</option>
+                    <option value="empresa">Cliente</option>
+                    <option value="data">Data</option>
+                    <option value="STATUS">Status</option>
+                </select>
+                <br>
+            </p>
+            
+            
+
+            <div>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Serviço</th>
+                        <th>Descrição</th>
+                        <th>Quem</th>
+                        <th>Armazenna</th>
+                        <th>Cliente</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                    </tr>
+                    <tbody id="tbodyatividades">
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <!-- área de adicionar -->
+            <div id="aba-atividades" style="display: none; margin-left: 20px;">
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin-top:20px;
+                margin-bottom:10px;
+                ">Adicionar Atividades</p>
+
+            
+                <select name="" id="selectTipodeServico" style="
+                width: 160px;">
+                    <option value="vazio">TIPO DE SERVIÇO</option>
+                    <option value="MECÂNICA">Mecânica</option>
+                    <option value="ELETRICA">Elétrica</option>
+                    <option value="PINTURA">Pintura</option>
+                    <option value="TELHADO">Telhado</option>
+                    <option value="RELATÓRIO">Relatório</option>
+                    <option value="MONTAGEM">Montagem</option>
+                    <!-- ADICIONAR NO PAPÉL essa categoria (MONTAGEM) -->
+                </select>
+                <br>
+
+                <input type="text" name="" id="inputdescricaoDeAtividade" placeholder="  Descrição..">
+                <br>
+                <input type="text" name="" id="inputQuem" placeholder="  Quem??...">
+                <br>
+
+                <select name="" id="selectArmazenna?" style="width: 160px;">
+                    <option value="">Armazenna ??</option>
+                    <option value="A-01">Armazenna 01</option>
+                    <option value="A-02">Armazenna 02</option>
+                    <option value="A-03">Armazenna 03</option>
+                    <option value="A-04">Armazenna 04</option>
+                    <option value="A-05">Armazenna 05</option>
+                    <option value="A-06">Armazenna 06</option>
+                </select>
+                <br>
+                <input type="text" name="" id="inputEmpresa" placeholder="  Empresa...">
+                <br>
+                <!-- STATUS -->
+                <input type="date" name="" id="inputDATA" style="width: 160px;">
+                <br>
+                <button 
+                style="
+                border-radius: 5px;
+                width: 170px;
+                margin-bottom: 10px;
+                " id="atividades" class="adicionar" onclick="dados_da_atividade()">ADICIONAR</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 17px;
+                display: none;
+                " id="campovazioAtividade">Todos os campos são obrigatórios...</p>
+            </div>
+            <br>
+
+
+            <div id="aba-excluir-atividade" 
+            style="
+            display: none;
+            margin: 0 auto;
+            width: 70dvw;
+            border-radius: 5px;
+            padding: 5px;
+            ">
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin: 0px 0px 10px 0px;
+                ">Excluir Atividade</p>
+                <input type="text" name="" id="inputIdAtividade" placeholder="  Digite o ID da atividade...">
+                <br>
+            
+                <button 
+                style="
+                border-radius: 5px;
+                width: 170px;
+                margin-bottom: 10px;
+                " id="excluir_atividade" class="excluir" onclick="excluindoAtividade()">Deletar Atividade</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 17px;
+                display: none;
+                " id="recado_excluir_atividade">O campo ID é obrigatório para identificação...</p>
+            </div>
+
+
+            <div id="aba-alterar-atividade" style="
+            display: none;
+            margin: 0 auto;
+            width: 70dvw;
+            border-radius: 5px;
+            padding: 5px;
+            ">
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 20px;
+                margin: 0px 0px 10px 0px;
+                ">Modificar a Atividade</p>
+                
+                <input type="number" name="" id="inputAlterarID" placeholder="  Digite o ID">
+                <br>
+                <select name="" id="alterarTipodeservico" style="
+                width: 165px;
+                ">
+                    <option value="">TIPO DE SERVIÇO</option>
+                    <option value="MECÂNICA">Mecânica</option>
+                    <option value="ELÉTRICA">Elétrica</option>
+                    <option value="PINTURA">Pintura</option>
+                    <option value="TELHADO">Telhado</option>
+                    <option value="RELATÓRIO">Relatório</option>
+                    <option value="MONTAGEM">Montagem</option>
+                </select>
+                <br>
+                <input type="text" name="" id="inputAlterarDescricao" placeholder="  Descrição..">
+                <br>
+                <input type="text" name="" id="inputAlterarPessoasAtividade" placeholder="  Pessoas...">
+                <br>
+                <select name="" id="alterarArmazenna" style="
+                width: 165px;
+                ">
+                    <option value="">-- ARMAZENNAS --</option>
+                    <option value="A-01">Armazenna 01</option>
+                    <option value="A-02">Armazenna 02</option>
+                    <option value="A-03">Armazenna 03</option>
+                    <option value="A-04">Armazenna 04</option>
+                    <option value="A-05">Armazenna 05</option>
+                    <option value="A-06">Armazenna 06</option>
+                </select>
+                <br>
+                <input type="text" name="" id="alterarEmpresaAtividade" placeholder="  Empresa...">
+                <br>
+                <input type="date" name="" id="AlterarDataAtividade" style="width: 165px;">
+                <br>
+                <input type="text" name="" id="AlterarStatusAtividade" placeholder="  0 / 1 / 3 ">
+                <br>
+
+                <button 
+                style="
+                border-radius: 5px;
+                width: 165px;
+                margin-bottom: 10px;
+                " id="funcionariomodificar" class="alterar" onclick="alterarAtividade()">ALTERAR</button>
+                <br>
+
+                <p style="
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: white;
+                font-size: 17px;
+                display: none;
+                " id="recadoAlterarAtividade">Sem o ID não conseguimos identificar...</p>
+            </div>
+
+        </div>
+
+
+        
+        <div id="bloco">
+            <p id="titulo-das-tabelas">
+                Frequência
+                <button onclick="limpar_frequencia()" 
+                style="background-color: white;
+                " id="" class="">
+                <!-- <img src="/PROJETO FEED/static/images/excluir preto.png" alt="" style="width: 20px; pointer-events: none;"> -->
+                <img src="{{ url_for('static', filename='images/excluir preto.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                </button>
+            </p> 
+            
+            <div>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Função</th>
+                    </tr>
+                    <tbody id="tbodyfrequencia">
+                        
+                    </tbody>
+                </table>
+            </div>
+            <br>
+        </div>
+
+
+
+        <!-- <div id="bloco">
+            <p id="titulo-das-tabelas">Materiais</p>
+            <div>tabela de materiais, feitas pelo técnico</div>
+            <br>
+        </div> -->
+
+
+        <div id="bloco">
+            <p id="titulo-das-tabelas">Registros</p>
+
+            <div id="album">
+
+                <div id="div-da-foto">
+                    <a href="" download=""></a>
+                    <div>
+                        <p>
+                            <button id="baixar" onclick="baixar(event)" onmouseover="baixarCima(event)"  onmouseout="baixarSaiu(event)">
+                                <img src="{{ url_for('static', filename='images/baixar fundo branco.png') }}" alt="baixar" style="height: 20px; display: inline;">
+                                <img src="{{ url_for('static', filename='images/baixar fundo preto.png') }}" alt="baixar" style="height: 20px; display: none;">
+                            </button>
+
+                            <button id="excluir" onmouseover="excluirCima(event)" onmouseout="excluirSaiu(event)" onclick="excluir(event)" style="margin-left: 5px;">
+                                <img src="{{ url_for('static', filename='images/excluir preto.png') }}" alt="excluir" style="height: 20px; display: inline;">
+                                <img src="{{ url_for('static', filename='images/excluir branco.png') }}" alt="excluir" style="height: 20px; display: none;">
+                            </button>
+
+                        </p>
+                    </div>
+
+                    <!-- <img id="div-da-foto-foto" src="/PROJETO FEED/static/images/download (1).jpg" alt="01_id_registro"> -->
+                    <!-- <p id="div-da-foto-id">ID: 01</p> -->
+                    <!-- <p id="div-da-foto-legenda">Legenda: Foi feita a substituição das lampadas no armazenna 5 do bloco b do módulo 16 onde se encontra danificado uma lampada queimada por dentro onde deveriamos fazer a troca a mil anos atrás, já que não fez vai ficar assim</p> -->
+                </div>
+
+            </div>
+            <br>
+        </div>
+
+    </div>
+
+    
+
+    <!-- <div>
+        talvez a parte inferior
+    </div> -->
+
+    <script>
+        
+        const selecao = document.getElementById("ordenartabelafuncionario");
+        const selecaoAtividade = document.getElementById('ordenartabelaatividades');
+
+        let tbody = document.getElementById("tbodyfuncionarios");
+        let tbodyAtividades = document.getElementById('tbodyatividades');
+        let tbodyfrequencia = document.getElementById('tbodyfrequencia');
+        let divAlbum = document.getElementById('album'); // onde vou colocar os itens (divFilhos)
+
+
+
+        const videos = [
+            '{{ url_for("static", filename="videos/video_01.mp4") }}',
+            '{{ url_for("static", filename="videos/video_02.mp4") }}',
+            '{{ url_for("static", filename="videos/video_03.mp4") }}',
+            '{{ url_for("static", filename="videos/video_04.mp4") }}',
+            '{{ url_for("static", filename="videos/video_05.mp4") }}',
+            '{{ url_for("static", filename="videos/video_06.mp4") }}',
+            '{{ url_for("static", filename="videos/video_07.mp4") }}'
+        ];
+
+        let videoElement = document.getElementById('background-video');
+        let currentVideoIndex = 0;
+
+        // Função para tocar o próximo vídeo da lista
+
+        function TocarProximoVideo() {
+            if (videos.length === 0) {
+                return;
+            }
+
+            videoElement.removeAttribute('loop');
+            videoElement.src = videos[currentVideoIndex];
+            videoElement.load();
+
+            videoElement.play().catch(error => {
+                notificacao(`Erro ao reproduzir o video: ${error}`,'error');
+                console.log(`Erro: `+error);
+            });
+
+            currentVideoIndex++;
+
+            if (currentVideoIndex >= videos.length) {
+                currentVideoIndex = 0;
+            }
+        }
+
+        videoElement.addEventListener('ended', TocarProximoVideo);
+        TocarProximoVideo();
+
+        
+
+
+        function notificacao(texto, status, duration = 3000) {
+        const container_da_notificacao = document.getElementById('notificacao_global');
+        const simbolo = document.getElementById('simbolo_da_notificacao');
+        const mensagem = document.getElementById('mensagem');
+
+        if (!container_da_notificacao || !simbolo || !mensagem) {
+            console.error(`Um ou mais elementos de notificação não foram encontrados`);
+            return;
+        }
+
+
+        if (status === "success") {
+            simbolo.textContent = '✔';
+        } else if (status === "error") {
+            simbolo.textContent = '✖';
+        } else {
+            simbolo.textContent = '';
+        }
+
+        mensagem.textContent = texto;
+
+        container_da_notificacao.classList.remove('notificacao_success', 'notificacao_falha');
+        if (status === 'success') {
+            container_da_notificacao.classList.add('notificacao_success');
+        } else if (status === 'error') {
+            container_da_notificacao.classList.add('notificacao_falha');
+        } 
+
+
+        container_da_notificacao.classList.add('notificacao_visivel');
+        container_da_notificacao.classList.remove('notificacao_invisivel');
+
+        setTimeout(() => {
+            container_da_notificacao.classList.remove('notificacao_visivel');
+            container_da_notificacao.classList.add('notificacao_invisivel');
+
+            setTimeout(() => {
+                simbolo.textContent = '';
+                mensagem.textContent = '';
+            }, 500)
+        }, duration);
+    }
+
+
+
+        function excluirCima(event) {
+            // alert('em cima');
+            if (event.target.tagName == 'BUTTON') {
+                let button = event.target;
+                let imgs = button.querySelectorAll('img');
+                let img01 = imgs[0];
+                let img02 = imgs[1];
+
+                img01.style.display = 'none';
+                img02.style.display = 'inline';
+            }
+        }
+
+        function excluirSaiu(event) {
+            if (event.target.tagName == 'BUTTON') {
+                let button = event.target;
+                let imgs = button.querySelectorAll('img');
+                let img01 = imgs[0];
+                let img02 = imgs[1];
+
+                img01.style.display = 'inline';
+                img02.style.display = 'none';
+            }
+        }
+
+        async function excluir(event) {
+            try {
+                const elementoDeAcao = event.target.closest('[data-action]');
+
+                if (!elementoDeAcao) {
+                    console.log('CLIQUE IRRELEVANTE PARA A AÇÃO DE EXCLUIR/BAIXAR');
+                    return;
+                }
+
+                const acao = elementoDeAcao.dataset.action;
+
+                if (acao !== 'excluir') {
+                    console.log(`Ação: ${acao} detectada, mas essa função é para exclusão`);
+                    return;
+                }
+
+                const divDoRegistro = elementoDeAcao.closest('[data-id-registro]');
+
+                if (!divDoRegistro) {
+                    console.log('ERRO: Não foi possível encontrar o conteiner do registro');
+                    // alert('');
+                    notificacao(`Não foi possível excluir esse registro, informações incompletas`,'error');
+                    return;
+                }
+
+
+                const idDoRegistro = divDoRegistro.dataset.idRegistro;
+
+                if (!idDoRegistro) {
+                    console.log('ERRO: ID inválido ou vázio');
+                    // alert('Não foi possível exluir esse registro. ID inválido');
+                    notificacao(`Não foi possível excluir esse registro. ID inválido`,'error');
+                }
+
+                const dadosParaEnviar = {'alt':idDoRegistro};
+
+                const resultado = await fetch('/excluirRegistro', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(dadosParaEnviar)
+                });
+                
+                if (!resultado.ok) {
+                    const erro = await resultado.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
+                    // alert(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
+                    notificacao(`${resultado.status}; ${erro.msg || "ERRO ao excluir"}`,'error');
+                    return;
+                }
+
+                const retorno = await resultado.json();
+                if (retorno.success) {
+                    console.log(`MENSAGEM DO SERVIDOR: ${retorno.msg}`);
+                    // alert(`MENSAGEM: ${retorno.msg}`);
+                    notificacao(`${retorno.success}; ${retorno.msg}`,'success');
+                    divDoRegistro.remove();
+                    notificacao(`Imagem excluida`,'success');
+
+                } else {
+                    console.log(`ERRO do backend: ${retorno.msg}`);
+                    // alert(`ERRO AO EXCLUIR O REGISTRO, MENSAGEM: ${retorno.msg}`);
+                    notificacao(`${retorno,msg}`,'error');
+                }
+
+            } catch (erro) {
+                console.log('ERRO AO PROCESSAR OU SE CONECTAR COM O SERVIDOR');
+                // console.error(`ERRO inesperado: ${erro}`);
+                notificacao(`${erro}`,'error');
+            }
+        }
+
+        
+
+
+        function baixarCima(event) {
+            
+            if (event.target.tagName == 'BUTTON') {
+                let button = event.target;
+                let imgs = button.querySelectorAll('img');
+                
+
+                let img01 = imgs[0]; // preto
+                let img02 = imgs[1]; // branco
+
+                img01.style.display = 'none';
+                img02.style.display = 'inline';
+            }
+        }
+
+        function baixarSaiu(event) {
+            if (event.target.tagName == 'BUTTON') {
+                let button = event.target;
+                let imgs = button.querySelectorAll('img');
+                console.log(imgs);
+
+                let img01 = imgs[0]; // preto
+                let img02 = imgs[1]; // branco
+
+                img01.style.display = 'inline';
+                img02.style.display = 'none';
+            }
+        }
+
+        function baixar(event) {
+            
+            if (event.target.tagName == 'BUTTON') {
+                let div = event.target.parentElement.parentElement.parentElement.parentElement;
+                let data = new Date();
+
+                let dia = data.getDay();
+                if (dia < 10) {
+                    dia = `0${dia}`;
+                }
+
+                let mes = data.getMonth();
+                if (mes < 10) {
+                    mes = `0${mes}`;
+                }
+
+                let ano = data.getFullYear();
+
+                let elementos = event.target.parentElement.parentElement.parentElement;
+                let imgs = elementos.querySelectorAll('img');
+                let img = imgs[4];
+                let src = img.src; // eliminar visualmente
+                let id_atividade = img.alt; // eliminar de verdade, do banco de dados;
+
+                // visualmente
+                let a = elementos.querySelector('a');
+                a.href = src;
+                a.download = `${dia}/${mes}/${ano}.jpeg`;
+                a.click();
+                notificacao(`Foto baixada`,'success');
+                
+
+            } else if (event.target.tagName == 'IMG') {
+                // alert('img');
+                let data = new Date();
+                let dia = data.getDay();
+                if (dia < 10) {
+                    dia = `0${dia}`;
+                }
+
+                let mes = data.getMonth();
+                if (mes < 10) {
+                    mes = `0${mes}`;
+                }
+
+                let ano = data.getFullYear();
+                let div = event.target.parentElement.parentElement.parentElement.parentElement;
+                let imgs = div.querySelectorAll('img');
+                let img = imgs[4];
+                let a = div.querySelector('a');
+                a.href = img.src;
+                a.download = `${dia}/${mes}/${ano}.jpeg`;
+                a.click();
+                notificacao(`Foto baixada`,'success');
+            } 
+
+        }
+
+
+        selecaoAtividade.addEventListener('change', tabelaAtividades );
+        selecao.addEventListener('change', tabelafuncionario );
+
+
+        async function registro() {
+            try{
+                const resultado = await fetch('/registro_das_atividades_adm', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                });
+
+                if (!resultado.ok) {
+                    const erro = await resultado.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
+                    alert(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
+                    notificacao(`${resultado.status}; ${erro.msg || "Erro ao conectar"}`,'error');
+                    return;
+                }
+
+                const retorno = await resultado.json();
+                if (retorno.success) {
+                    console.log(`Mensagem do servidor: ${retorno.msg}`);
+                    
+                    divAlbum.innerHTML = '';
+                    if (Array.isArray(retorno.dados)) {
+
+                        retorno.dados.forEach(foto => {
+                            let divFilho = document.createElement('div');
+                            divFilho.id = 'div-da-foto';
+                            divFilho.dataset.idRegistro = foto['id_registro'];
+
+                            let a = document.createElement('a');
+                            a.href = '';
+                            a.download = '';
+                            divFilho.appendChild(a);
+
+                            let divDosBotoes = document.createElement('div');
+                            let pDosBotoes = document.createElement('p');
+
+
+
+                            let botaoBaixar = document.createElement('button');
+                            botaoBaixar.id = 'baixar';
+                            botaoBaixar.setAttribute('onclick', 'baixar(event)');
+                            botaoBaixar.setAttribute('onmouseover', 'baixarCima(event)');
+                            botaoBaixar.setAttribute('onmouseout', 'baixarSaiu(event)');
+                            botaoBaixar.dataset.action = 'baixar';
+                        
+                            let imgPreto = document.createElement('img');
+                            imgPreto.classList.add('preto');
+                            // imgPreto.src = '/PROJETO FEED/static/img/baixar fundo branco.png'; // foto na pasta aqui mesmo
+                            imgPreto.src = `{{ url_for('static', filename='images/baixar fundo branco.png') }}`;
+                            imgPreto.style.height = '20px';
+                            imgPreto.style.display = 'inline';
+                            // imgPreto.alt = ''; // o identificador desse registro no banco de dados;
+
+                            let imgBranco = document.createElement('img');
+                            imgBranco.classList.add('branco');
+                            // imgBranco.src = '/PROJETO FEED/static/img/baixar fundo preto.png';
+                            imgBranco.src = `{{ url_for('static', filename='images/baixar fundo preto.png') }}`;
+                            imgBranco.style.height = '20px';
+                            imgBranco.style.display = 'none';
+                            // imgBranco.alt = '';
+                            botaoBaixar.appendChild(imgPreto);
+                            botaoBaixar.appendChild(imgBranco);
+
+
+                            let botaoExcluir = document.createElement('button');
+                            botaoExcluir.id = 'excluir';
+                            botaoExcluir.setAttribute('onclick', 'excluir(event)');
+                            botaoExcluir.setAttribute('onmouseover', 'excluirCima(event)');
+                            botaoExcluir.setAttribute('onmouseout', 'excluirSaiu(event)');
+                            botaoExcluir.dataset.action = 'excluir';
+
+                            let imgExcluirPreto = document.createElement('img');
+                            imgExcluirPreto.id = 'imgExcluirPreto';
+                            // imgExcluirPreto.src = '/PROJETO FEED/static/img/excluir preto.png';
+                            imgExcluirPreto.src = `{{ url_for('static', filename='images/excluir preto.png') }}`;
+                            imgExcluirPreto.style.height = '20px';
+                            imgExcluirPreto.style.display = 'inline';
+                            // imgExcluirPreto.alt = '';
+
+                            let imgExcluirBranco = document.createElement('img');
+                            imgExcluirBranco.id = 'imgExcluirBranco';
+                            // imgExcluirBranco.src = '/PROJETO FEED/static/img/excluir branco.png';
+                            imgExcluirBranco.src = `{{ url_for('static', filename='images/excluir branco.png') }}`;
+                            imgExcluirBranco.style.height = '20px';
+                            imgExcluirBranco.style.display = 'none';
+                            // imgExcluirBranco.alt = '';
+                            botaoExcluir.appendChild(imgExcluirPreto);
+                            botaoExcluir.appendChild(imgExcluirBranco);
+                            pDosBotoes.appendChild(botaoBaixar);
+                            pDosBotoes.appendChild(botaoExcluir);
+                            divDosBotoes.appendChild(pDosBotoes);
+                            divFilho.appendChild(divDosBotoes);
+
+
+                            let imgPrincipal = document.createElement('img');
+                            imgPrincipal.id = 'div-da-foto-foto';
+                            imgPrincipal.src = foto['foto'];
+                            imgPrincipal.alt = foto['id_registro']; // a definir
+                            divFilho.appendChild(imgPrincipal);
+
+                            let id_foto = document.createElement('p');
+                            id_foto.id = 'div-da-foto-id';
+                            id_foto.textContent = `ID: ${foto["id_atividade"]}`;
+                            divFilho.appendChild(id_foto);
+
+                            let id_legenda = document.createElement('p');
+                            id_legenda.id = 'div-da-foto-legenda';
+                            id_legenda.textContent = `${foto["legenda"]}`;
+                            divFilho.appendChild(id_legenda);
+                            divAlbum.appendChild(divFilho);
+                        });
+
+                    } else {
+                        console.log('ERRO, o retorno deu Sucesso mas não é uma lista:',retorno);
+                        // alert('ERRO, O retorno deu success, mas não retornou uma lista: ', retorno);
+                        notificacao(`Não é uma lista`,'error');
+                    }
+
+                } else {
+                    console.log(`ERRO do servidor: ${retorno.msg}`);
+                    // alert(`ERRO do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                }
+               
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`${erro}; Verifique sua conexão`,'error');
+            }
+        }
+        
+
+
+        
+
+
+        async function limpar_frequencia() {
+            try {
+
+                const resposta = await fetch('/limparFrequencia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    }
+                });
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.log(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || 'Mensagem indisponível'}`);
+                    // alert("ERRO ao Limpar os dados (frequência), Verifique sua conexão;");
+                    notificacao(`Erro ao limpar a frequência, Verifique sua conexão`,'error');
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    console.log(`SUCCESS: (TRUE); MSG: ${retorno.msg};`);
+                    notificacao(`${retorno.msg}`,'success');
+                    
+
+                } else {
+                    console.log(`SUCCESS: (FALSE); MSG: ${retorno.msg}`);
+                    // alert(`SUCCESS: (FALSE); MSG: ${retorno.msg};`);
+                    notificacao(`${retorno.msg}`,'error');
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar ou se conectar ao servidor, ERRO: ${erro}`);
+                // alert(`ERRO ao processar ou se conectar ao servidor, ERRO: ${erro}`);
+                notificacao(`${erro || "Erro com o servidor"}`,'error');
+            }
+        }
+
+        
+
+        async function tabelafrequencia() {
+            try {
+                const resposta = await fetch('/exibir_tabela_frequencia', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                });
+
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`Erro HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                    // alert('Erro ao carregar os dados, Verifique sua conexão');
+                    return;
+                }
+
+                const DadosDaResposta = await resposta.json();
+
+                if (DadosDaResposta.success) {
+                    console.log(`Menssagem do Servidor: ${DadosDaResposta.msg}`);
+
+                    const dadosTabela = DadosDaResposta.dados;
+                    console.log('DADOS DA TABELA: ', dadosTabela);
+
+                    tbodyfrequencia.innerHTML = '';
+                    if (dadosTabela && dadosTabela.length > 0) {
+                        dadosTabela.forEach(registro => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                            <td>${registro.id}</td>
+                            <td>${registro.nome}</td>
+                            <td>${registro.data}</td>
+                            <td>${registro.tempo}</td>
+                            <td>${registro.funcao}</td>
+                            `
+                            tbodyfrequencia.appendChild(row);
+                        });
+
+                    } else {
+                        console.log('NENHUM REGISTRO ENCONTRADO PARA EXIBIR');
+                        // alert('NENHUM REGISTRO ENCONTRADO PARA EXIBIR');
+                    }
+
+                } else {
+                    console.error(`Erro do Backend (SUCCESSO: FALSE): ${DadosDaResposta.msg}`);
+                    // alert(`ERRO do backend (SUCCESS: FALSE): ${DadosDaResposta.msg}`);
+                    notificacao(`${DadosDaResposta.msg}`,'error');
+                }
+            } catch (erro) {
+                console.log('ERRO ao processar ou se conectar ao servidor', erro);
+                // alert(`ERRO ao processar ou se conectar ao servidor`);
+                notificacao(`Falha na conexão, ${erro}`,'error');
+            }
+        }
+
+
+
+        setInterval(tabelafrequencia, 3000);
+        setInterval(registro, 3000);
+
+        
+
+        async function tabelaAtividades() {
+            try {
+                const orde = {
+                    ordenar_por: selecaoAtividade.value.trim()
+                }
+
+                const resposta = await fetch('/ordenarAtividades', {method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(orde)});
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`API: ORDENAR ATIVIDADES ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+
+                    tbodyAtividades.innerHTML = '';
+                    
+                    retorno.lista.forEach(atividade => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${atividade.id_atividade}</td>
+                        <td>${atividade.tipo_de_servico}</td>
+                        <td>${atividade.descricao}</td>
+                        <td>${atividade.quem}</td>
+                        <td>${atividade.armazenna}</td>
+                        <td>${atividade.empresa}</td>
+                        <td>${atividade.data}</td>
+                        <td id="n${atividade.status}">${atividade.status}</td>
+                        `;
+                        tbodyAtividades.appendChild(row)
+                    });
+
+                } else {
+                    console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    // alert(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                }
+
+            } catch (erro) {
+                console.log('ERRO ao processar ou se conectar ao servidor');
+                // alert(`ERRO ao processar ou se conectar ao servidor`);
+                notificacao(`Erro na conexão`,'error');
+            }
+        }
+
+            
+
+        async function tabelafuncionario() {
+            try {
+
+                const orde = {
+                    ordenar_por: selecao.value.trim()
+                }
+
+                const resposta = await fetch('/ordenarfuncionarios', {method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(orde)});
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    tbody.innerHTML = '';
+                    retorno.lista.forEach(funcionario => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${funcionario.id_funcionario}</td>
+                        <td>${funcionario.nome}</td>
+                        <td>${funcionario.senha}</td>
+                        <td>${funcionario.cpf}</td>
+                        <td>${funcionario.funcao}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    // alert(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                    return;
+                }
+
+
+            } catch (erro) {
+                console.log('ERRO ao processar ou se conectar ao servidor');
+                // alert(`ERRO ao processar ou se conectar ao servidor`);
+                notificacao(`Erro de conexão`,'error');
+            } 
+        }
+       
+
+
+        function adicionarFuncionario() {
+            let aba = document.getElementById("aba-funcionario");
+            let aba_excluirFuncionario = document.getElementById("aba-excluir-funcionario");
+            let aba_adicionar_funcionario = document.getElementById("aba-funcionario");
+            let aba_modificarfucionario = document.getElementById("aba-alterar-funcionario");
+            
+            if (aba.style.display == 'none') {
+                aba.style.display = 'block';
+                aba_excluirFuncionario.style.display = 'none';
+                aba_modificarfucionario.style.display = 'none';
+            } else {
+                aba.style.display = 'none';
+            }
+        }
+
+
+
+
+
+        async function ok() {
+            try {
+                let inputnome = document.getElementById("inputnome");
+                let inputsenha = document.getElementById("inputsenha");
+                let inputcpf = document.getElementById("inputcpf");
+                let inputfuncao = document.getElementById("inputfuncao");
+                let campovazio = document.getElementById("campovazio");
+                let adicionar = document.getElementById("funcionario");
+
+                if (inputnome.value == '' || inputsenha.value == '' || inputcpf.value == '' || inputfuncao.value == '') {
+                    campovazio.style.display = 'block';
+                    return;
+
+                } else {
+                    campovazio.style.display = 'none';
+                    let nome = inputnome.value;
+                    let senha = inputsenha.value;
+                    let cpf = inputcpf.value;
+                    let funcao = inputfuncao.value;
+                    
+
+                    const dados = {
+                        nome: nome,
+                        senhaa: senha,
+                        cpf:cpf,
+                        funcao:funcao
+                    }
+
+                    const resposta = await fetch('/cadastrar_funcionario', {
+                        method: "POST",
+                        headers: {
+                            'Content-Type':'application/json'
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                        const erro = await resposta.json().catch(() => ({}));
+                        console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem Indisponível"}`);
+                        // alert(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem Indisponível"}`);
+                        notificacao(`${resposta.status}; ${erro.msg || "ERRO ao se comunicar com o servidor"}`,'error');
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`Success ao processar os dados no servidor, MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'success');
+
+                        inputnome.value = '';
+                        inputsenha.value = '';
+                        inputcpf.value = '';
+                        inputfuncao.value = '';
+
+                    } else {
+                        console.log(`ERRO do servidor, MSG: ${retorno.msg};`);
+                        // alert(`ERRO do servidor, MSG: ${retorno.msg};`);
+                        notificacao(`${retorno.success}; ${retorno.msg}`,'error');
+                    }
+
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`Erro de conexão`,'error');
+
+            } finally {
+                await tabelafuncionario();
+            }
+        }
+
+
+
+        function adicionaratividades(){
+            let aba_adicionar_atividades = document.getElementById("aba-atividades");
+            let aba_excluir_atividades = document.getElementById("aba-excluir-atividade");
+            let aba_alterar_atividades = document.getElementById("aba-alterar-atividade");
+            
+            if (aba_adicionar_atividades.style.display == 'none') {
+                aba_adicionar_atividades.style.display = 'block';
+                aba_excluir_atividades.style.display = 'none';
+                aba_alterar_atividades.style.display = 'none';
+            } else {
+                aba_adicionar_atividades.style.display = 'none';
+            }
+
+        }
+
+
+
+        async function dados_da_atividade() {
+            try {
+                let tipoDeServico = document.getElementById("selectTipodeServico");
+                let descricao = document.getElementById("inputdescricaoDeAtividade");
+                let quem = document.getElementById("inputQuem");
+                let armazenna = document.getElementById("selectArmazenna?");
+                let empresa = document.getElementById("inputEmpresa");
+                let data = document.getElementById("inputDATA");
+                let recado = document.getElementById("campovazioAtividade");
+
+                if (tipoDeServico.value == '' || descricao.value == '' || quem.value == '' || armazenna.value == '' || empresa.value == '' || data.value == '') {
+                    // recado.style.display = 'block';
+                    notificacao(`Todos os campos são obrigatórios`,'error');
+                    return;
+
+                } else {
+                    // recado.style.display = 'none';
+                    notificacao(`Atividade adicionada`,'success');
+
+                    const dados = {
+                        tipoDeServico:tipoDeServico.value,
+                        descricao: descricao.value,
+                        quem: quem.value,
+                        armazenna: armazenna.value,
+                        empresa: empresa.value,
+                        data: data.value
+                    }
+
+
+                    const resposta = await fetch('/adicionarAtividade', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                        const erro = await resposta.json().catch(() => ({}));
+                        console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem indisponível"}`);
+                        // alert(`ERRO ao se comunicar com a API, Verifique sua conexão`);
+                        notificacao(`${resposta.status}; ${resposta.msg || "Erro ao se comunicar com a API"}`,'error');
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'success');
+
+
+                        tipoDeServico.value = '';
+                        descricao.value = '';
+                        quem.value = '';
+                        armazenna.value = '';
+                        empresa.value = '';
+                        data.value = '';
+                        
+
+                    } else {
+                        console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                        // alert(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'error');
+                    }
+
+                }
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`Erro de conexão`,'error');
+
+            } finally {
+                await tabelaAtividades();
+            }
+        }
+
+
+
+
+
+        function excluiratividades(){
+            let aba_adicionar_atividades = document.getElementById("aba-atividades");
+            let aba_excluir_atividades = document.getElementById("aba-excluir-atividade");
+            let aba_alterar_atividades = document.getElementById("aba-alterar-atividade");
+
+            if (aba_excluir_atividades.style.display == 'none') {
+                aba_excluir_atividades.style.display = 'block';
+                aba_adicionar_atividades.style.display = 'none';
+                aba_alterar_atividades.style.display = 'none';
+            } else {
+                aba_excluir_atividades.style.display = 'none';
+            }
+        }
+
+
+
+        async function excluindoAtividade() {
+            try {
+                let inputId = document.getElementById('inputIdAtividade');
+                let recado = document.getElementById('recado_excluir_atividade');
+
+                if (inputId.value == '') {
+                    recado.style.display = 'block';
+
+                } else {
+                    recado.style.display = 'none';
+                    
+                    const dados = {
+                        id_atividade: inputId.value.trim()
+                    }
+
+                    const resposta = await fetch('/excluiratividade', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                         const erro = await resposta.json().catch(() => ({}));
+                         console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                        //  alert(`ERRO ao se comunicar com a API excluir atividade, Verifique sua conexão`);
+                        notificacao(`${resposta.status}`,'error');
+                         return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                        inputId.value = '';
+                        notificacao(`${retorno.msg}`,'success');
+
+
+                    } else {
+                        console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                        // alert(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'error');
+                    }
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`${erro||"erro de conexão"}`, 'error');
+
+            } finally {
+                await tabelaAtividades();
+            }
+        }
+
+
+
+        function alteraratividades() {
+            let aba_adicionar_atividades = document.getElementById("aba-atividades");
+            let aba_excluir_atividades = document.getElementById("aba-excluir-atividade");
+            let aba_alterar_atividades = document.getElementById("aba-alterar-atividade");
+
+            if (aba_alterar_atividades.style.display == 'none') {
+                aba_alterar_atividades.style.display = 'block';
+                aba_adicionar_atividades.style.display = 'none';
+                aba_excluir_atividades.style.display = 'none';
+            } else {
+                aba_alterar_atividades.style.display = 'none';
+            }
+        }
+
+
+
+
+        async function alterarAtividade() {
+            try {
+                let id = document.getElementById('inputAlterarID');
+                let servico = document.getElementById('alterarTipodeservico');
+                let descricao = document.getElementById('inputAlterarDescricao');
+                let pessoas = document.getElementById('inputAlterarPessoasAtividade');
+                let armazenna = document.getElementById('alterarArmazenna');
+                let empresa = document.getElementById('alterarEmpresaAtividade');
+                let data = document.getElementById('AlterarDataAtividade');
+                let status = document.getElementById('AlterarStatusAtividade');
+                let recado = document.getElementById('recadoAlterarAtividade');
+
+
+                if (id.value.trim() == '') {
+                    recado.style.display = 'block';
+
+                } else {
+                    recado.style.display = 'none';
+
+                    const dados = {
+                        id_atividade:id.value.trim(),
+                        servico: servico.value.trim(),
+                        descricao: descricao.value.trim(),
+                        pessoas: pessoas.value.trim(),
+                        armazenna: armazenna.value.trim(),
+                        empresa:empresa.value.trim(),
+                        data:data.value.trim(),
+                        status:status.value.trim()
+                    }
+
+                    const resposta = await fetch('/alterarAtividade', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                        const erro = await resposta.json().catch(() => ({}));
+                        console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem indisponível"}`);
+                        // alert(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem indisponível"}`);
+                        notificacao(`${resposta.status}`,'error');
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                        notificacao('Atividade alterada', 'success');
+                        
+                        id.value = '';
+                        servico.value = '';
+                        descricao.value = '';
+                        pessoas.value = '';
+                        armazenna.value = '';
+                        empresa.value = '';
+                        data.value = '';
+                        status.value = '';
+
+
+                    } else {
+                        console.log(`FUNÇÃO: ALTERAR ATIVIDADE; SUCCESS: FALSE; MSG: ${retorno.msg};`);
+                        // alert(`FUNÇÃO: ALTERAR ATIVIDADE; SUCCESS: FALSE; MSG: ${retorno.msg};`);
+                        notificacao(`${retorno.msg}`,'error');
+                        return;
+                    }
+
+
+                }
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`${erro || "Erro de conexão"}`,'error');
+            } finally {
+                await tabelaAtividades();
+            }
+        }
+        
+
+        function excluirFuncionario(){
+            let aba_excluirFuncionario = document.getElementById("aba-excluir-funcionario");
+            let aba_adicionar_funcionario = document.getElementById("aba-funcionario");
+            let aba_modificarfucionario = document.getElementById("aba-alterar-funcionario");
+            
+            
+
+            if (aba_excluirFuncionario.style.display == 'none') {
+                aba_excluirFuncionario.style.display = 'block';
+                aba_adicionar_funcionario.style.display = 'none';
+                aba_modificarfucionario.style.display = 'none';
+            } else {
+                aba_excluirFuncionario.style.display = 'none';
+            }
+        
+        }
+
+
+
+
+        async function botaoexcluirFuncionario() {
+            try {
+                let inputid = document.getElementById("inputid");
+                let recado = document.getElementById("campovazioid");
+
+                if (inputid.value == '') {
+                    recado.style.display = 'block';
+                    return;
+
+                } else {
+                    recado.style.display = 'none';
+
+                    const dados = {
+                        id:inputid.value.trim()
+                    }
+
+                    const resposta = await fetch('/excluirFuncionario', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                        const erro = await resposta.json().catch(() => ({}));
+                        console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem Indisponível"}`);
+                        // alert(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Menssagem Indisponível"}`);
+                        notificacao(`${resposta.status}; ${erro.msg || "Erro ao se comunicar com a API"}`,'error');
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`Funcionário deletado com success; MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'success');
+                        inputid.value = '';
+
+
+                    } else {
+                        console.log(`ERRO do servidor: ${retorno.msg}`);
+                        // alert(`ERRO do servidor: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'error');
+                    }
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`${erro || "Erro de conexão"};`,'error');
+
+            } finally {
+                await tabelafuncionario();
+            }
+        }
+
+        
+
+
+
+
+        function alterarRegistro() {
+            let aba_modificarfucionario = document.getElementById("aba-alterar-funcionario");
+            let aba_adicionar_funcionario = document.getElementById("aba-funcionario");
+            let aba_excluirFuncionario = document.getElementById("aba-excluir-funcionario");
+            
+
+            if (aba_modificarfucionario.style.display == 'none') {
+                aba_modificarfucionario.style.display = 'block';
+                aba_adicionar_funcionario.style.display = 'none';
+                aba_excluirFuncionario.style.display = 'none';
+            } else {
+                aba_modificarfucionario.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("oiii-1060");
+            // aqui vai ser onde vou carregar todas as tabelas, na hora que 
+            // entrar nessa tela, como no exemplo abaixo onde carrego uma tablea
+            tabelafuncionario();
+            tabelaAtividades();
+        });
+
+
+        async function alterar() {
+            try {
+                let aviso = document.getElementById("campovaziomodificar");
+                let inputid = document.getElementById("inputidmodificar");
+                let id = inputid.value.trim();
+
+                let inputnome = document.getElementById("inputnomemodificar");
+                let nome = inputnome.value.trim();
+
+                let inputsenha = document.getElementById("inputsenhamodificar");
+                let senha = inputsenha.value.trim();
+
+                let inputcpf = document.getElementById("inputcpfmodificar");
+                let cpf = inputcpf.value.trim();
+
+                let inputfuncao = document.getElementById("inputfuncaomodificar");
+                let funcao = inputfuncao.value.trim();
+
+                if (id == '') {
+                    aviso.style.display = 'block';
+                    return;
+
+                } else {
+                    aviso.style.display = 'none';
+
+                    const dados = {
+                        id:id,
+                        nome:nome,
+                        senha:senha,
+                        cpf:cpf,
+                        funcao:funcao
+                    }
+
+
+                    const resposta = await fetch('/alterarfuncionario', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":"application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    });
+
+                    if (!resposta.ok) {
+                        const erro = await resposta.json().catch(() => ({}));
+                        console.error(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                        // alert(`ERRO HTTP: ${resposta.status}; MSG: ${erro.msg || "Mensagem Indisponível"}`);
+                        notificacao(`${resposta.status}; ${erro.msg || "Erro ao se comunicar com a API"}`,'error');
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`SUCCESS: TRUE; MSG: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'success');
+
+                        inputid.value = '';
+                        inputsenha.value = '';
+                        inputcpf.value = '';
+                        inputfuncao.value = '';
+
+                    } else {
+                        console.log(`SUCCESS: FALSE; MSG: ${retorno.msg}`);
+                        // alert(`SUCCESS: FALSE; ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`,'error');
+                    }
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`Erro de conexão`,'error');
+
+
+            } finally {
+                await tabelafuncionario();
+            }
+        }
+
+
+    </script>
+</body>
+</html>
