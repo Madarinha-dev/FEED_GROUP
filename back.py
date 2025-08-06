@@ -66,7 +66,7 @@ class Atividade(db.Model):
 class Frequencia(db.Model):
     __tablename__ = 'frequencia'
     id_frequencia = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_funcionario = db.Column(db.Integer, db.ForeignKey('funcionarios_cadastrados.id_funcionario'))
+    id_funcionario = db.Column(db.Integer, db.ForeignKey('funcionarios_cadastrados.id_funcionario'), nullable=True)
     nome = db.Column(db.String(255))
     data = db.Column(db.String(255))
     hora = db.Column(db.String(255))
