@@ -10,9 +10,31 @@
             padding: 0;
         }
 
-        body {
-            /* background-color: rgb(18, 18, 235); */
-            /* background-image: ; */
+       
+        @media (max-width: 768px) {
+            #background-video {
+                display: none;
+            }
+
+            #video-overlay {
+                /* display: none; */
+                opacity: 0.5;
+            }
+
+            body {
+                /* background-image: url('/static/images/capa02.png'); */
+                background-image: url('{{ url_for("static", filename="images/capa02.png") }}');
+                /* src="{{ url_for('static', filename='videos/video_principal.mp4')}}" */
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                height: 85dvh;
+            }
+        }
+       
+
+        #capa_de_fundo {
+            display: none;
         }
 
 
@@ -47,31 +69,7 @@
             /* ... Adicione aqui outros estilos para o layout do seu site ... */
         }
 
-        /* Opcional: Fallback para dispositivos móveis ou navegadores que não suportam vídeo */
-        /* @media (max-width: 768px) {
-            #background-video {
-                display: none; /* Esconde o vídeo em telas pequenas */
-            }
-            #video-overlay {
-                display: none; /* Esconde o overlay também */
-            }
-
-            body {
-                /* Define uma imagem de fundo estática para mobile */
-                background-image: url('caminho/para/sua/imagem-fallback-mobile.jpg'); 
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                /* Garanta que o texto continue legível no mobile */
-                color: #333; /* Exemplo: Mude a cor do texto se a imagem de fallback for clara */
-            }
-        } */
-
-
-
-
-
-
+        
 
         #topo {
             background-color: rgb(0, 0, 197);
@@ -326,12 +324,24 @@
             transform: translateX(-50%) translateY(-20px); /* VOLTA PARA A POSICÃO INICIAL */
         }
 
-
         
+
+      
 
     </style>
 </head>
 <body>
+
+    <video autoplay muted loop playsinline id="background-video">
+        <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4">
+        
+
+        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
+        Seu navegador não suporta vídeos de fundo.
+    </video>
+
+    <div id="video-overlay"></div>
+    <img id="capa_de_fundo" src="/static/images/capa01.png" alt="">
 
 
     
@@ -417,42 +427,6 @@
      </div>
     
    </main>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-
-   <video autoplay muted loop playsinline id="background-video">
-        <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4">
-        <!-- <source src="caminho/para/seu/video.webm" type="video/webm"> -->
-
-        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
-        Seu navegador não suporta vídeos de fundo.
-    </video>
-
-    <div id="video-overlay"></div>
-
-
-
-
-
-
-
-
-
 
 
 
