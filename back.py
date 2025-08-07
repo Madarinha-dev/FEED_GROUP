@@ -87,6 +87,112 @@ def index():
     return render_template('index.html')
 
 
+
+@app.route('/atividades_disponiveis', methods=['POST'])
+def atividades_disponiveis():
+    try:
+        dados = request.get_json()
+        print(f'DADOS: {dados}')
+
+        # atividades = Atividade.query.filter(tipo_de_servco = dados.get('atividade')).all()
+        atividades = db.session.query(Atividade).filter_by(tipo_de_servico=dados.get('atividade')).all()
+
+        lista_para_json = []
+        
+        for atividade in atividades:
+            dicionario = {
+                'id_atividade':atividade.id_atividade,
+                'tipo_de_servico':atividade.tipo_de_servico,
+                'descricao':atividade.descricao,
+                'quem':atividade.quem,
+                'armazenna':atividade.armazenna,
+                'empresa':atividade.empresa,
+                'data':atividade.data,
+                'status':atividade.status
+            }
+            lista_para_json.append(dicionario)
+
+        if not atividades:
+            return jsonify({
+                'success':True,
+                'msg':f'Nenhuma atividade encontrada da área {dados.get("atividade")}',
+                'atividades':[]
+            }), 200
+        
+        return jsonify({
+            "success":True,
+            "msg":f"Atividades encontradas da {dados.get('atividade')}",
+            "atividades": lista_para_json
+        }), 200
+    
+
+    # as colunas da tabela ativdade para filtrar lá
+    # id_atividade
+    # tipo_de_servco
+    # descricao
+    # quem
+    # armazenna
+    # empresa
+    # data
+    # status
+
+
+    except Exception as erro:
+        db.session.rollback()
+
+        print('ERRO DETECTADO FUNÇÃO: /atividades_disponiveis')
+        print(f'O tipo de Erro: {type(erro)}')
+        print(f'Descrição do erro: {str(erro)}')
+
+        return jsonify({
+            'success':False,
+            'msg':'Erro ao buscar as atividades'
+        }), 500
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.route('/test_db')
 def test_db():
     try:

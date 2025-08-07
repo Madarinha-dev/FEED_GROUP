@@ -245,7 +245,7 @@
         #tela {
             margin-top: 10px;
             padding: 20px;
-            display: none;
+            
 
             background-color: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -260,6 +260,12 @@
 
             opacity: 0;
             visibility: hidden;
+            display: none;
+
+
+
+
+
         }
 
         #tela02 {
@@ -565,6 +571,14 @@
             transform: translateX(-50%) translateY(-20px); /* VOLTA PARA A POSICÃO INICIAL */
         }
 
+        #atividades_disponiveis {
+            border-radius: 7px;
+            padding: 10px;
+            width: 80dvw;
+            background-color: rgba(255, 255, 255, 0.6);
+            color: rgb(105, 105, 105);
+        }
+
     </style>
 </head>
 <body>
@@ -581,7 +595,7 @@
 
     <div id="video-overlay"></div>
 
-    <!-- <img id="imagem_de_fundo" src="/PROJETO FEED/static/images/fundo-pintura.jpg" alt="eletrica"> -->
+    <img id="imagem_de_fundo" src="/PROJETO FEED/static/images/eletricista.jpg" alt="eletrica">
     <img id="imagem_de_fundo"  src="{{ url_for('static', filename='images/fundo-pintura.jpg') }}" alt="">
 
 
@@ -633,7 +647,18 @@
             </div>
 
             <div id="div-input-legenda">
-                <input type="number" placeholder="ID" id="inputID">
+                <!-- <input type="number" placeholder="ID" id="inputID"> -->
+
+                <!-- atividades [ definidas, mas preciso ter 1 tela só ] -->
+                 <!-- Elétrica -->
+                  <!-- Mecânica -->
+                   <!-- Montagem -->
+                    <!-- Telhado -->
+
+                <select name="atividades disponíveis" id="atividades_disponiveis">
+                    <!-- <option value="NULL">Atividades Disponíveis</option> -->
+                </select>
+
                 <br>
                 <input type="text" placeholder="Legenda da foto.." id="inputLegenda">
             </div>
@@ -699,6 +724,72 @@
 
     </div>
     <script>
+
+
+        async function atividades_disponiveis() {
+            try {
+                let select_das_atividades_disponiveis = document.getElementById('atividades_disponiveis');
+                let area = 'PINTURA';
+                // MECÂNICA
+                // PINTURA
+                // TELHADO
+
+                
+                dados = {
+                    'atividade': area
+                }
+
+                const resposta = await fetch('/atividades_disponiveis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO na comunicação (atividades_disponiveis()), ${resposta.status}`);
+                    notificacao(`${erro.msg || "Mensagem indisponível"}; ${resposta.status}; ${resposta.msg}`,'error');
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    // notificacao(`${retorno.msg}`,'success');
+
+                    
+                    select_das_atividades_disponiveis.innerHTML = '';
+                    retorno.atividades.forEach(atividade => {
+                        select_das_atividades_disponiveis.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
+                    });
+
+
+
+                    if (!retorno.atividades || retorno.atividades.length === 0) {
+                        notificacao(`Nenhuma atividade encontrada`,'success');
+                        return;
+                    }
+
+
+
+                } else {
+                    notificacao(`${retorno.status} ;${retorno.msg}`,'error');
+                    return;
+                }
+
+            } catch (erro) {
+                notificacao(`ERRO de conexão, tente novamente: ${erro}`,'error');
+                console.log(`ERRO na função: (atividades_disponiveis()), ERRO: ${erro}`);
+            }
+        }
+
+        // essa função é chamada quando tenta tirar a foto
+        // atividades_disponiveis();
+        setInterval(atividades_disponiveis, 5000);
+
+
         function notificacao(texto, status, duration = 3000) {
         const container_da_notificacao = document.getElementById('notificacao_global');
         const simbolo = document.getElementById('simbolo_da_notificacao');
@@ -847,28 +938,31 @@
 
         
         function TirarFoto() {
-            let id = document.getElementById('inputID');
+
+            // let id = document.getElementById('inputID');
+            let select_das_atividades_disponiveis = document.getElementById('atividades_disponiveis');
             let legenda = document.getElementById('inputLegenda');
             let divPai = document.getElementById('fotoscapturadas');
             const fotosarmazenadas = [];
             // capturePhoto = []; // limpar antes de usar
 
 
-            if (id.value == '' && legenda.value == '') {
-                id.style.border = '2px solid red';
+            if (select_das_atividades_disponiveis.value == '' && legenda.value == '') {
+                // id.style.border = '2px solid red';
                 legenda.style.border = '2px solid red';
 
-            } else if (id.value == '') {
+            } else if (select_das_atividades_disponiveis.value == '') {
                 legenda.style.border = '';
-                id.style.border = '2px solid red';
+                notificacao(`Sem atividade para registrar, feche a câmera`,'error')
+                // id.style.border = '2px solid red';
 
             } else if (legenda.value == '') {
                 legenda.style.border = '2px solid red';
-                id.style.border = '';
+                // id.style.border = '';
 
             } else {
                 legenda.style.border = '2px solid green';
-                id.style.border = '2px solid green';
+                // id.style.border = '2px solid green';
 
                 if (video.readyState === video.HAVE_ENOUGH_DATA) {
                     canvas.width = video.videoWidth;
@@ -899,7 +993,7 @@
 
                     
                     pID.id = 'id-fotos';
-                    pID.textContent = `${id.value}`;
+                    pID.textContent = `${select_das_atividades_disponiveis.value}`;
                     // pID.innerHTML = `ID: ${id.value}`;
 
 
@@ -919,7 +1013,7 @@
 
 
                     const photoData = {
-                        id: id.value,
+                        id: select_das_atividades_disponiveis.value,
                         legenda: `[${hora}:${minuto}] - ${legenda.value}`,
                         imagemData: imageDataURL
                     };
@@ -932,7 +1026,7 @@
                 legenda.value = '';
                 // id.value = '';
                 legenda.style.border = '';
-                id.style.border = '';
+                // id.style.border = '';
             }
             
         }
@@ -942,7 +1036,7 @@
 
         async function enviarFotos() {
             try {
-                let id = document.getElementById('inputID');
+                // let id = document.getElementById('inputID');
                 let legenda = document.getElementById('inputLegenda');
                 let divPai = document.getElementById('fotoscapturadas');
 
@@ -971,7 +1065,7 @@
                     console.log(`Mensagem do servidor: ${retorno.msg}`);
                     notificacao(`${retorno.msg}`,"success");
 
-                    id.value = '';
+                    // id.value = '';
                     legenda.value = '';
                     divPai.innerHTML = '';
                     capturePhoto = [];
@@ -1037,11 +1131,6 @@
 
 
 
-
-
-
-
-
         let valor = 0;
         registrar.addEventListener('click', function() {
             console.log('FUNÇÃO REGISTRAR CHAMADA');
@@ -1063,6 +1152,7 @@
                 tela02.style.visibility = 'visible';
 
                 startCamera(tirarfoto);
+                
                 
             } else {
                 // alert('ELSE 01');
@@ -1101,7 +1191,7 @@
             }
 
         })
-        
+
     </script>
 </body>
 </html>
