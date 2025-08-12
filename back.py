@@ -296,8 +296,14 @@ def album():
             print(f'ID: {a["id"]}')
             print(f'LEGENDA: {a["legenda"]}')
             print('=')
+
+
+            # Novidade
+            id_str = str(a["id"])
+            id_sem_texto = id_str.replace('ID: ','')
+            #/ Novidade
             
-            id_atividade = int(a['id'])
+            id_atividade = int(id_sem_texto)
             legenda = str(a['legenda'])
 
             imagem_base64_com_prefixo = a['imagemData']

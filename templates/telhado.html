@@ -80,38 +80,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
         input {
             border: none;
             background-color: rgb(222, 222, 222);
@@ -262,10 +230,6 @@
             visibility: hidden;
             display: none;
 
-
-
-
-
         }
 
         #tela02 {
@@ -278,7 +242,7 @@
             border-radius: 10px;
             color: white;
             position: fixed;
-            display: none;
+            
             left: 50%;
             transform: translate(-50%);
             width: 80dvw;
@@ -287,6 +251,8 @@
             opacity:0;
             visibility: hidden;
             transform: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+            display: none;
+
         }
 
         .tela_ativa {
@@ -308,13 +274,6 @@
             padding-top: 10px;
             justify-self: center;
         }
-
-
-
-
-
-
-
 
 
 
@@ -353,10 +312,6 @@
         }
 
         
-
-        
-
-    
         #div-texto-fotos {
             /* background-color: red; */
         }
@@ -579,6 +534,149 @@
             color: rgb(105, 105, 105);
         }
 
+        #container_tres_pontos {
+            /* aqui por que vou colocar estilo para posicionar o objeto */
+            /* background-color: rgba(0, 255, 21, 0.153); */
+            margin-bottom: -105px;
+            margin-top: 50px;
+            z-index: 9;
+            position: relative;
+            max-width: 570px;
+            padding-left: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    
+        #tres_pontos {
+            background-color: white;
+            width: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #tres_pontos:hover {
+            background-color: rgb(176, 176, 176);
+            /* background-color: red; */
+        }
+
+        #ul_menu {
+            margin-top: 5px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px;
+            width: 150px;
+            z-index: 9;
+            position: absolute;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+        }
+
+        .ul_menu_open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        li {
+            /* background-color: red; */
+            border-radius: 5px;
+            padding: 5px;
+            color: black;
+            list-style-type: none;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        li:hover {
+            background-color: rgb(194, 194, 194);
+        }
+
+        #inputEditarDescricao {
+            width: 120px;
+            background-color: rgb(190, 190, 190);
+            color: black;
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            /* display: none; */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+            position: absolute;
+            
+        }
+
+        #select_de_atividades_disponiveis {
+            width: 140px;
+            background-color: rgb(190, 190, 190);
+            color: black;
+            border-radius: 5px;
+            padding: 2px;
+           
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+            position: absolute;
+            /* margin-left: -75px; */
+            margin-top: 5px;
+            
+        }
+
+
+
+
+        #li_salvar_descricao {
+            background-color: green;
+            color: white;
+            width: 40px;
+            margin-left: 50px;
+            margin-bottom: 5px;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            /* display: none; */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+            position: absolute;
+            margin-top: -55px;
+            /* margin-top: 60px; */
+        }
+
+        #li_salvar_descricao:hover {
+            background-color: rgb(0, 172, 0);
+        }
+
+
+
+
+
+        #li_salvar_id {
+            background-color: green;
+            color: white;
+            width: 40px;
+            margin-left: 50px;
+            margin-bottom: 5px;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            /* display: none; */
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s;
+            position: absolute;
+            margin-top: 30px;
+        }
+
+        #li_salvar_id:hover {
+            background-color: rgb(0, 172, 0);
+        }
+
+        
+    
+
     </style>
 </head>
 <body>
@@ -604,7 +702,7 @@
     <p id="mensagem"></p>
    </div>
 
-    <p id="eletrica">TELHADO</p>
+    <p id="eletrica">ALTURA</p>
     <div id="corpo-principal">
         <p id="programacao">
             PROGRAMAÇÃO
@@ -619,7 +717,7 @@
             <tr >
                 <th>ID</th>
                 <th>Descrição</th>
-                <th>Funcionário</th>
+                <th>Colaborador</th>
                 <th>Armazenna</th>
                 <th>Cliente</th>
                 <th>Data</th>
@@ -656,7 +754,7 @@
                     <!-- Telhado -->
 
                 <select name="atividades disponíveis" id="atividades_disponiveis">
-                    <!-- <option value="NULL">Atividades Disponíveis</option> -->
+                    <!-- <option value="0">Outros.</option> -->
                 </select>
 
                 <br>
@@ -706,11 +804,60 @@
                 
                 <div id="fotoscapturadas">
 
-                    <!-- <div>
-                        <img id="imagemCapturada" src="data:image/jpeg;base64,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" alt="">
+                    <!-- Exemplo de foto na lista, usado para atualizações e melhorias (simulação) -->
+                    <!-- Deixo como comentário como nos n for utilizar para teste -->
+                    <!-- Se for realizar testes ou melhorias, nos tira o comentário, pra depois colocar em produção -->
+
+
+                    <!-- <div style="background-color: rgba(175, 175, 175, 0.441);">
+                        <div id="container_tres_pontos">
+                            <img id="tres_pontos" src="{{ url_for('static', filename='images/tres_pontos.png') }}" alt="Tres_pontos" onclick="menu(event)">
+                            
+                            <ul id="ul_menu" 
+                            style="
+                            opacity: 1;
+                            visibility: visible;
+                            ">
+                                
+                                <li onclick="excluirFoto(event)">
+                                    Excluir
+                                </li>
+
+                                <li onclick="abrirEditarLegenda(event)" id="EditarLegendaDaFoto">
+                                    Editar a Descrição
+                                    <input type="text" name="" id="inputEditarDescricao" placeholder="Nova Descrição.">
+                                    <li id="li_salvar_descricao" onclick="EditarLegendaDaFoto(event)">Salvar</li>
+                                </li>
+
+                                <li onclick="abrirEditarIDdaFoto(event)" id="EditarIDDaFoto" 
+                                style="
+                                /* padding-bottom: 100px; */
+                                ">
+                                    Editar o ID
+
+                                    <ul>
+                                        <li>
+                                            <select name="" id="select_de_atividades_disponiveis">
+                                                <option value="0">Outros.</option>
+                                            </select>
+                                        </li>
+                                    
+                                        <li id="li_salvar_id" onclick="EditarIdDaFoto(event)"
+                                        style="
+                                        /* opacity: 1; */
+                                        /* visibility: visible; */
+                                        ">Salvar</li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <img id="imagemCapturada" src="data:image/jpeg;base64,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" alt="">                
                         <p id="id-fotos">ID: 01</p>
-                        <p id="id-fotos">Descrição:  Foi feita a</p>
+                        <p id="id-fotos">[19:11] - Legenda: Fhellype está fazendo teste</p>
                     </div> -->
+
 
                 </div>
 
@@ -725,7 +872,386 @@
     </div>
     <script>
 
+        // FUNÇÃÕ FOCADA EM EXCLUIR A IMAGEM ESPECÍFICA
+        async function excluirFoto(event) {
 
+            try {
+                const listaDeFotos = document.getElementById('fotoscapturadas');
+
+                // AQUI FICA TODAS AS FOTOS VISUAIS (PRIMEIRA OPÇÃO)
+                console.log('[ lista de fotos ]: ', listaDeFotos);
+            
+                // AQUI É O QUE REALMENTE VAI SER ENVIADO PARA SER GUARDADO, ENTÃO
+                // PRECISO ATUALIZAR DE ACORDO COM O VISUAL ANTES DE ENVIAR.
+                console.log('[ CAPTUREPHOTO: ]',capturePhoto);
+
+                // console.log('ONDE TOQUEI: ', event.target.parentElement.parentElement.parentElement);
+                // AQUI A FOTO (DIV COM TODAS AS SUAS INFORMAÇÕES, FOTO, ID, LEGENDA), SÃO DELETADOS
+                // VISUALMENTE
+                let DivDaFoto = event.target.parentElement.parentElement.parentElement;
+                DivDaFoto.remove();
+                notificacao('FOTO DELETADA','success');
+
+                // AQUI ACONTECE ATUALIZAÇÃO DA LISTA QUE REALMENTE VAI SER ENVIADO PARA
+                // PARA O BANCO DE DADOS
+                capturePhoto = [];
+                const divFilho = listaDeFotos.querySelectorAll('div');
+                divFilho.forEach(filho => {
+                    // const img = filho.querySelector('img');
+                    const imagens = filho.querySelectorAll('img');
+                    const foto = imagens[1];
+                    const paragrafos = filho.querySelectorAll('p');
+                    const idd = paragrafos[0].textContent.trim();
+                    const legendaa = paragrafos[1].textContent.trim();
+                    const srcc = foto.src;
+
+                    const conteudo = {
+                        id:idd,
+                        legenda:legendaa,
+                        imagemData:srcc
+                    };
+                    capturePhoto.push(conteudo);
+                });
+                console.log('[CAPTUREPHOTO] = ', capturePhoto);
+            } catch (erro) {
+                notificacao('ERRO AO EXCLUIR A IMAGEM', 'error');
+                console.log('ERRO DETECTADO, FUNÇÃO: excluirFoto');
+                console.log(`ERRO: ${erro}`);
+            }
+        }
+
+
+        function abrirEditarLegenda(event) {
+            try {
+                // console.log('CLIQUEI >>>> ',event.target.parentElement);
+                let menu = event.target.parentElement;
+                let li_editar_descricao = menu.querySelector('#EditarLegendaDaFoto');
+                let botaoSalvar = menu.querySelector('#li_salvar_descricao');
+                let inputNovaLegenda = menu.querySelector('#inputEditarDescricao');
+
+
+                li_editar_descricao.style.paddingBottom = '100px';
+                inputNovaLegenda.style.display = 'block';
+                inputNovaLegenda.style.opacity = '1';
+                inputNovaLegenda.style.visibility = 'visible';
+                inputNovaLegenda.style.transform = 'translateY(0px)';
+
+                botaoSalvar.style.display = 'block';
+                botaoSalvar.style.opacity = '1';
+                botaoSalvar.style.visibility = 'visible';
+                botaoSalvar.style.transform = 'translateY(0px)';
+
+            } catch (erro) {
+                notificacao('ERRO AO EDITAR','error');
+                console.log('ERRO DETECTADO, FUNÇÃO: Editar Legenda Da Foto');
+                console.log(`ERRO: ${erro}`);
+            }
+        }
+
+        
+
+        // FUNÇÃO FOCADA EM EDITAR A LEGENDA DA IMAGEM ESPECÍFICA
+        async function EditarLegendaDaFoto(event) {
+            try{
+                let menu = event.target.parentElement;
+                let inputNovaLegenda = menu.querySelector('#inputEditarDescricao');
+                
+                let novaLegenda = inputNovaLegenda.value;
+                // alert(`nova legenda: ${novaLegenda}`);
+
+                let DivDaFoto = event.target.parentElement.parentElement.parentElement;
+                let paragrafos = DivDaFoto.querySelectorAll('p');
+                let legenda = paragrafos[1];
+                let legendaOriginal = legenda.textContent;
+
+                if (inputNovaLegenda.value == '') {
+                    notificacao('Campo vazio, Por favor preencha', 'error');
+
+                } else {
+                    // Encontra o ponto de separação  na str
+                    const separador = ' - Legenda: ';
+                    const indiceDoSeparador = legendaOriginal.indexOf(separador);
+
+                    if (indiceDoSeparador !== -1) {
+                        const parteParaManter = legendaOriginal.substring(0, indiceDoSeparador + separador.length);
+                        const novoTextoCompleto = parteParaManter + novaLegenda;
+
+                        // Tenho que pegar esse novo texto e inserir na imagem;
+
+                        legenda.textContent = novoTextoCompleto;
+
+
+                        // AQUI ACONTECE ATUALIZAÇÃO DA LISTA QUE REALMENTE VAI SER ENVIADO PARA
+                        // PARA O BANCO DE DADOS
+                        capturePhoto = [];
+                        const listaDeFotos = document.getElementById('fotoscapturadas');
+                        const divFilho = listaDeFotos.querySelectorAll('div');
+                        divFilho.forEach(filho => {
+                            // const img = filho.querySelector('img');
+                            const imagens = filho.querySelectorAll('img');
+                            const foto = imagens[1];
+                            const paragrafos = filho.querySelectorAll('p');
+                            const idd = paragrafos[0].textContent.trim();
+                            const legendaa = paragrafos[1].textContent.trim();
+                            const srcc = foto.src;
+
+                            const conteudo = {
+                                id:idd,
+                                legenda:legendaa,
+                                imagemData:srcc
+                            };
+                            capturePhoto.push(conteudo);
+                        });
+
+                        inputNovaLegenda.value = '';
+
+                        let li_editar_descricao = menu.querySelector('#EditarLegendaDaFoto');
+                        let botaoSalvar = menu.querySelector('#li_salvar_descricao');
+
+                        li_editar_descricao.style.paddingBottom = '0px';
+                        inputNovaLegenda.style.display = 'none';
+                        inputNovaLegenda.style.opacity = '0';
+                        inputNovaLegenda.style.visibility = 'hidden';
+                        inputNovaLegenda.style.transform = 'translateY(0px)';
+
+                        botaoSalvar.style.display = 'none';
+                        botaoSalvar.style.opacity = '0';
+                        botaoSalvar.style.visibility = 'hidden';
+                        botaoSalvar.style.transform = 'translateY(0px)';
+
+
+                    } else {
+                        notificacao('Erro ao editar a descrição', 'error');
+                        console.log('ERRO no IF do "indiceDoSeparador"');
+                    }
+                }
+                
+            } catch (erro) {
+                // notificacao('ERRO AO EDITAR A LEGENDA DA FOTO','error');
+                console.log('===================================================');
+                console.log('ERRO DETECTADO, FUNÇÃO: Editar Legenda Da Foto');
+                console.log(`ERRO: ${erro}`);
+                console.log('===================================================');
+
+            }
+        }
+
+
+
+
+
+        function abrirEditarIDdaFoto(event) {
+            try {
+                
+                // Usa event.currentTarget para garantir que o elemento clicado
+                // é sempre o `<li>` com o evento, mesmo que o clique tenha sido
+                // em um elemento filho (como o <select> ou o <ul>).
+                let li_editar_o_id = event.currentTarget;
+        
+                // Agora o querySelector vai buscar o <select> dentro do `li_editar_o_id`,
+                // o que sempre funcionará, pois o <select> é um descendente válido.
+                let select = li_editar_o_id.querySelector('#select_de_atividades_disponiveis');
+                let li_salvar_id = li_editar_o_id.querySelector('#li_salvar_id');
+
+                // Adicionando uma verificação para evitar erros, caso os elementos
+                // por algum motivo não sejam encontrados (boa prática de programação).
+                if (li_editar_o_id && select && li_salvar_id) {
+                    // Aumenta o padding do <li> pai
+                    li_editar_o_id.style.paddingBottom = '60px';
+            
+                    // Torna o select visível e com opacidade total
+                    select.style.opacity = '1';
+                    select.style.visibility = 'visible';
+                    select.style.transform = 'translateY(0px)';
+            
+                    // Torna o botão de salvar visível e com opacidade total
+                    li_salvar_id.style.opacity = '1';
+                    li_salvar_id.style.visibility = 'visible';
+                    li_salvar_id.style.transform = 'translateY(0px)';
+                } else {
+                    console.error('Um ou mais elementos não foram encontrados.');
+                }
+                
+                
+            } catch (erro) {
+                notificacao('ERRO AO EDITAR O ID','error');
+                console.log('ERRO DETECTADO, FUNÇÃO: "ABRIR EDITAR ID DA FOTO"');
+                console.log(`ERRO: ${erro}`);
+                console.log(`DESCRIÇÃO: ${String(erro)}`);
+            } 
+        }
+
+
+        // FUNÇÃO FOCADA EM EDITAR O ID DA IMAGEM ESPECÍFICA
+        async function EditarIdDaFoto(event) {
+            try {
+                
+                // AQUI PEGAREMOS O ID DA ATIVIDADE E FORNECER AS DISPONÍVEIS,
+                // CHAMANDO A FUNÇÃO QUE ATUALIZA AS FUNÇÕES;
+                // E DEPOIS ATUALIZAR A LISTA DE FOTOS QUE SERÃO ENVIADAS;
+                atividades_disponiveis();
+                let menu = event.target.parentElement;
+                let select_de_atividades_disponiveis = menu.querySelector('#select_de_atividades_disponiveis');
+                let listaDeParafros = menu.parentElement.parentElement.parentElement.parentElement.querySelectorAll('p');
+                let IdAtual = listaDeParafros[0];
+                
+                
+                if (select_de_atividades_disponiveis.value == '') {
+                    notificacao('CAMPO Vazio, por favor digite o ID da atividade','error');
+                    return;
+                } else {
+                    // alert(`NOVO valor: ${select_de_atividades_disponiveis.value}`);
+                    IdAtual.textContent = `${select_de_atividades_disponiveis.value}`;
+
+                    // Após a alteração, atualizar a lista de fotos que será enviada
+
+                    // AQUI ACONTECE ATUALIZAÇÃO DA LISTA QUE REALMENTE VAI SER ENVIADO PARA
+                    // PARA O BANCO DE DADOS
+
+                    
+                    capturePhoto = [];
+                    const listaDeFotos = document.getElementById('fotoscapturadas');
+                    const divFilho = listaDeFotos.querySelectorAll('div');
+                    
+                    divFilho.forEach(filho => {
+                        if (filho.querySelectorAll('p').length == '2') {
+                            console.log(filho);
+                            const foto = filho.querySelector('#imagemCapturada');
+                            const paragrafos = filho.querySelectorAll('p');
+                            const idd = paragrafos[0].textContent;
+                            const legendaa = paragrafos[1].textContent;
+                            const srcc = foto.src;
+                            
+                            const conteudo = {
+                                id:idd,
+                                legenda:legendaa,
+                                imagemData:srcc
+                            };
+                            capturePhoto.push(conteudo);
+
+                        }
+                    });
+                }
+                
+            } catch (erro) {
+                notificacao('ERRO AO EDITAR O ID DA FOTO', 'error');
+                console.log('ERRO DETECTADO, FUNÇÃO: EDITAR ID DA FOTO');
+                console.log(`ERRO: ${erro}`);
+            }
+        }
+
+
+
+
+
+        
+        // ESSA FUNÇÃÕ É PRA ATIVAR O MENU (ABRI OU FECHAR)
+        function menu(event) {
+            let tres_pontos = event.target;
+            let menu = event.target.parentElement.querySelector('ul');
+
+            console.log('MENU>> ',menu.classList);
+            if (menu.classList != 'ul_menu_open') {
+                atividades_disponiveis_select();
+
+                menu.classList.add('ul_menu_open');
+                menu.style.opacity = '1';
+                menu.style.visibility = 'visible';
+                menu.style.transform = 'translateY(0)';
+                
+                // alert('aplicado');
+
+            } else {
+                atividades_disponiveis_select();
+                // alert('tirar');
+                menu.style.opacity = '0';
+                menu.style.visibility = '';
+                menu.style.transform = 'translateY(-10px)';
+                menu.classList.remove('ul_menu_open');
+
+                // Aqui vou fechar as tags de editar a descrição
+                let li_editar_descricao = menu.querySelector('#EditarLegendaDaFoto');
+                let botaoSalvar = menu.querySelector('#li_salvar_descricao');
+                let inputNovaLegenda = menu.querySelector('#inputEditarDescricao');
+
+                li_editar_descricao.style.paddingBottom = '0px';
+                inputNovaLegenda.style.display = 'none';
+                inputNovaLegenda.style.opacity = '0';
+                inputNovaLegenda.style.visibility = 'hidden';
+                inputNovaLegenda.style.transform = 'translateY(0px)';
+
+                botaoSalvar.style.display = 'none';
+                botaoSalvar.style.opacity = '0';
+                botaoSalvar.style.visibility = 'hidden';
+                botaoSalvar.style.transform = 'translateY(0px)';
+
+
+                // Aqui é onde eu fecho as tags de 'Editar o ID'
+                let select_de_atividades_disponiveis = menu.querySelector('#select_de_atividades_disponiveis');
+                let li_salvar_id = menu.querySelector('#li_salvar_id');
+                let li_editar_o_id = menu.querySelector('#EditarIDDaFoto');
+
+                // console.log('VALOR >>>>>', li_editar_o_id);
+
+                
+                li_editar_o_id.style.paddingBottom = '0px';
+                
+                select_de_atividades_disponiveis.style.opacity = '0';
+                select_de_atividades_disponiveis.style.visibility = 'hidden';
+                select_de_atividades_disponiveis.style.transform = 'translateY(-10px)';
+
+                li_salvar_id.style.opacity = '0';
+                li_salvar_id.style.visibility = 'hidden';
+                li_salvar_id.style.transform = 'translateY(-10px)';
+
+
+
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+        // FUNÇÃO FOCADA EM BUSCAR AS ATIVIDADES DESSA ÁREA ESPECÍFICA
         async function atividades_disponiveis() {
             try {
                 let select_das_atividades_disponiveis = document.getElementById('atividades_disponiveis');
@@ -785,11 +1311,118 @@
             }
         }
 
-        // essa função é chamada quando tenta tirar a foto
-        // atividades_disponiveis();
-        setInterval(atividades_disponiveis, 5000);
 
 
+
+
+
+
+
+
+        async function atividades_disponiveis_select() {
+            try {
+                let select = document.getElementById('select_de_atividades_disponiveis');
+                let area = 'TELHADO';
+                
+                // MECÂNICA
+                // PINTURA
+                // TELHADO
+
+                
+                dados = {
+                    'atividade': area
+                }
+
+                const resposta = await fetch('/atividades_disponiveis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(dados)
+                });
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO na comunicação (atividades_disponiveis()), ${resposta.status}`);
+                    notificacao(`${erro.msg || "Mensagem indisponível"}; ${resposta.status}; ${resposta.msg}`,'error');
+                    return;
+                }
+
+                const retorno = await resposta.json();
+
+                if (retorno.success) {
+                    // notificacao(`${retorno.msg}`,'success');
+                        select.innerHTML = ``;
+                        retorno.atividades.forEach(atividade => {
+                            select.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
+                            // console.log('ATIVIDADE >>', atividade);
+                        });
+
+                    // select_das_atividades_disponiveis.innerHTML = '';
+                    // retorno.atividades.forEach(atividade => {
+                    //     select_das_atividades_disponiveis.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
+                    // });
+
+
+
+                    // if (!retorno.atividades || retorno.atividades.length === 0) {
+                    //     notificacao(`Nenhuma atividade encontrada`,'success');
+                    //     return;
+                    // }
+
+
+
+                } else {
+                    notificacao(`${retorno.status} ;${retorno.msg}`,'error');
+                    return;
+                }
+
+            } catch (erro) {
+                notificacao(`ERRO de conexão, tente novamente: ${erro}`,'error');
+                console.log(`ERRO na função: (atividades_disponiveis()), ERRO: ${erro}`);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // ATUALIZAR AS ATIVIDADES NA HORA QUE ELE CARREGAR A PÁGINA:
+        atividades_disponiveis();
+
+
+        // FUNÇÃO CRIADA COMO SISTEMA DE NOTFICAÇÃO PARA STATUS POSITIVO E NEGATIVO;
         function notificacao(texto, status, duration = 3000) {
         const container_da_notificacao = document.getElementById('notificacao_global');
         const simbolo = document.getElementById('simbolo_da_notificacao');
@@ -846,39 +1479,44 @@
         let deletarFotos = document.getElementById('deletarfoto');
 
 
-        deletarFotos.addEventListener('click', function(event) {
-            const listaDeFotos = document.getElementById('fotoscapturadas');
-            console.log('lista de fotos: ', listaDeFotos);
-            console.log(' CAPTUREPHOTO: ',capturePhoto);
 
-            const divFilho = listaDeFotos.querySelectorAll('div');
-            capturePhoto = [];
+        // QUANDO EU CLICO NO BOTÃO DE DELETAR FOTOS, ELE VERIFICA AS FOTOS QUE FORAM MARCADAS
+        // PARA SEREM DELETADA (VERSÃO ANTIGA)
 
-            divFilho.forEach(filho => {
-                const img = filho.querySelector('img');
+        // deletarFotos.addEventListener('click', function(event) {
+        //     const listaDeFotos = document.getElementById('fotoscapturadas');
+        //     console.log('lista de fotos: ', listaDeFotos);
+        //     console.log(' CAPTUREPHOTO: ',capturePhoto);
+
+        //     const divFilho = listaDeFotos.querySelectorAll('div');
+        //     capturePhoto = [];
+
+        //     divFilho.forEach(filho => {
+        //         const img = filho.querySelector('img');
                 
-                if (img.style.border == '5px solid red') {
-                    filho.remove();
-                    console.log(' - DIV FILHO = DELETADO');
+        //         if (img.style.border == '5px solid red') {
+        //             filho.remove();
+        //             console.log(' - DIV FILHO = DELETADO');
 
-                } else {
-                    // se n for para deletar, após ter zerado a lista, eu vou pegar seus dados e atualizar a lista antes de ser enviado
-                    const Ps = filho.querySelectorAll('p');
+        //         } else {
+        //             // se n for para deletar, após ter zerado a lista, eu vou pegar 
+                        // seus dados e atualizar a lista antes de ser enviado
+        //             const Ps = filho.querySelectorAll('p');
 
-                    let idd = Ps[0].textContent.trim();
-                    let legendaa = Ps[1].textContent.trim();
-                    let srcc = img.src;
+        //             let idd = Ps[0].textContent.trim();
+        //             let legendaa = Ps[1].textContent.trim();
+        //             let srcc = img.src;
 
-                    const conteudo = {
-                        id: idd,
-                        legenda: legendaa,
-                        imagemData: srcc
-                    };
-                    capturePhoto.push(conteudo);
-                }
-            });
-            console.log(' CAPTUREPHOTO: ',capturePhoto);
-        })
+        //             const conteudo = {
+        //                 id: idd,
+        //                 legenda: legendaa,
+        //                 imagemData: srcc
+        //             };
+        //             capturePhoto.push(conteudo);
+        //         }
+        //     });
+        //     console.log(' CAPTUREPHOTO: ',capturePhoto);
+        // })
 
 
         
@@ -937,6 +1575,7 @@
         setInterval(tabelaEletrica, 3000);
 
         
+
         function TirarFoto() {
 
             // let id = document.getElementById('inputID');
@@ -971,13 +1610,13 @@
                     // alert('foto capturada com sucesso 316');
 
                     let divFilho = document.createElement('div');
-                    divFilho.id = 'fotoscapturadas';
+                    // divFilho.id = 'fotoscapturadas';
 
                     const foto = canvas.toDataURL('image/jpeg');
-                    let imagem = document.createElement('img');
+                    // let imagem = document.createElement('img');
 
-                    let pID = document.createElement('p');
-                    let pLEGENDA = document.createElement('p');
+                    // let pID = document.createElement('p');
+                    // let pLEGENDA = document.createElement('p');
 
                     let data = new Date();
                     let hora = data.getHours();
@@ -992,21 +1631,85 @@
                     }
 
                     
-                    pID.id = 'id-fotos';
-                    pID.textContent = `${select_das_atividades_disponiveis.value}`;
+                    // pID.id = 'id-fotos';
+                    // pID.textContent = `${select_das_atividades_disponiveis.value}`;
                     // pID.innerHTML = `ID: ${id.value}`;
 
 
-                    pLEGENDA.id = 'id-fotos';
-                    pLEGENDA.textContent = `[${hora}:${minuto}] - Legenda: ${legenda.value}`;
+                    // pLEGENDA.id = 'id-fotos';
+                    // pLEGENDA.textContent = `[${hora}:${minuto}] - Legenda: ${legenda.value}`;
 
 
-                    imagem.id = 'imagemCapturada';
-                    imagem.src = foto;
-                    divFilho.appendChild(imagem);
-                    divFilho.appendChild(pID);
-                    divFilho.appendChild(pLEGENDA);
-                    divPai.appendChild(divFilho);
+                    // imagem.id = 'imagemCapturada';
+                    // imagem.src = foto;
+
+                    // ATUALIZAÇÃO //
+                    // divPai.appendChild(`
+
+                    // `);
+                    // ATUALIZAÇÃO //
+
+                    // VERSÃO ANTIGA
+                    // divFilho.appendChild(imagem);
+                    // divFilho.appendChild(pID);
+                    // divFilho.appendChild(pLEGENDA);
+                    // divPai.appendChild(divFilho);
+
+                    // VERSÃO ANTIGA
+
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    const container_img = `
+                    <div style="background-color: rgba(175, 175, 175, 0.441);">
+                        <div id="container_tres_pontos">
+                            <img id="tres_pontos" src="{{ url_for('static', filename='images/tres_pontos.png') }}" alt="Tres_pontos" onclick="menu(event)">
+                            
+                            <ul id="ul_menu" 
+                            style="">
+                                
+                                <li onclick="excluirFoto(event)">
+                                    Excluir
+                                </li>
+
+                                <li onclick="abrirEditarLegenda(event)" id="EditarLegendaDaFoto">
+                                    Editar a Descrição
+                                    <input type="text" name="" id="inputEditarDescricao" placeholder="Nova Descrição.">
+                                    <li id="li_salvar_descricao" onclick="EditarLegendaDaFoto(event)">Salvar</li>
+                                </li>
+
+                                <li onclick="abrirEditarIDdaFoto(event)" id="EditarIDDaFoto" 
+                                style="
+                                /* padding-bottom: 100px; */
+                                ">
+                                    Editar o ID
+
+                                    <ul>
+                                        <li>
+                                            <select name="" id="select_de_atividades_disponiveis">
+                                                <option value="0">Outros.</option>
+                                            </select>
+                                        </li>
+                                    
+                                        <li id="li_salvar_id" onclick="EditarIdDaFoto(event)"
+                                        style="
+                                        /* opacity: 1; */
+                                        /* visibility: visible; */
+                                        ">Salvar</li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <img id="imagemCapturada" src="${foto}" alt="">                
+                        <p id="id-fotos">ID: ${select_das_atividades_disponiveis.value}</p>
+                        <p id="id-fotos">[${hora}:${minuto}] - Legenda: ${legenda.value}</p>
+                    </div>
+                    `;
+                    divPai.innerHTML += container_img;
+
+
+
+                    
                     
                     //essa é outra parte que tenho que trabalhar.
                     const imageDataURL = canvas.toDataURL('image/jpeg');
@@ -1021,6 +1724,8 @@
 
                 } else {
                     console.log('Foto capturada com sucesso, linha 301');
+                    notificacao("ERRO AO TIRAR FOTO",'error');
+                    console.error(`ERRO >>> ${Error}`);
                 }
 
                 legenda.value = '';
@@ -1028,6 +1733,9 @@
                 legenda.style.border = '';
                 // id.style.border = '';
             }
+
+            // QUANDO ELE APERTAR PARA TIRAR FOTO, INDEPENDENTE SE TIRAR OU NÃO, ELE VAI ATUALIZAR AS ATIVIDADES DISPONÍVEIS;
+            atividades_disponiveis();
             
         }
 
@@ -1080,38 +1788,28 @@
                 // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
                 notificacao(`Verifique sua conexão, ${erro}`,'error');
             }
+
+            atividades_disponiveis();
         }
 
 
 
 
-
-        let grupo = document.getElementById('fotoscapturadas');
-        grupo.addEventListener('click', function(event) {
+        // FUNÇÃO QUE COLOCA COR VERMELHA NA IMAGEM QUANDO ELA É CLICADA;
+        // DETECTA A FUNÇÃO QUE EU CLIQUEI;
+        // let grupo = document.getElementById('fotoscapturadas');
+        // grupo.addEventListener('click', function(event) {
+            
         
-            let objeto = event.target;
+        //     // let objeto = event.target;
+        //     let foto = event.target;
+            
+        //     // const divFoto = objeto.parentElement;
+        //     const divFoto = foto.parentElement;
+        //     console.log('Div da foto: ', divFoto);
 
-            const divFoto = objeto.parentElement;
-            console.log('Div da foto: ', divFoto);
-
-            const listaP = divFoto.querySelectorAll('p');
-
-
-            if (objeto.style.border == '') {
-                objeto.style.border = '5px solid red';
-                listaP.forEach(p => {
-                    p.style.backgroundColor = 'red';
-                });
-
-            } else {
-                objeto.style.border = '';
-                listaP.forEach(p => {
-                    p.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
-                });
-
-            }
-            console.log(' ');
-        })
+        //     const listaP = divFoto.querySelectorAll('p');
+        // })
 
 
 
@@ -1132,6 +1830,7 @@
 
 
         let valor = 0;
+
         registrar.addEventListener('click', function() {
             console.log('FUNÇÃO REGISTRAR CHAMADA');
             let tela = document.getElementById('tela');
@@ -1153,7 +1852,18 @@
 
                 startCamera(tirarfoto);
                 
-                
+                // tela.classList.remove('tela_ativa');
+                // tela02.classList.remove('tela_ativa');
+
+                // tela.addEventListener('transitionend', function esconderHande() {
+                //     if (!tela.classList.contains('tela_ativa')) {
+                //         alert('IF 02');
+                //         tela.style.display = 'none';
+                //         tela02.style.display = 'none';
+                //         tela.removeEventListener('transitionend', esconderHande);
+                //     }
+                // });
+                // stopCamera();
             } else {
                 // alert('ELSE 01');
                 // alert(`valor: ${valor}`);
@@ -1188,6 +1898,8 @@
                     notificacao(`Falha ao conectar com a Câmera;`,'error');
                     tirarfoto.disabled = true;
                 }
+
+                atividades_disponiveis();
             }
 
         })
