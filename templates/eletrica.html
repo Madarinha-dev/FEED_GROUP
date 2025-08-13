@@ -1287,7 +1287,8 @@
                     // notificacao(`${retorno.msg}`,'success');
 
                     
-                    select_das_atividades_disponiveis.innerHTML = '';
+                    select_das_atividades_disponiveis.innerHTML = ``;
+                    select_das_atividades_disponiveis.innerHTML = `<option value="0">Fora da programação</option>`;
                     retorno.atividades.forEach(atividade => {
                         select_das_atividades_disponiveis.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
                     });
@@ -1354,10 +1355,12 @@
                 if (retorno.success) {
                     // notificacao(`${retorno.msg}`,'success');
                         select.innerHTML = ``;
+                        select.innerHTML = `<option value="0">FORA DE PROGRAMAÇÃO</option>`;
                         retorno.atividades.forEach(atividade => {
                             select.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
                             // console.log('ATIVIDADE >>', atividade);
                         });
+
 
                     // select_das_atividades_disponiveis.innerHTML = '';
                     // retorno.atividades.forEach(atividade => {
