@@ -51,6 +51,15 @@ class Registro(db.Model):
     img = db.Column(db.LargeBinary)
 
 
+class RegistroLocal(db.Model):
+    __tablename__ = 'registroLocal'
+    id_registro = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome_do_funcionario = db.Column(db.String(255))
+    id_atividade = db.Column(db.Integer)
+    legenda = db.Column(db.String(255))
+    img = db.Column(db.LargeBinary)
+
+
 class Atividade(db.Model):
     __tablename__ = 'atividades'
     id_atividade = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -75,6 +84,7 @@ class Frequencia(db.Model):
 
 
 
+
 @app.route('/')
 def index():
     print(')')
@@ -87,6 +97,194 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/deletar_foto_localmente', methods=['POST'])
+def deletar_foto_localmente():
+    print('============================================')
+    print("FUNÇÃO: 'Deletar Foto Localmente' ATIVADA")
+    print('============================================')
+
+    try:
+        dados = request.get_json()
+        id_para_deletar = dados.get('id_unico')
+
+        print('=============')
+        print('VERIFICAÇÃO DE TIPO')
+        print(f"Valor recebido para 'id_unico': '{id_para_deletar}'")
+        print(f"Tipo de 'id_para_deletar': {type(id_para_deletar)}")
+        print('=============')
+
+        if not id_para_deletar:
+            return jsonify({
+                "success":False,
+                "msg":f'ID não fornecido, Por favor forneça o ID'
+            }), 400
+        
+        foto_que_vai_ser_deletada = RegistroLocal.query.get(id_para_deletar)
+
+        if foto_que_vai_ser_deletada:
+            db.session.delete(foto_que_vai_ser_deletada)
+            db.session.commit()
+            print(f'Foto com ID: {id_para_deletar} - DELETADO COM SUCCESSO')
+            return jsonify({
+                'success':True,
+                'msg':f'[{id_para_deletar}] - IMAGEM DELETADA COM SUCCESSO, AUTORIZADO A LIBERAÇÃO'
+            }), 200
+        
+        else:
+            print(f'ID: [{id_para_deletar}] - Não encontrado para deletar')
+            return jsonify({
+                'success':False,
+                'msg':f'ID: [{id_para_deletar}] - Não encontrado, permissão negada'
+            }), 404
+
+
+    except Exception as erro:
+        db.session.rollback()
+
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Deletar Foto Localmente"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+
+        return jsonify({
+            "success":False,
+            "msg":"ERRO no Servidor interno ao tentar Deletar a Foto Localmente"
+        }), 500
+
+
+
+
+@app.route('/adicionar_foto_na_tabela_temporaria_ou_pessoal', methods=['POST'])
+def adicionar_fotos_temporaria_ou_pessoal():
+    print('============================================')
+    print("FUNÇÃO: 'Adicionar fotos temporaria' ATIVADA")
+    print('============================================')
+
+    try:
+        dados = request.get_json()
+
+        if not dados:
+            return jsonify({
+                "success":False,
+                "msg":f'Dados não fornecidos'
+            }), 400
+        
+        
+        id = dados.get('id')
+        legenda = dados.get('legenda')
+        nome_do_funcionario = dados.get('nome_Do_Funcionario')
+        imagemBase64 = dados.get('imagemData')
+
+        # dados_imagem_b64 = imagemBase64.split(',',1)
+        prefixo, dados_imagem_b64 = imagemBase64.split(',', 1)
+        imagem_em_binario = base64.b64decode(dados_imagem_b64)
+
+        nova_foto = RegistroLocal(
+            nome_do_funcionario=nome_do_funcionario,
+            id_atividade=int(id),
+            legenda=legenda,
+            img=imagem_em_binario
+        )
+
+        db.session.add(nova_foto)
+        db.session.commit()
+
+
+        
+        # id_que_entrou = RegistroLocal.query.get()
+
+
+
+        return jsonify({
+            'success':True,
+            'msg':'Foto salva no banco de dados com suceso',
+            'id_unico':nova_foto.id_registro
+        }), 200
+
+
+    except Exception as erro:
+        db.session.rollback()
+
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Adicionar fotos temporaria"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+
+        return jsonify({
+            "success":False,
+            "msg":"ERRO no Servidor interno ao carregar as fotos"
+        }), 500
+
+
+
+
+
+@app.route('/fotos_salvas_localmente', methods=['GET'])
+def fotos_salvas_localmente():
+    print('============================================')
+    print("FUNÇÃO 'FOTOS SALVAS LOCALMENTE ATIVADA' ")
+    print('============================================')
+    
+    try:
+        nome_do_funcionario = request.args.get('nome')
+
+        if not nome_do_funcionario:
+            return jsonify({
+                "success":False,
+                "msg":"Nome do funcionário não foi fornecido"
+            }), 400
+        
+        registros = RegistroLocal.query.filter_by(nome_do_funcionario=nome_do_funcionario).all()
+        lista_de_fotos = []
+
+        for registro in registros:
+            # Converte a imagem binária (LargeBinary) para Base64
+            img_base64 = base64.b64encode(registro.img).decode('utf-8')
+
+            # Aqui eu to preferindo levar todas as colunas pro front, pós ele vai ter opções
+            # de quais dados ele vai querer mostrar ou trabalhar.
+            lista_de_fotos.append({
+                "id_registro":registro.id_registro,
+                "id_atividade":registro.id_atividade,
+                "nome_do_funcionario":registro.nome_do_funcionario,
+                "legenda":registro.legenda,
+                "img":f"data:image/jpeg;base64,{img_base64}"
+            })
+
+        if not lista_de_fotos:
+            return jsonify({
+                "success":False,
+                "msg":f"Nenhuma foto temporaria encontrada para esse usuário"
+            }), 404
+
+        print(f'Registros: {registros}')
+        return jsonify({
+            "success":True,
+            "msg":f"Fotos localizadas",
+            "fotos":lista_de_fotos
+        }), 200
+
+    except Exception as erro:
+        db.session.rollback()
+
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: /fotos_salvas_localmente')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+
+        return jsonify({
+            "success":False,
+            "msg":"ERRO no Servidor interno ao carregar as fotos"
+        }), 500
+
+
+
+
+
+    
 
 @app.route('/atividades_disponiveis', methods=['POST'])
 def atividades_disponiveis():
@@ -1348,10 +1546,16 @@ def adm():
 
 
 
-# if __name__ == '__main__':
-#     with app.app_context():
-#         db.create_all()
-#     app.run(debug=False)
+
+# Aqui ele serve tanto para rodar o sistema quanto criar tabelas novas
+# Caso tenha alguma alteração ou modificação, a recomendação seria excluir
+# o arquivo de banco de dados para o sistema recriar essas tabelas com as
+# novas alterações.
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=False)
+
+# if __name__ == '__main__':
+#     app.run(debug=True)

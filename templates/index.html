@@ -604,7 +604,9 @@
                         window.location = '/pintura';
 
                     } else if (retorno.funcao === 'eletrica') {
-                        window.location = '/eletrica';
+                        window.location = `/eletrica?nome=${encodeURIComponent(inputnome.value)}&funcao=${encodeURIComponent(retorno.funcao)}`;
+                        // window.location = '/eletrica';
+                        
 
                     } else if (retorno.funcao === 'adm' || retorno.funcao === 'seguranca' || retorno.funcao === 'administrativo') {
                         window.location = '/adm';

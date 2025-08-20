@@ -871,49 +871,98 @@
         
 
     </div>
+    
+</body>
+
     <script>
 
-        // FUNÇÃÕ FOCADA EM EXCLUIR A IMAGEM ESPECÍFICA
-        async function excluirFoto(event) {
+        listaDeFotos = ``; // deixando vazio pra fazer o teste
+
+
+        // Função que vai receber dados de quem fez o login no 'index.html', através da URL
+        // Cria um objeto URLSearchParams com base na query string
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+
+        // Agora você pode pegar os valores usando o método .get()
+
+        let registrar = document.getElementById('registrar');
+        const video = document.getElementById('videoStream');
+        const canvas = document.getElementById('photoCanvas');
+        const context = canvas.getContext('2d');
+        let capturePhoto = []; // Imagens armazenadas localmente (Elas são apagadas se a página for recarregada (ideia negativa))
+        let currentStream;
+        let tbody = document.getElementById('tbodyEletrica'); // Exibi as atividades na tabela principal na tela
+        let deletarFotos = document.getElementById('deletarfoto'); // Creio que essa função morreu, depois faço um dia de limpeza de código, deixar organizado
+
+
+        
+        capturePhoto = ``;
+
+        async function excluir(event) {
+            console.log('FUNÇÃO EXCLUIR de FOTO');
 
             try {
                 const listaDeFotos = document.getElementById('fotoscapturadas');
+                const DivDaFoto = event.target.closest('[data-id]'); 
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
+                // console.log(`[ LISTA DE FOTOS ] = `, listaDeFotos);
+                // console.log(`[ CAPTUREPHOTO ] = `,capturePhoto);
+                // console.log(`[ DIV DA FOTO ] = `,DivDaFoto);
+                // console.log(`[ID_ÚNICO DA FOTO ] = `,DivDaFoto.dataset.id);
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
+                // console.log('=');
 
-                // AQUI FICA TODAS AS FOTOS VISUAIS (PRIMEIRA OPÇÃO)
-                console.log('[ lista de fotos ]: ', listaDeFotos);
-            
-                // AQUI É O QUE REALMENTE VAI SER ENVIADO PARA SER GUARDADO, ENTÃO
-                // PRECISO ATUALIZAR DE ACORDO COM O VISUAL ANTES DE ENVIAR.
-                console.log('[ CAPTUREPHOTO: ]',capturePhoto);
+                try {
 
-                // console.log('ONDE TOQUEI: ', event.target.parentElement.parentElement.parentElement);
-                // AQUI A FOTO (DIV COM TODAS AS SUAS INFORMAÇÕES, FOTO, ID, LEGENDA), SÃO DELETADOS
-                // VISUALMENTE
-                let DivDaFoto = event.target.parentElement.parentElement.parentElement;
-                DivDaFoto.remove();
-                notificacao('FOTO DELETADA','success');
+                    const pacote = {
+                        'id_unico':DivDaFoto.dataset.id
+                    }
 
-                // AQUI ACONTECE ATUALIZAÇÃO DA LISTA QUE REALMENTE VAI SER ENVIADO PARA
-                // PARA O BANCO DE DADOS
-                capturePhoto = [];
-                const divFilho = listaDeFotos.querySelectorAll('div');
-                divFilho.forEach(filho => {
-                    // const img = filho.querySelector('img');
-                    const imagens = filho.querySelectorAll('img');
-                    const foto = imagens[1];
-                    const paragrafos = filho.querySelectorAll('p');
-                    const idd = paragrafos[0].textContent.trim();
-                    const legendaa = paragrafos[1].textContent.trim();
-                    const srcc = foto.src;
+                    const resposta = await fetch('/deletar_foto_localmente', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(pacote)});
 
-                    const conteudo = {
-                        id:idd,
-                        legenda:legendaa,
-                        imagemData:srcc
-                    };
-                    capturePhoto.push(conteudo);
-                });
-                console.log('[CAPTUREPHOTO] = ', capturePhoto);
+                    if (!resposta.ok) {
+                        notificacao('ERRO AO DELETAR A IMAGEM', 'error');
+                        // const erro = resposta.json().catch(() => ({}));
+                        console.error(`ERRO AO SE COMUNICAR COM A API QUE DELETA A IMAGEM LOCALMENTE`);
+                        console.log(`ERRO: ${erro || "INFORMAÇÂO INDISPONÍVEL"}`);
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        console.log(`STATUS: ${retorno.success}`);
+                        console.log(`MENSAGEM: ${retorno.msg}`);
+
+                        // Aqui vou atualizar a lista de fotos que aparece localmente para ele
+                        fotos_salvas_local();
+                        DivDaFoto.remove();
+
+
+                    } else {
+                        console.log(`STATUS: ${retorno.success}`);
+                        console.log(`MENSAGEM: ${retorno.msg}`);
+                        notificacao(`${retorno.msg}`, 'error');
+                        return;
+                    }
+                     
+                } catch (erro) {
+                    notificacao('ERRO AO EXCLUIR A IMAGEM', 'error');
+                    console.log('ERRO DETECTADO, FUNÇÃO: excluirFoto');
+                    console.log(`ERRO: ${erro}`);
+                }
+
+                
+                
+
             } catch (erro) {
                 notificacao('ERRO AO EXCLUIR A IMAGEM', 'error');
                 console.log('ERRO DETECTADO, FUNÇÃO: excluirFoto');
@@ -1144,8 +1193,484 @@
 
 
 
+        // Função que envia todas as fotos armazenada localmente (que aparece na sua tela)
+        async function enviarFotos() {
+            try {
+                // let id = document.getElementById('inputID');
+                let legenda = document.getElementById('inputLegenda');
+                let divPai = document.getElementById('fotoscapturadas');
+
+                console.log('DivPai: '+divPai);
+                console.log('CAPTUREPHOTO: '+capturePhoto);
+                
+
+                const resposta = await fetch('/album_de_fotos_das_atividades', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(capturePhoto)
+                });
+
+                // const resposta = await fetch('/', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(capturePhoto)});
+
+                
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                    // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                    notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
+                    return;
+                }
+
+                const retorno = await resposta.json();
+                if (retorno.success) {
+                    console.log(`Mensagem do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,"success");
+
+                    // id.value = '';
+                    legenda.value = '';
+                    divPai.innerHTML = '';
+                    capturePhoto = []; // Aqui fica as fotos que aparece na tela do usuário
+
+                } else {
+                    console.log(`ERRO do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                }
+
+            } catch (erro) {
+                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
+                notificacao(`Verifique sua conexão, ${erro}`,'error');
+            }
+
+            atividades_disponiveis();
+        }
+
+
+
+
+
+
+        // Função focada na captura da Imagem
+        async function TirarFoto() {
+
+            // let id = document.getElementById('inputID');
+            let select_das_atividades_disponiveis = document.getElementById('atividades_disponiveis');
+            let legenda = document.getElementById('inputLegenda');
+            let divPai = document.getElementById('fotoscapturadas');
+            const fotosarmazenadas = [];
+            // capturePhoto = []; // limpar antes de usar
+
+
+            if (select_das_atividades_disponiveis.value == '' && legenda.value == '') {
+                // id.style.border = '2px solid red';
+                legenda.style.border = '2px solid red';
+
+            } else if (select_das_atividades_disponiveis.value == '') {
+                legenda.style.border = '';
+                notificacao(`Sem atividade para registrar, feche a câmera`,'error')
+                // id.style.border = '2px solid red';
+
+            } else if (legenda.value == '') {
+                legenda.style.border = '2px solid red';
+                // id.style.border = '';
+
+            } else {
+                legenda.style.border = '2px solid green';
+                // id.style.border = '2px solid green';
+
+                if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    // alert('foto capturada com sucesso 316');
+
+                    let divFilho = document.createElement('div');
+                    // divFilho.id = 'fotoscapturadas';
+
+                    const foto = canvas.toDataURL('image/jpeg');
+                    // let imagem = document.createElement('img');
+
+                    // let pID = document.createElement('p');
+                    // let pLEGENDA = document.createElement('p');
+
+                    let data = new Date();
+                    let hora = data.getHours();
+                    let minuto = data.getMinutes();
+
+                    if (minuto < 10) {
+                        minuto = `0${minuto}`;
+                    }
+
+                    if (hora < 10) {
+                        hora = `0${hora}`;
+                    }
+
+                    
+                    
+                    // console.log('CAPTUREPHOTO', capturePhoto);
+
+    
+                    //essa é outra parte que tenho que trabalhar.
+                    const imageDataURL = canvas.toDataURL('image/jpeg');
+                    let nome_do_funcionario = urlParams.get('nome');
+
+                    const photoData = {
+                        id: select_das_atividades_disponiveis.value,
+                        legenda: `[${hora}:${minuto}] - ${legenda.value}`,
+                        imagemData: imageDataURL,
+                        nome_Do_Funcionario: nome_do_funcionario
+                    }; 
+
+                    // let nome = urlParams.get('nome');
+
+                    
+
+                    try {
+                        const resposta = await fetch('/adicionar_foto_na_tabela_temporaria_ou_pessoal', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(photoData)});
+
+                        if (!resposta.ok) {
+                            const erro = await resposta.json().catch(() => ({}));
+                            // notificacao(`ERRO AO SALVAR A FOTO: ${erro.msg || 'Sem mensagem'}`, "error");
+                            return;
+                        }
+
+                        const retorno = await resposta.json();
+
+                        if (retorno.success) {
+                            console.log('===========================');
+                            console.log('FOTO SALVA NA TABELA TEMPORARIA');
+                            console.log(`MSG DO SERVIDOR: ${retorno.msg}`);
+                            console.log(`Conteudo: `, retorno);
+                            console.log('===========================');
+
+                            const container_img = `
+                            <div style="background-color: rgba(175, 175, 175, 0.441);" data-id="${retorno.id_unico}">
+                                <div id="container_tres_pontos">
+                                    <img id="tres_pontos" src="{{ url_for('static', filename='images/tres_pontos.png') }}" alt="Tres_pontos" onclick="menu(event)">
+                            
+                                    <ul id="ul_menu" 
+                                    style="">
+                                
+                                        <li onclick="excluir(event)">
+                                            Excluir
+                                        </li>
+
+                                        <li onclick="abrirEditarLegenda(event)" id="EditarLegendaDaFoto">
+                                            Editar a Descrição
+                                            <input type="text" name="" id="inputEditarDescricao" placeholder="Nova Descrição.">
+                                            <li id="li_salvar_descricao" onclick="EditarLegendaDaFoto(event)">Salvar</li>
+                                        </li>
+
+                                        <li onclick="abrirEditarIDdaFoto(event)" id="EditarIDDaFoto" 
+                                        style="
+                                        /* padding-bottom: 100px; */
+                                        ">
+                                            Editar o ID
+
+                                            <ul>
+                                                <li>
+                                                    <select name="" id="select_de_atividades_disponiveis">
+                                                        <option value="0">Outros.</option>
+                                                    </select>
+                                                </li>
+                                    
+                                                <li id="li_salvar_id" onclick="EditarIdDaFoto(event)"
+                                                style="
+                                                /* opacity: 1; */
+                                                /* visibility: visible; */
+                                                ">Salvar</li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                                <img id="imagemCapturada" src="${foto}" alt="">                
+                                <p id="id-fotos">ID: ${select_das_atividades_disponiveis.value}</p>
+                                <p id="id-fotos">[${hora}:${minuto}] - Legenda: ${legenda.value}</p>
+                            </div>
+                            `;
+                            divPai.innerHTML += container_img;
+                            capturePhoto.push(photoData);
+                            fotos_salvas_local();
+                            photoData = {}; // Limpando para não ficar nada sobre a foto anterior, e limpo para a próxima
+                            
+
+                            
+
+                        } else {
+                            // notificacao(`${retorno.msg}; `, 'error');
+                            console.log(`${retorno.msg}`);
+                            return;
+                        }
+                        
+                    } catch (erro) {
+                        // notificacao('ERRO AO SALVAR A IMAGEM','error');
+                        console.log(`ERRO AO SALVAR A IMAGEM`);
+                        return;
+                    }
+
+                } else {
+                    notificacao("ERRO AO TIRAR FOTO",'error');
+                    console.error(`ERRO >>> ${Error}`);
+                }
+                // legenda.value = '';
+                legenda.style.border = '';
+            }
+
+            // QUANDO ELE APERTAR PARA TIRAR FOTO, INDEPENDENTE SE TIRAR OU NÃO, ELE VAI ATUALIZAR AS ATIVIDADES DISPONÍVEIS;
+            atividades_disponiveis();
+            fotos_salvas_local();
+        }
 
         
+
+        // Função que foca na lógica para identificar se um certo componente esta 'ligado' ou 'desligado'
+        // Para fazer ele aparecer ou desaparecer da tela do usuário
+        let valor = 0;
+        registrar.addEventListener('click', function() {
+            console.log('FUNÇÃO REGISTRAR CHAMADA');
+            let tela = document.getElementById('tela');
+            let tela02 = document.getElementById('tela02');
+            let tirarfoto = document.getElementsByClassName('tirarfoto');
+            
+
+            if (valor == 0) {
+                // alert('IF 01');
+                // alert(`valor: ${valor}`);
+                valor = 1;
+                tela.style.display = 'block';
+                tela.style.opacity = '1';
+                tela.style.visibility = 'visible';
+
+                tela02.style.display = 'block';
+                tela02.style.opacity = '1';
+                tela02.style.visibility = 'visible';
+
+                startCamera(tirarfoto);
+                
+            } else {
+                valor = 0;
+                tela.style.display = 'none';
+                tela.style.opacity = '0';
+                tela.style.visibility = 'hidden';
+
+                tela02.style.display = 'none';
+                tela02.style.opacity = '1';
+                tela02.style.visibility = 'visible';
+
+                stopCamera(tirarfoto);
+                notificacao(`Câmera desligada`,'success');
+            }
+
+            // Função que pede acesso a câmera do usuário para ligar e exibir o cenário
+            // que aparece.
+            async function startCamera() {
+                // alert('Função [ startCamera ] chamada');
+                console.log('FUNÇÃO START CAMERA() CHAMADA');
+
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'environment' // 'user' para camera frontal
+                        }
+                    });
+                    video.srcObject = stream;
+                    currentStream = stream;
+                    notificacao(`Câmera acessada`,'success');
+
+                } catch (err) {
+                    notificacao(`Falha ao conectar com a Câmera;`,'error');
+                    tirarfoto.disabled = true;
+                }
+
+                atividades_disponiveis();
+                fotos_salvas_local();
+            }
+
+        })
+
+
+        fotos_salvas_local();
+
+        // Função que busca as imagens salvas no nome do usuário
+        async function fotos_salvas_local() {
+             
+            try {
+                console.log(`FUNÇÃO 'fotos_salvas_local()'`);
+
+                let nome = urlParams.get('nome');
+                let funcao = urlParams.get('funcao'); // No momento não ta sendo utilizado
+
+                if (!nome) {
+                    console.log("FUNÇÃO: fotos_salvas_local()");
+                    console.log(`NOME: ${nome};`);
+                    return;
+                }
+
+                const nomeDoFuncionario = encodeURIComponent(nome);
+                const resposta = await fetch(`/fotos_salvas_localmente?nome=${nomeDoFuncionario}`);
+                console.log('RESPOSTA: ',resposta);
+                
+                // comando em comentario para mim lembrar (só forma de praticar mesmo)
+                // const resposta = await fetch(`/fotos_salvas_localmente?nome=${nomeDoFuncionario}`, {method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(conteudo)});
+
+            
+
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`${resposta.status} - ERRO ao se comunicar`);
+                    notificacao(`${resposta.status} - ${erro.msg || "Mensagen indisponível"}`);
+                    return;
+                }
+
+
+                const retorno = await resposta.json();
+                
+                if (retorno.success) {
+                    console.log("FUNÇÃO: fotos_salvas_local();");
+                    console.log(`RETORNO: ${retorno}`);
+
+
+                    // Aqui que eu trago as imagens do servidor para carregar
+                    console.log('========================');
+                    console.log('RETORNO: ', retorno.fotos);
+                    let divPai = document.getElementById('fotoscapturadas');
+
+                   divPai.innerHTML = '';
+                   
+
+                    retorno.fotos.forEach(registro => {
+                        console.log(registro);
+
+                        foto = registro.img;
+                        id = registro.id_atividade;
+                        id_unico = registro.id_registro;
+                        legenda = registro.legenda;
+
+
+                        
+                        const container_img = `
+                        <div style="background-color: rgba(175, 175, 175, 0.441);" data-id="${id_unico}">
+                            <div id="container_tres_pontos">
+                                <img id="tres_pontos" src="{{ url_for('static', filename='images/tres_pontos.png') }}" alt="Tres_pontos" onclick="menu(event)">
+                            
+                                <ul id="ul_menu" 
+                                style="">
+                                
+                                    <li onclick="excluir(event)">
+                                        Excluir
+                                    </li>
+
+                                    <li onclick="abrirEditarLegenda(event)" id="EditarLegendaDaFoto">
+                                        Editar a Descrição
+                                        <input type="text" name="" id="inputEditarDescricao" placeholder="Nova Descrição.">
+                                        <li id="li_salvar_descricao" onclick="EditarLegendaDaFoto(event)">Salvar</li>
+                                    </li>
+
+                                    <li onclick="abrirEditarIDdaFoto(event)" id="EditarIDDaFoto" 
+                                    style="
+                                    /* padding-bottom: 100px; */
+                                    ">
+                                        Editar o ID
+
+                                        <ul>
+                                            <li>
+                                                <select name="" id="select_de_atividades_disponiveis">
+                                                    <option value="0">Outros.</option>
+                                                </select>
+                                            </li>
+                                    
+                                            <li id="li_salvar_id" onclick="EditarIdDaFoto(event)"
+                                            style="
+                                            /* opacity: 1; */
+                                            /* visibility: visible; */
+                                            ">Salvar</li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <img id="imagemCapturada" src="${foto}" alt="">                
+                            <p id="id-fotos">ID: ${id}</p>
+                            <p id="id-fotos">${legenda}</p>
+                        </div>
+                        `;
+                        divPai.innerHTML += container_img;
+                        
+
+                    });
+
+                    // if (retorno.fotos.length === 0) {
+                    //     divPai.innerHTML = '';
+                    //     console.log('===============================');
+                    //     console.log('DIV PAI: ',divPai);
+                    //     console.log('lista vazia');
+                    // }
+
+                    
+
+                    console.log('CAPTURE PHOTO', capturePhoto);
+                    console.log('DIV PAI: ', divPai);
+
+                    console.log('========================');
+                    
+                } else {
+                    // preciso montar a mensagem se o retorno de errado
+                    console.log("FUNÇÃO: fotos_salvas_local();");
+                    console.log(`RETORNO: ${retorno}`);
+                    return;
+                }
+
+
+            } catch (erro) {
+                // notificacao(`ERRO AO CARREGAR AS FOTOS SALVAS`,'error');
+                console.log(`ERRO na função 'fotos_salvas_local()'`);
+                return;
+            }
+        }
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // ESSA FUNÇÃÕ É PRA ATIVAR O MENU (ABRI OU FECHAR)
         function menu(event) {
             let tres_pontos = event.target;
@@ -1205,9 +1730,6 @@
                 li_salvar_id.style.visibility = 'hidden';
                 li_salvar_id.style.transform = 'translateY(-10px)';
 
-
-
-
             }
         }
 
@@ -1216,42 +1738,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
         // FUNÇÃO FOCADA EM BUSCAR AS ATIVIDADES DESSA ÁREA ESPECÍFICA
         async function atividades_disponiveis() {
             try {
@@ -1320,7 +1806,7 @@
 
 
 
-
+        // Função focada em buscar atividades disponíveis nessa área, para colocar numa certa área
         async function atividades_disponiveis_select() {
             try {
                 let select = document.getElementById('select_de_atividades_disponiveis');
@@ -1353,28 +1839,11 @@
                 const retorno = await resposta.json();
 
                 if (retorno.success) {
-                    // notificacao(`${retorno.msg}`,'success');
                         select.innerHTML = ``;
                         select.innerHTML = `<option value="0">FORA DE PROGRAMAÇÃO</option>`;
                         retorno.atividades.forEach(atividade => {
                             select.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
-                            // console.log('ATIVIDADE >>', atividade);
                         });
-
-
-                    // select_das_atividades_disponiveis.innerHTML = '';
-                    // retorno.atividades.forEach(atividade => {
-                    //     select_das_atividades_disponiveis.innerHTML += `<option value="${atividade.id_atividade}">${atividade.id_atividade} - ${atividade.descricao}</option>`;
-                    // });
-
-
-
-                    // if (!retorno.atividades || retorno.atividades.length === 0) {
-                    //     notificacao(`Nenhuma atividade encontrada`,'success');
-                    //     return;
-                    // }
-
-
 
                 } else {
                     notificacao(`${retorno.status} ;${retorno.msg}`,'error');
@@ -1389,144 +1858,58 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         // ATUALIZAR AS ATIVIDADES NA HORA QUE ELE CARREGAR A PÁGINA:
         atividades_disponiveis();
 
 
         // FUNÇÃO CRIADA COMO SISTEMA DE NOTFICAÇÃO PARA STATUS POSITIVO E NEGATIVO;
         function notificacao(texto, status, duration = 3000) {
-        const container_da_notificacao = document.getElementById('notificacao_global');
-        const simbolo = document.getElementById('simbolo_da_notificacao');
-        const mensagem = document.getElementById('mensagem');
+            const container_da_notificacao = document.getElementById('notificacao_global');
+            const simbolo = document.getElementById('simbolo_da_notificacao');
+            const mensagem = document.getElementById('mensagem');
 
-        if (!container_da_notificacao || !simbolo || !mensagem) {
-            console.error(`Um ou mais elementos de notificação não foram encontrados`);
-            return;
-        }
-
-
-        if (status === "success") {
-            simbolo.textContent = '✔';
-        } else if (status === "error") {
-            simbolo.textContent = '✖';
-        } else {
-            simbolo.textContent = '';
-        }
-
-        mensagem.textContent = texto;
-
-        container_da_notificacao.classList.remove('notificacao_success', 'notificacao_falha');
-        if (status === 'success') {
-            container_da_notificacao.classList.add('notificacao_success');
-        } else if (status === 'error') {
-            container_da_notificacao.classList.add('notificacao_falha');
-        } 
+            if (!container_da_notificacao || !simbolo || !mensagem) {
+                console.error(`Um ou mais elementos de notificação não foram encontrados`);
+                return;
+            }
 
 
-        container_da_notificacao.classList.add('notificacao_visivel');
-        container_da_notificacao.classList.remove('notificacao_invisivel');
+            if (status === "success") {
+                simbolo.textContent = '✔';
+            } else if (status === "error") {
+                simbolo.textContent = '✖';
+            } else {
+                simbolo.textContent = '';
+            }
 
-        setTimeout(() => {
-            container_da_notificacao.classList.remove('notificacao_visivel');
-            container_da_notificacao.classList.add('notificacao_invisivel');
+            mensagem.textContent = texto;
+
+            container_da_notificacao.classList.remove('notificacao_success', 'notificacao_falha');
+            if (status === 'success') {
+                container_da_notificacao.classList.add('notificacao_success');
+            } else if (status === 'error') {
+                container_da_notificacao.classList.add('notificacao_falha');
+            } 
+
+
+            container_da_notificacao.classList.add('notificacao_visivel');
+            container_da_notificacao.classList.remove('notificacao_invisivel');
 
             setTimeout(() => {
-                simbolo.textContent = '';
-                mensagem.textContent = '';
-            }, 500)
-        }, duration);
-    }
+                container_da_notificacao.classList.remove('notificacao_visivel');
+                container_da_notificacao.classList.add('notificacao_invisivel');
+
+                setTimeout(() => {
+                    simbolo.textContent = '';
+                    mensagem.textContent = '';
+                }, 500)
+            }, duration);
+        }
 
 
 
 
-        let registrar = document.getElementById('registrar');
-        const video = document.getElementById('videoStream');
-        const canvas = document.getElementById('photoCanvas');
-        const context = canvas.getContext('2d');
-        let capturePhoto = [];
-        let currentStream;
-        let tbody = document.getElementById('tbodyEletrica');
-        let deletarFotos = document.getElementById('deletarfoto');
-
-
-
-        // QUANDO EU CLICO NO BOTÃO DE DELETAR FOTOS, ELE VERIFICA AS FOTOS QUE FORAM MARCADAS
-        // PARA SEREM DELETADA (VERSÃO ANTIGA)
-
-        // deletarFotos.addEventListener('click', function(event) {
-        //     const listaDeFotos = document.getElementById('fotoscapturadas');
-        //     console.log('lista de fotos: ', listaDeFotos);
-        //     console.log(' CAPTUREPHOTO: ',capturePhoto);
-
-        //     const divFilho = listaDeFotos.querySelectorAll('div');
-        //     capturePhoto = [];
-
-        //     divFilho.forEach(filho => {
-        //         const img = filho.querySelector('img');
-                
-        //         if (img.style.border == '5px solid red') {
-        //             filho.remove();
-        //             console.log(' - DIV FILHO = DELETADO');
-
-        //         } else {
-        //             // se n for para deletar, após ter zerado a lista, eu vou pegar 
-                        // seus dados e atualizar a lista antes de ser enviado
-        //             const Ps = filho.querySelectorAll('p');
-
-        //             let idd = Ps[0].textContent.trim();
-        //             let legendaa = Ps[1].textContent.trim();
-        //             let srcc = img.src;
-
-        //             const conteudo = {
-        //                 id: idd,
-        //                 legenda: legendaa,
-        //                 imagemData: srcc
-        //             };
-        //             capturePhoto.push(conteudo);
-        //         }
-        //     });
-        //     console.log(' CAPTUREPHOTO: ',capturePhoto);
-        // })
-
-
-        
-
-
-
+    
         async function tabelaEletrica() {
             // atividades de mecanica
             // atividades de pintura
@@ -1579,244 +1962,9 @@
         setInterval(tabelaEletrica, 3000);
 
         
-
-        function TirarFoto() {
-
-            // let id = document.getElementById('inputID');
-            let select_das_atividades_disponiveis = document.getElementById('atividades_disponiveis');
-            let legenda = document.getElementById('inputLegenda');
-            let divPai = document.getElementById('fotoscapturadas');
-            const fotosarmazenadas = [];
-            // capturePhoto = []; // limpar antes de usar
-
-
-            if (select_das_atividades_disponiveis.value == '' && legenda.value == '') {
-                // id.style.border = '2px solid red';
-                legenda.style.border = '2px solid red';
-
-            } else if (select_das_atividades_disponiveis.value == '') {
-                legenda.style.border = '';
-                notificacao(`Sem atividade para registrar, feche a câmera`,'error')
-                // id.style.border = '2px solid red';
-
-            } else if (legenda.value == '') {
-                legenda.style.border = '2px solid red';
-                // id.style.border = '';
-
-            } else {
-                legenda.style.border = '2px solid green';
-                // id.style.border = '2px solid green';
-
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    // alert('foto capturada com sucesso 316');
-
-                    let divFilho = document.createElement('div');
-                    // divFilho.id = 'fotoscapturadas';
-
-                    const foto = canvas.toDataURL('image/jpeg');
-                    // let imagem = document.createElement('img');
-
-                    // let pID = document.createElement('p');
-                    // let pLEGENDA = document.createElement('p');
-
-                    let data = new Date();
-                    let hora = data.getHours();
-                    let minuto = data.getMinutes();
-
-                    if (minuto < 10) {
-                        minuto = `0${minuto}`;
-                    }
-
-                    if (hora < 10) {
-                        hora = `0${hora}`;
-                    }
-
-                    
-                    // pID.id = 'id-fotos';
-                    // pID.textContent = `${select_das_atividades_disponiveis.value}`;
-                    // pID.innerHTML = `ID: ${id.value}`;
-
-
-                    // pLEGENDA.id = 'id-fotos';
-                    // pLEGENDA.textContent = `[${hora}:${minuto}] - Legenda: ${legenda.value}`;
-
-
-                    // imagem.id = 'imagemCapturada';
-                    // imagem.src = foto;
-
-                    // ATUALIZAÇÃO //
-                    // divPai.appendChild(`
-
-                    // `);
-                    // ATUALIZAÇÃO //
-
-                    // VERSÃO ANTIGA
-                    // divFilho.appendChild(imagem);
-                    // divFilho.appendChild(pID);
-                    // divFilho.appendChild(pLEGENDA);
-                    // divPai.appendChild(divFilho);
-
-                    // VERSÃO ANTIGA
-
-                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    const container_img = `
-                    <div style="background-color: rgba(175, 175, 175, 0.441);">
-                        <div id="container_tres_pontos">
-                            <img id="tres_pontos" src="{{ url_for('static', filename='images/tres_pontos.png') }}" alt="Tres_pontos" onclick="menu(event)">
-                            
-                            <ul id="ul_menu" 
-                            style="">
-                                
-                                <li onclick="excluirFoto(event)">
-                                    Excluir
-                                </li>
-
-                                <li onclick="abrirEditarLegenda(event)" id="EditarLegendaDaFoto">
-                                    Editar a Descrição
-                                    <input type="text" name="" id="inputEditarDescricao" placeholder="Nova Descrição.">
-                                    <li id="li_salvar_descricao" onclick="EditarLegendaDaFoto(event)">Salvar</li>
-                                </li>
-
-                                <li onclick="abrirEditarIDdaFoto(event)" id="EditarIDDaFoto" 
-                                style="
-                                /* padding-bottom: 100px; */
-                                ">
-                                    Editar o ID
-
-                                    <ul>
-                                        <li>
-                                            <select name="" id="select_de_atividades_disponiveis">
-                                                <option value="0">Outros.</option>
-                                            </select>
-                                        </li>
-                                    
-                                        <li id="li_salvar_id" onclick="EditarIdDaFoto(event)"
-                                        style="
-                                        /* opacity: 1; */
-                                        /* visibility: visible; */
-                                        ">Salvar</li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </div>
-
-                        <img id="imagemCapturada" src="${foto}" alt="">                
-                        <p id="id-fotos">ID: ${select_das_atividades_disponiveis.value}</p>
-                        <p id="id-fotos">[${hora}:${minuto}] - Legenda: ${legenda.value}</p>
-                    </div>
-                    `;
-                    divPai.innerHTML += container_img;
-
-
-
-                    
-                    
-                    //essa é outra parte que tenho que trabalhar.
-                    const imageDataURL = canvas.toDataURL('image/jpeg');
-
-
-                    const photoData = {
-                        id: select_das_atividades_disponiveis.value,
-                        legenda: `[${hora}:${minuto}] - ${legenda.value}`,
-                        imagemData: imageDataURL
-                    };
-                    capturePhoto.push(photoData);
-
-                } else {
-                    console.log('Foto capturada com sucesso, linha 301');
-                    notificacao("ERRO AO TIRAR FOTO",'error');
-                    console.error(`ERRO >>> ${Error}`);
-                }
-
-                legenda.value = '';
-                // id.value = '';
-                legenda.style.border = '';
-                // id.style.border = '';
-            }
-
-            // QUANDO ELE APERTAR PARA TIRAR FOTO, INDEPENDENTE SE TIRAR OU NÃO, ELE VAI ATUALIZAR AS ATIVIDADES DISPONÍVEIS;
-            atividades_disponiveis();
-            
-        }
-
-
-
-
-        async function enviarFotos() {
-            try {
-                // let id = document.getElementById('inputID');
-                let legenda = document.getElementById('inputLegenda');
-                let divPai = document.getElementById('fotoscapturadas');
-
-                console.log('DivPai: '+divPai);
-                console.log('CAPTUREPHOTO: '+capturePhoto);
-
-                const resposta = await fetch('/album_de_fotos_das_atividades', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify(capturePhoto)
-                });
-
-                
-                if (!resposta.ok) {
-                    const erro = await resposta.json().catch(() => ({}));
-                    console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                    // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                    notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
-                    return;
-                }
-
-                const retorno = await resposta.json();
-                if (retorno.success) {
-                    console.log(`Mensagem do servidor: ${retorno.msg}`);
-                    notificacao(`${retorno.msg}`,"success");
-
-                    // id.value = '';
-                    legenda.value = '';
-                    divPai.innerHTML = '';
-                    capturePhoto = [];
-
-                } else {
-                    console.log(`ERRO do servidor: ${retorno.msg}`);
-                    notificacao(`${retorno.msg}`,'error');
-                }
-
-            } catch (erro) {
-                console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
-                // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
-                notificacao(`Verifique sua conexão, ${erro}`,'error');
-            }
-
-            atividades_disponiveis();
-        }
-
-
-
-
-        // FUNÇÃO QUE COLOCA COR VERMELHA NA IMAGEM QUANDO ELA É CLICADA;
-        // DETECTA A FUNÇÃO QUE EU CLIQUEI;
-        // let grupo = document.getElementById('fotoscapturadas');
-        // grupo.addEventListener('click', function(event) {
-            
         
-        //     // let objeto = event.target;
-        //     let foto = event.target;
-            
-        //     // const divFoto = objeto.parentElement;
-        //     const divFoto = foto.parentElement;
-        //     console.log('Div da foto: ', divFoto);
 
-        //     const listaP = divFoto.querySelectorAll('p');
-        // })
-
-
-
+        // Função Focada em fecha o bloco onde aparece a câmera ('Um quadrado')
         function stopCamera() {
             if (currentStream) {
                 // Percorre cada track (faixa) do stream (vídeo, áudio)
@@ -1830,84 +1978,5 @@
 
 
 
-
-
-
-        let valor = 0;
-
-        registrar.addEventListener('click', function() {
-            console.log('FUNÇÃO REGISTRAR CHAMADA');
-            let tela = document.getElementById('tela');
-            let tela02 = document.getElementById('tela02');
-            let tirarfoto = document.getElementsByClassName('tirarfoto');
-            
-
-            if (valor == 0) {
-                // alert('IF 01');
-                // alert(`valor: ${valor}`);
-                valor = 1;
-                tela.style.display = 'block';
-                tela.style.opacity = '1';
-                tela.style.visibility = 'visible';
-
-                tela02.style.display = 'block';
-                tela02.style.opacity = '1';
-                tela02.style.visibility = 'visible';
-
-                startCamera(tirarfoto);
-                
-                // tela.classList.remove('tela_ativa');
-                // tela02.classList.remove('tela_ativa');
-
-                // tela.addEventListener('transitionend', function esconderHande() {
-                //     if (!tela.classList.contains('tela_ativa')) {
-                //         alert('IF 02');
-                //         tela.style.display = 'none';
-                //         tela02.style.display = 'none';
-                //         tela.removeEventListener('transitionend', esconderHande);
-                //     }
-                // });
-                // stopCamera();
-            } else {
-                // alert('ELSE 01');
-                // alert(`valor: ${valor}`);
-                valor = 0;
-                tela.style.display = 'none';
-                tela.style.opacity = '0';
-                tela.style.visibility = 'hidden';
-
-                tela02.style.display = 'none';
-                tela02.style.opacity = '1';
-                tela02.style.visibility = 'visible';
-
-                stopCamera(tirarfoto);
-                notificacao(`Câmera desligada`,'success');
-            }
-
-            async function startCamera() {
-                // alert('Função [ startCamera ] chamada');
-                console.log('FUNÇÃO START CAMERA() CHAMADA');
-
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: 'environment' // 'user' para camera frontal
-                        }
-                    });
-                    video.srcObject = stream;
-                    currentStream = stream;
-                    notificacao(`Câmera acessada`,'success');
-
-                } catch (err) {
-                    notificacao(`Falha ao conectar com a Câmera;`,'error');
-                    tirarfoto.disabled = true;
-                }
-
-                atividades_disponiveis();
-            }
-
-        })
-
     </script>
-</body>
 </html>
