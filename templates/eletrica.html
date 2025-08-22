@@ -905,21 +905,7 @@
             try {
                 const listaDeFotos = document.getElementById('fotoscapturadas');
                 const DivDaFoto = event.target.closest('[data-id]'); 
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-                // console.log(`[ LISTA DE FOTOS ] = `, listaDeFotos);
-                // console.log(`[ CAPTUREPHOTO ] = `,capturePhoto);
-                // console.log(`[ DIV DA FOTO ] = `,DivDaFoto);
-                // console.log(`[ID_ÚNICO DA FOTO ] = `,DivDaFoto.dataset.id);
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-                // console.log('=');
-
+                
                 try {
 
                     const pacote = {
@@ -992,7 +978,7 @@
                 botaoSalvar.style.transform = 'translateY(0px)';
 
             } catch (erro) {
-                notificacao('ERRO AO EDITAR','error');
+                // notificacao('ERRO AO EDITAR','error');
                 console.log('ERRO DETECTADO, FUNÇÃO: Editar Legenda Da Foto');
                 console.log(`ERRO: ${erro}`);
             }
@@ -1002,6 +988,9 @@
 
         // FUNÇÃO FOCADA EM EDITAR A LEGENDA DA IMAGEM ESPECÍFICA
         async function EditarLegendaDaFoto(event) {
+            console.log(' ');
+            console.log('- FUNÇÃO EDITAR LEGENDA DA FOTO ATIVADA');
+            console.log(' ');
             try{
                 let menu = event.target.parentElement;
                 let inputNovaLegenda = menu.querySelector('#inputEditarDescricao');
@@ -1021,58 +1010,38 @@
                     // Encontra o ponto de separação  na str
                     const separador = ' - Legenda: ';
                     const indiceDoSeparador = legendaOriginal.indexOf(separador);
-
-                    if (indiceDoSeparador !== -1) {
-                        const parteParaManter = legendaOriginal.substring(0, indiceDoSeparador + separador.length);
-                        const novoTextoCompleto = parteParaManter + novaLegenda;
-
-                        // Tenho que pegar esse novo texto e inserir na imagem;
-
-                        legenda.textContent = novoTextoCompleto;
+                    const parteParaManter = legendaOriginal.substring(0, indiceDoSeparador + separador.length);
+                    const novoTextoCompleto = parteParaManter + novaLegenda;
+                    console.log(' TESTE ');
 
 
-                        // AQUI ACONTECE ATUALIZAÇÃO DA LISTA QUE REALMENTE VAI SER ENVIADO PARA
-                        // PARA O BANCO DE DADOS
-                        capturePhoto = [];
-                        const listaDeFotos = document.getElementById('fotoscapturadas');
-                        const divFilho = listaDeFotos.querySelectorAll('div');
-                        divFilho.forEach(filho => {
-                            // const img = filho.querySelector('img');
-                            const imagens = filho.querySelectorAll('img');
-                            const foto = imagens[1];
-                            const paragrafos = filho.querySelectorAll('p');
-                            const idd = paragrafos[0].textContent.trim();
-                            const legendaa = paragrafos[1].textContent.trim();
-                            const srcc = foto.src;
 
-                            const conteudo = {
-                                id:idd,
-                                legenda:legendaa,
-                                imagemData:srcc
-                            };
-                            capturePhoto.push(conteudo);
-                        });
+                    const conteudo = {
+                        'id_da_foto':DivDaFoto.dataset.id,
+                        'nova_legenda':novaLegenda
+                    };
 
-                        inputNovaLegenda.value = '';
+                    const resposta = await fetch('/EditarDescricaoDaFoto', {method: 'POST', headers: {'Content-Type':'application/json'},body:JSON.stringify(conteudo)});
 
-                        let li_editar_descricao = menu.querySelector('#EditarLegendaDaFoto');
-                        let botaoSalvar = menu.querySelector('#li_salvar_descricao');
+                    if (!resposta.ok) {
+                        console.log("ERRO AO EDITAR DESCRIÇÃO DA FOTO");
+                        notificacao(`Erro ao editar descrição da foto`,'error');
+                        return;
+                    }
 
-                        li_editar_descricao.style.paddingBottom = '0px';
-                        inputNovaLegenda.style.display = 'none';
-                        inputNovaLegenda.style.opacity = '0';
-                        inputNovaLegenda.style.visibility = 'hidden';
-                        inputNovaLegenda.style.transform = 'translateY(0px)';
+                    const retorno = await resposta.json();
 
-                        botaoSalvar.style.display = 'none';
-                        botaoSalvar.style.opacity = '0';
-                        botaoSalvar.style.visibility = 'hidden';
-                        botaoSalvar.style.transform = 'translateY(0px)';
+                    if (retorno.success) {
+                        // Após a confirmação do servidor, a gente pode atualizar a lista de fotos, onde
+                        // Vai vim com as alterações feitas.
+                        console.log('Success ao Editar descrição da foto');
+                        fotos_salvas_local();
+                        console.log('- Lista de atividades atualizada (função: Editar Legenda da Foto)');
 
 
                     } else {
-                        notificacao('Erro ao editar a descrição', 'error');
-                        console.log('ERRO no IF do "indiceDoSeparador"');
+                        console.log('Falha ao editar a descrição da foto');
+                        return;
                     }
                 }
                 
@@ -1084,6 +1053,7 @@
                 console.log('===================================================');
 
             }
+
         }
 
 
@@ -1149,9 +1119,10 @@
                 if (select_de_atividades_disponiveis.value == '') {
                     notificacao('CAMPO Vazio, por favor digite o ID da atividade','error');
                     return;
+
                 } else {
                     // alert(`NOVO valor: ${select_de_atividades_disponiveis.value}`);
-                    IdAtual.textContent = `${select_de_atividades_disponiveis.value}`;
+                    // IdAtual.textContent = `${select_de_atividades_disponiveis.value}`;
 
                     // Após a alteração, atualizar a lista de fotos que será enviada
 
@@ -1162,25 +1133,39 @@
                     capturePhoto = [];
                     const listaDeFotos = document.getElementById('fotoscapturadas');
                     const divFilho = listaDeFotos.querySelectorAll('div');
-                    
-                    divFilho.forEach(filho => {
-                        if (filho.querySelectorAll('p').length == '2') {
-                            console.log(filho);
-                            const foto = filho.querySelector('#imagemCapturada');
-                            const paragrafos = filho.querySelectorAll('p');
-                            const idd = paragrafos[0].textContent;
-                            const legendaa = paragrafos[1].textContent;
-                            const srcc = foto.src;
-                            
-                            const conteudo = {
-                                id:idd,
-                                legenda:legendaa,
-                                imagemData:srcc
-                            };
-                            capturePhoto.push(conteudo);
+                    const foto = divFilho[0];
+                    const id = foto.dataset.id;
+                    // const id = divFilho.dataset.id;
 
-                        }
-                    });
+                    const conteudo = {
+                        'id_da_foto': id,
+                        'novo_id':select_de_atividades_disponiveis.value
+                    }
+
+                    const resposta = await fetch('/Editar_id_da_foto', {method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(conteudo)});
+
+                    if (!resposta.ok) {
+                        console.log("ERRO DE COMUNICAÇÃO, FUNÇÃO EDITAR ID DA FOTO");
+                        return;
+                    }
+
+                    const retorno = await resposta.json();
+
+                    if (retorno.success) {
+                        //  Se der certo a gente atualiza a lista de fotos
+                        console.log('FUNÇÃO: EDITAR ID DA FOTO');
+                        console.log(`STATUS: ${retorno.success}`);
+                        console.log(`MSG: ${retorno.msg}`);
+                        fotos_salvas_local();
+
+
+
+                    } else {
+                        console.log('FUNÇÃO: EDITAR ID DA FOTO');
+                        console.log(`STATUS: ${retorno.success}`);
+                        console.log(`MSG: ${retorno.msg}`);
+                        return;
+                    }
                 }
                 
             } catch (erro) {
@@ -1193,6 +1178,8 @@
 
 
 
+
+
         // Função que envia todas as fotos armazenada localmente (que aparece na sua tela)
         async function enviarFotos() {
             try {
@@ -1200,43 +1187,53 @@
                 let legenda = document.getElementById('inputLegenda');
                 let divPai = document.getElementById('fotoscapturadas');
 
-                console.log('DivPai: '+divPai);
-                console.log('CAPTUREPHOTO: '+capturePhoto);
+                // console.log('CAPTUREPHOTO: '+capturePhoto);
+
+
+                console.log('=');
+                console.log('=');
+                console.log(' - PAINEL DE VALORES -');
+                console.log(' [ LEGENDA ] = ',legenda);
+                console.log(' [ DIV PAI ] = ',divPai);
+                console.log(' [ CAPTUREPHOTO ] = ',capturePhoto);
+                console.log('=');
+                console.log('=');
+
                 
 
-                const resposta = await fetch('/album_de_fotos_das_atividades', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify(capturePhoto)
-                });
+                // const resposta = await fetch('/album_de_fotos_das_atividades', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type':'application/json'
+                //     },
+                //     body: JSON.stringify(capturePhoto)
+                // });
 
                 // const resposta = await fetch('/', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(capturePhoto)});
 
                 
-                if (!resposta.ok) {
-                    const erro = await resposta.json().catch(() => ({}));
-                    console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                    // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                    notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
-                    return;
-                }
+                // if (!resposta.ok) {
+                //     const erro = await resposta.json().catch(() => ({}));
+                //     console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                //     // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
+                //     notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
+                //     return;
+                // }
 
-                const retorno = await resposta.json();
-                if (retorno.success) {
-                    console.log(`Mensagem do servidor: ${retorno.msg}`);
-                    notificacao(`${retorno.msg}`,"success");
+                // const retorno = await resposta.json();
+                // if (retorno.success) {
+                //     console.log(`Mensagem do servidor: ${retorno.msg}`);
+                //     notificacao(`${retorno.msg}`,"success");
 
-                    // id.value = '';
-                    legenda.value = '';
-                    divPai.innerHTML = '';
-                    capturePhoto = []; // Aqui fica as fotos que aparece na tela do usuário
+                //     // id.value = '';
+                //     legenda.value = '';
+                //     divPai.innerHTML = '';
+                //     capturePhoto = []; // Aqui fica as fotos que aparece na tela do usuário
 
-                } else {
-                    console.log(`ERRO do servidor: ${retorno.msg}`);
-                    notificacao(`${retorno.msg}`,'error');
-                }
+                // } else {
+                //     console.log(`ERRO do servidor: ${retorno.msg}`);
+                //     notificacao(`${retorno.msg}`,'error');
+                // }
 
             } catch (erro) {
                 console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
@@ -1392,6 +1389,8 @@
                                 <p id="id-fotos">[${hora}:${minuto}] - Legenda: ${legenda.value}</p>
                             </div>
                             `;
+                            
+
                             divPai.innerHTML += container_img;
                             capturePhoto.push(photoData);
                             fotos_salvas_local();
@@ -1600,6 +1599,7 @@
                             <p id="id-fotos">${legenda}</p>
                         </div>
                         `;
+                        // [15:45] - Legenda: valor
                         divPai.innerHTML += container_img;
                         
 

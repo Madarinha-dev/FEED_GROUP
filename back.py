@@ -97,21 +97,131 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/Editar_id_da_foto', methods=['POST'])
+def editar_id_da_foto_localmente():
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Editar ID Da Foto" Ativada')
+    print('============================================')
+    print(' ')
+
+    try: 
+        dados = request.get_json()
+        id_da_foto = dados.get('id_da_foto')
+        novo_id = dados.get('novo_id')
+        foto_atual = RegistroLocal.query.get(id_da_foto)
+
+        if not id_da_foto:
+            return jsonify({
+                'success':False,
+                'msg':'ID não fornecido, Por favor fornceça um ID'
+            }), 400
+        
+        if not novo_id:
+            return jsonify({
+                'success':False,
+                'msg':'Qual será o ID novo?'
+            }), 400
+
+        if foto_atual:
+           foto_atual.id_atividade = novo_id
+           db.session.commit() 
+
+           return jsonify({
+               'success':True,
+               'msg':f'Imagem de ID: {id_da_foto} Editada com succeso'
+           }), 200
+        
+        else:
+            return jsonify({
+                'success':False,
+                'msg':f'Registro com ID: {id_da_foto} não encontrado'
+            }), 404
+
+        
+    except Exception as erro:
+        db.session.rollback()
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Editar ID Da Foto"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
+
+        return jsonify({
+            "success":False,
+            "msg":f'ERRO no servidor interno ao Editar o ID {id_da_foto} da foto'
+        }), 500
+
+        
+
+
+
+
+@app.route('/EditarDescricaoDaFoto', methods=['POST'])
+def editar_legenda_da_foto():
+    print(' ')
+    print('============================================')
+    print('FUNÇÃO: "Editar Legenda da Foto" ATIVADA')
+    print('============================================')
+    print(' ')
+
+    try: 
+        dados = request.get_json()
+        id = dados.get('id_da_foto')
+        nova_legenda = dados.get('nova_legenda')
+        # foto_que_vai_ser_deletada = RegistroLocal.query.get(id_para_deletar)
+        foto_atual = RegistroLocal.query.get(id)
+
+        parte_da_legenda = foto_atual.legenda.split(' - ')
+        hora = parte_da_legenda[0]
+        nova_legenda_completa = f'{hora} - {nova_legenda}'
+
+        foto_atual.legenda = nova_legenda_completa
+        db.session.commit()
+
+        return jsonify({
+            "success":True,
+            "msg":"Sucesso ao editar a descrição da imagem"
+        }), 200
+
+
+
+    except Exception as erro:
+        db.session.rollback()
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Editar Legenda da Foto"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
+
+        return jsonify({
+            "success":False,
+            "msg":"ERRO no Servidor interno ao tentar Editar Legenda da foto"
+        }), 500
+
+
+    
+
+
 @app.route('/deletar_foto_localmente', methods=['POST'])
 def deletar_foto_localmente():
+
+    print(' ')
     print('============================================')
     print("FUNÇÃO: 'Deletar Foto Localmente' ATIVADA")
     print('============================================')
+    print(' ')
 
     try:
         dados = request.get_json()
         id_para_deletar = dados.get('id_unico')
 
-        print('=============')
-        print('VERIFICAÇÃO DE TIPO')
-        print(f"Valor recebido para 'id_unico': '{id_para_deletar}'")
-        print(f"Tipo de 'id_para_deletar': {type(id_para_deletar)}")
-        print('=============')
 
         if not id_para_deletar:
             return jsonify({
@@ -141,11 +251,13 @@ def deletar_foto_localmente():
     except Exception as erro:
         db.session.rollback()
 
+        print(' ')
         print('============================================')
         print('ERRO DETECTADO FUNÇÃO: "Deletar Foto Localmente"')
         print(f'Tipo de erro: {type(erro)}')
         print(f'Descrição: {str(erro)}')
         print('============================================')
+        print(' ')
 
         return jsonify({
             "success":False,
@@ -157,9 +269,12 @@ def deletar_foto_localmente():
 
 @app.route('/adicionar_foto_na_tabela_temporaria_ou_pessoal', methods=['POST'])
 def adicionar_fotos_temporaria_ou_pessoal():
+
+    print(' ')
     print('============================================')
     print("FUNÇÃO: 'Adicionar fotos temporaria' ATIVADA")
     print('============================================')
+    print(' ')
 
     try:
         dados = request.get_json()
@@ -206,11 +321,13 @@ def adicionar_fotos_temporaria_ou_pessoal():
     except Exception as erro:
         db.session.rollback()
 
+        print(' ')
         print('============================================')
         print('ERRO DETECTADO FUNÇÃO: "Adicionar fotos temporaria"')
         print(f'Tipo de erro: {type(erro)}')
         print(f'Descrição: {str(erro)}')
         print('============================================')
+        print(' ')
 
         return jsonify({
             "success":False,
@@ -223,9 +340,12 @@ def adicionar_fotos_temporaria_ou_pessoal():
 
 @app.route('/fotos_salvas_localmente', methods=['GET'])
 def fotos_salvas_localmente():
+
+    print(' ')
     print('============================================')
     print("FUNÇÃO 'FOTOS SALVAS LOCALMENTE ATIVADA' ")
     print('============================================')
+    print(' ')
     
     try:
         nome_do_funcionario = request.args.get('nome')
@@ -269,11 +389,13 @@ def fotos_salvas_localmente():
     except Exception as erro:
         db.session.rollback()
 
+        print(' ')
         print('============================================')
         print('ERRO DETECTADO FUNÇÃO: /fotos_salvas_localmente')
         print(f'Tipo de erro: {type(erro)}')
         print(f'Descrição: {str(erro)}')
         print('============================================')
+        print(' ')
 
         return jsonify({
             "success":False,
