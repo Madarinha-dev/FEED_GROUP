@@ -96,6 +96,68 @@ def index():
     print(')')
     return render_template('index.html')
 
+@app.route('/album_de_fotos_das_atividades', methods=['POST'])
+def album():
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Album De Fotos Das Atividades" Ativada ')
+    print('============================================')
+    print(' ')
+
+    try:
+        dados = request.get_json()
+        nome = dados.get('nome')
+
+        if not nome:
+            return jsonify({
+                'success':False,
+                'msg':f'Usuário sem nome, por favor fornecer o usuário'
+            }), 400
+        
+        fotos_locais = RegistroLocal.query.filter_by(nome_do_funcionario=nome).all()
+
+        if not fotos_locais:
+            return jsonify({
+                'success':False,
+                'msg':f'Fotos associadas ao {nome} Não foram encontradas'
+            }),404
+        
+    
+        for foto in fotos_locais:
+            novo_registro = Registro(
+                id_atividade=foto.id_atividade,
+                legenda=foto.legenda,
+                img=foto.img
+            )
+            db.session.add(novo_registro)
+            db.session.delete(foto)
+        db.session.commit()
+
+
+        return jsonify({
+            'success':True,
+            'msg':f'Fotos de {nome} Enviadas com succeso'
+        }), 200
+    
+    except Exception as erro:
+        db.session.rollback()
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Album De Fotos Das Atividades"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
+
+        return jsonify({
+            "success":False,
+            "msg":f'ERRO no servidor interno ao Enviar as fotos'
+        }), 500
+
+
+    
+
 
 @app.route('/Editar_id_da_foto', methods=['POST'])
 def editar_id_da_foto_localmente():
@@ -598,64 +660,6 @@ def exibir_registro():
             'success':False,
             'msg':'ERRO ao exibir os registros'
         }), 500
-
-
-
-
-
-
-
-@app.route('/album_de_fotos_das_atividades', methods=['POST'])
-def album():
-    try: 
-        dados = request.get_json()
-
-        for a in dados:
-            print('')
-            print('=')
-            print(f'ID: {a["id"]}')
-            print(f'LEGENDA: {a["legenda"]}')
-            print('=')
-
-
-            # Novidade
-            id_str = str(a["id"])
-            id_sem_texto = id_str.replace('ID: ','')
-            #/ Novidade
-            
-            id_atividade = int(id_sem_texto)
-            legenda = str(a['legenda'])
-
-            imagem_base64_com_prefixo = a['imagemData']
-            _, encoded_image = imagem_base64_com_prefixo.split(',', 1)
-            imagem_bytes = base64.b64decode(encoded_image)
-
-            novo_registro = Registro(
-                id_atividade=id_atividade,
-                legenda=legenda,
-                img=imagem_bytes
-            )
-
-            db.session.add(novo_registro)
-        db.session.commit()
-        
-        return jsonify({
-            "success":True,
-            "msg":"REGISTRO ENVIADO COM SUCCESS"
-        }), 200
-    
-    except Exception as erro:
-        db.session.rollback()
-        print('ERRO DETECTADO, FUNÇÃO: ALBUM')
-        print(f'TIPO DE ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO DO ERRO: {str(erro)}')
-
-        return jsonify({
-            "success":False,
-            "msg":"ERRO AO ENVIAR SEUS REGISTROS"
-        }), 500
-
-
 
 
 

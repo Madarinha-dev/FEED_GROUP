@@ -894,6 +894,8 @@
         let currentStream;
         let tbody = document.getElementById('tbodyEletrica'); // Exibi as atividades na tabela principal na tela
         let deletarFotos = document.getElementById('deletarfoto'); // Creio que essa função morreu, depois faço um dia de limpeza de código, deixar organizado
+        let DivDasFotos = document.getElementById('fotoscapturadas');
+        console.log(' [DIV DAS FOTOS ] = ',DivDasFotos);
 
 
         
@@ -1182,69 +1184,69 @@
 
         // Função que envia todas as fotos armazenada localmente (que aparece na sua tela)
         async function enviarFotos() {
+            console.log(' ANTES - [DIV DAS FOTOS ] = ',DivDasFotos);
+            console.log(' ZERANDO ');
+            DivDasFotos.innerHTML = ``;
+
             try {
                 // let id = document.getElementById('inputID');
                 let legenda = document.getElementById('inputLegenda');
                 let divPai = document.getElementById('fotoscapturadas');
-
+                let funcionario = urlParams.get('nome');
+                const listaDeFotos = document.getElementById('fotoscapturadas');
                 // console.log('CAPTUREPHOTO: '+capturePhoto);
 
+                const conteudo = {
+                    'nome':funcionario
+                }
 
-                console.log('=');
-                console.log('=');
-                console.log(' - PAINEL DE VALORES -');
-                console.log(' [ LEGENDA ] = ',legenda);
-                console.log(' [ DIV PAI ] = ',divPai);
-                console.log(' [ CAPTUREPHOTO ] = ',capturePhoto);
-                console.log('=');
-                console.log('=');
+                const resposta = await fetch('/album_de_fotos_das_atividades', {method: 'POST', headers: {'Content-Type':'application/json'}, body:JSON.stringify(conteudo)});
 
-                
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg || 'Mensagem indisponível'}`);
+                    notificacao(`${resposta.status} - ${erro.msg || "Mensagem indisponível"}`,'error');
+                    return;
+                }
 
-                // const resposta = await fetch('/album_de_fotos_das_atividades', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type':'application/json'
-                //     },
-                //     body: JSON.stringify(capturePhoto)
-                // });
+                const retorno = await json();
 
-                // const resposta = await fetch('/', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(capturePhoto)});
+                if (retorno.success) {
+                    console.log(`Mensagem do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,"success");
+                    listaDeFotos.innerHTML = ``;
+                    legenda.value = '';
+                    divPai.innerHTML = '';
+                    fotos_salvas_local();
 
-                
-                // if (!resposta.ok) {
-                //     const erro = await resposta.json().catch(() => ({}));
-                //     console.error(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                //     // alert(`ERRO HTTP: ${resposta.status}: MSG: ${erro.msg}`);
-                //     notificacao(`${resposta.status}; ${erro.msg || "Erro ao enviar"}`,'error');
-                //     return;
-                // }
+                    console.log(' ');
+                    console.log('=============');
+                    console.log('- VALORES -');
+                    console.log(' [ LEGENDA ] = ',legenda);
+                    console.log(' [ DIV PAI ] = ',divPai);
+                    console.log(' [ FUNCIONARIO ] = ',funcionario);
+                    console.log(' [ RETORNO ] = ',retorno);
+                    console.log(' [ CAPUTREPHOTO ] = ',capturePhoto);
+                    console.log('=============');
+                    console.log(' ');
 
-                // const retorno = await resposta.json();
-                // if (retorno.success) {
-                //     console.log(`Mensagem do servidor: ${retorno.msg}`);
-                //     notificacao(`${retorno.msg}`,"success");
-
-                //     // id.value = '';
-                //     legenda.value = '';
-                //     divPai.innerHTML = '';
-                //     capturePhoto = []; // Aqui fica as fotos que aparece na tela do usuário
-
-                // } else {
-                //     console.log(`ERRO do servidor: ${retorno.msg}`);
-                //     notificacao(`${retorno.msg}`,'error');
-                // }
+                } else {
+                    console.log(`ERRO do servidor: ${retorno.msg}`);
+                    notificacao(`${retorno.msg}`,'error');
+                    fotos_salvas_local();
+                    return;
+                }
 
             } catch (erro) {
                 console.log(`ERRO ao processar os dados. Verifique a conexão. MSG: ${erro}`);
+                fotos_salvas_local();
                 // alert(`ERRO ao processar os dados. Verifique sua conexão: ${erro}`);
-                notificacao(`Verifique sua conexão, ${erro}`,'error');
+                // notificacao(`Verifique sua conexão, ${erro}`,'error');
+                return;
             }
-
+            console.log(' [DIV DAS FOTOS ] = ',DivDasFotos);
             atividades_disponiveis();
         }
-
-
 
 
 
@@ -1336,11 +1338,11 @@
                         const retorno = await resposta.json();
 
                         if (retorno.success) {
-                            console.log('===========================');
-                            console.log('FOTO SALVA NA TABELA TEMPORARIA');
-                            console.log(`MSG DO SERVIDOR: ${retorno.msg}`);
-                            console.log(`Conteudo: `, retorno);
-                            console.log('===========================');
+                            // console.log('===========================');
+                            // console.log('FOTO SALVA NA TABELA TEMPORARIA');
+                            // console.log(`MSG DO SERVIDOR: ${retorno.msg}`);
+                            // console.log(`Conteudo: `, retorno);
+                            // console.log('===========================');
 
                             const container_img = `
                             <div style="background-color: rgba(175, 175, 175, 0.441);" data-id="${retorno.id_unico}">
@@ -1386,13 +1388,13 @@
 
                                 <img id="imagemCapturada" src="${foto}" alt="">                
                                 <p id="id-fotos">ID: ${select_das_atividades_disponiveis.value}</p>
-                                <p id="id-fotos">[${hora}:${minuto}] - Legenda: ${legenda.value}</p>
+                                <p id="id-fotos">[${hora}:${minuto}] - ${legenda.value}</p>
                             </div>
                             `;
                             
 
                             divPai.innerHTML += container_img;
-                            capturePhoto.push(photoData);
+                            // capturePhoto.push(photoData);
                             fotos_salvas_local();
                             photoData = {}; // Limpando para não ficar nada sobre a foto anterior, e limpo para a próxima
                             
@@ -1402,6 +1404,7 @@
                         } else {
                             // notificacao(`${retorno.msg}; `, 'error');
                             console.log(`${retorno.msg}`);
+                            divPai.innerHTML = ``;
                             return;
                         }
                         
@@ -1540,6 +1543,11 @@
                     let divPai = document.getElementById('fotoscapturadas');
 
                    divPai.innerHTML = '';
+
+                   if (retorno.fotos.length === 0) {
+                    divPai.innerHTML = '';
+                    return;
+                   }
                    
 
                     retorno.fotos.forEach(registro => {
@@ -1599,10 +1607,7 @@
                             <p id="id-fotos">${legenda}</p>
                         </div>
                         `;
-                        // [15:45] - Legenda: valor
                         divPai.innerHTML += container_img;
-                        
-
                     });
 
                     // if (retorno.fotos.length === 0) {
@@ -1616,9 +1621,6 @@
 
                     console.log('CAPTURE PHOTO', capturePhoto);
                     console.log('DIV PAI: ', divPai);
-
-                    console.log('========================');
-                    
                 } else {
                     // preciso montar a mensagem se o retorno de errado
                     console.log("FUNÇÃO: fotos_salvas_local();");
