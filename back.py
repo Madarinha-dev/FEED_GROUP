@@ -98,6 +98,7 @@ def index():
 
 @app.route('/album_de_fotos_das_atividades', methods=['POST'])
 def album():
+
     print(' ')
     print('============================================')
     print('FUNÇÂO: "Album De Fotos Das Atividades" Ativada ')
@@ -154,9 +155,11 @@ def album():
             "success":False,
             "msg":f'ERRO no servidor interno ao Enviar as fotos'
         }), 500
-
+    
 
     
+
+
 
 
 @app.route('/Editar_id_da_foto', methods=['POST'])
@@ -468,10 +471,18 @@ def fotos_salvas_localmente():
 
 
 
+
     
 
 @app.route('/atividades_disponiveis', methods=['POST'])
 def atividades_disponiveis():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Atividades Disponíveis" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados = request.get_json()
         print(f'DADOS: {dados}')
@@ -522,72 +533,64 @@ def atividades_disponiveis():
     except Exception as erro:
         db.session.rollback()
 
-        print('ERRO DETECTADO FUNÇÃO: /atividades_disponiveis')
-        print(f'O tipo de Erro: {type(erro)}')
-        print(f'Descrição do erro: {str(erro)}')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Atividades Disponíveis"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             'success':False,
             'msg':'Erro ao buscar as atividades'
         }), 500
+    
+
+
         
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Depois preciso ver se essa função está sendo usada
 @app.route('/test_db')
 def test_db():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "TESTE DB" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Tenta contar o número de funcionários para verificar a conexão com o DB
         num_funcionarios = db.session.query(Funcionario).count()
         return f"Servidor rodando e conectado ao Supabase com sucesso! Número de funcionários: {num_funcionarios}"
-    except Exception as e:
+    except Exception as erro:
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "TESTE DB"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
+
         return f"Servidor rodando, mas houve um erro ao conectar ao banco de dados: {e}"
 
 
 
 @app.route('/excluirRegistro', methods=['POST'])
 def excluirRegistro():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Excluir Registro" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados = request.get_json()
         print(f'Dados: {dados}')
@@ -611,9 +614,14 @@ def excluirRegistro():
             }), 404
     except Exception as erro:
         db.session.rollback()
-        print('ERRO DETECTADO FUNÇÃO: FUNÇÃO EXCLUIR REGISTRO')
-        print(f'O tipo de Erro: {type(erro)}')
-        print(f'Descrição do erro: {str(erro)}')
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Excluir Registro"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             'success':False,
@@ -621,15 +629,20 @@ def excluirRegistro():
         }), 500
     
 
-
-
-
     
+    
+
 
 @app.route('/registro_das_atividades_adm', methods=['GET'])
 def exibir_registro():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Registro Das Atividades ADM" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
-        print('oi')
         registros = Registro.query.order_by(Registro.id_atividade).all()
         lista_json = []
 
@@ -642,7 +655,6 @@ def exibir_registro():
             }
             lista_json.append(dicionario)
 
-        print('Comunicação realizada com a API')
         return jsonify({
             'success':True,
             'msg':'Comunicação realizada com a API',
@@ -652,20 +664,37 @@ def exibir_registro():
 
     except Exception as erro:
         db.session.rollback()
-        print('ERRO DETECTADO, FUNÇÃO: REGISTRO DAS ATIVIDADES ADM')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
+
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Registro Das Atividades ADM"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             'success':False,
             'msg':'ERRO ao exibir os registros'
         }), 500
+    
+
+
+
+    
 
 
 
 
 @app.route('/exibir_tabela_frequencia', methods=['GET'])
 def exibir_tabela_frequencia():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Exibir Tabela Frequencia" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         frequencias = Frequencia.query.all()
         nova_lista = []
@@ -690,15 +719,21 @@ def exibir_tabela_frequencia():
     except Exception as erro:
         db.session.rollback()
 
-        print(f'ERRO DETECTADO, FUNÇÃO: EXIBIR A TABELA FREQUÊNCIA')
-        print(f'TIPO DE ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO DO ERRO: {str(erro)}')
-        print('=')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Exibir Tabela Frequencia"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             'success':False,
             'msg':'Erro ao coletar a frequência da tabela'
         }), 500
+    
+
+    
 
 
 
@@ -707,6 +742,13 @@ def exibir_tabela_frequencia():
 
 @app.route('/limparFrequencia', methods=['POST'])
 def limparFrequencia():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Limpar Frequencia" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         db.session.query(Frequencia).delete()
         db.session.commit()
@@ -720,11 +762,13 @@ def limparFrequencia():
 
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: LIMPAR FREQUÊNCIA')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Limpar Frequencia"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -732,11 +776,19 @@ def limparFrequencia():
         }), 500
 
 
+
+
        
 
 
 @app.route('/frequencia', methods=['POST'])
 def frequencia():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Frequência" Ativada ')
+    print('============================================')
+    print(' ')
 
     try:
         registro = request.get_json()
@@ -800,16 +852,21 @@ def frequencia():
     except Exception as erro:
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: FREQUÊNCIA')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Frequência"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
             "msg": "Falha ao registrar a frequência"
         }), 500
+    
+
+    
 
         
 
@@ -818,10 +875,15 @@ def frequencia():
 
 
 
-
-
 @app.route('/recuperar-senha', methods=['GET'])
 def recuperar():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Recuperar Senha" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         cpf = request.args.get('cpf')
 
@@ -848,11 +910,13 @@ def recuperar():
     except Exception as erro:
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: RECUPERAR SENHA')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Recuperar Senha"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -869,11 +933,15 @@ def recuperar():
     
 
 # aqui uma função importante, pós ela vai ser o referêncial para login, recuperação e consulta;
-
-
-
 @app.route('/cadastrar_funcionario', methods=['POST'])
 def cadastrar_funcionario():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Cadastrar Funcionario" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Pega os dados do corpo da requisição
         dados = request.get_json()
@@ -948,11 +1016,13 @@ def cadastrar_funcionario():
         # Em caso de erro, desfaz a transação
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: CADASTRAR FUNCIONÁRIO')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Cadastrar Funcionário"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -967,8 +1037,17 @@ def cadastrar_funcionario():
 
 
 
+
+
 @app.route('/adicionarAtividade', methods=['POST'])
 def adicionarAtividade():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Adicionar Atividade" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Pega os dados do corpo da requisição
         dados = request.get_json()
@@ -1034,11 +1113,13 @@ def adicionarAtividade():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: ADICIONAR ATIVIDADE')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Adicionar Atividade"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1055,8 +1136,16 @@ def adicionarAtividade():
 
 
 
+
 @app.route('/excluirFuncionario', methods=['POST'])
 def excluirFuncionario():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Excluir Funcionario" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Pega os dados do corpo da requisição
         dados = request.get_json()
@@ -1102,11 +1191,13 @@ def excluirFuncionario():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: EXCLUIR FUNCIONÁRIO')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Excluir Funcionário"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1120,8 +1211,17 @@ def excluirFuncionario():
 
 
 
+
+
 @app.route('/excluiratividade', methods=['POST'])
 def excluiratividade():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Excluir Atividade" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Pega os dados do corpo da requisição
         dados = request.get_json()
@@ -1167,11 +1267,13 @@ def excluiratividade():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: EXCLUIR ATIVIDADE')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Excluir Atividade"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1184,8 +1286,16 @@ def excluiratividade():
 
 
 
+
 @app.route('/alterarfuncionario', methods=['POST'])
 def alterarfuncionario():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Alterar Funcionário" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         novos_dados = request.get_json()
         id_str = novos_dados.get('id')
@@ -1244,11 +1354,13 @@ def alterarfuncionario():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: MODIFICAR FUNCIONÁRIO')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Alterar Funcionário"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1265,6 +1377,13 @@ def alterarfuncionario():
 
 @app.route('/alterarAtividade', methods=['POST'])
 def alterarAtividade():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Alterar Atividade" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         # Pega os dados do corpo da requisição
         novos_dados = request.get_json()
@@ -1337,11 +1456,13 @@ def alterarAtividade():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: MODIFICAR ATIVIDADE')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Alterar Atividade"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1360,6 +1481,13 @@ def alterarAtividade():
 
 @app.route('/ordenarAtividades', methods=['POST'])
 def ordenarAtividades():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Ordenar Atividade" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados = request.get_json()
         ordenar_por = dados.get('ordenar_por', 'id_atividade')
@@ -1416,11 +1544,13 @@ def ordenarAtividades():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: ORDENAR ATIVIDADE')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Ordenar Atividade"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1433,13 +1563,15 @@ def ordenarAtividades():
 
 
 
-
-
-
-
-
 @app.route('/ordenarfuncionarios', methods=['POST'])
 def ordenarfuncionarios():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Ordenar Funcionario" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados = request.get_json()
         ordenar_por = dados.get('ordenar_por')
@@ -1490,11 +1622,13 @@ def ordenarfuncionarios():
         # Em caso de erro, desfaz a transação para garantir a integridade dos dados
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: ORDENAR FUNCIONÁRIOS')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Ordenar Funcionário"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1507,8 +1641,16 @@ def ordenarfuncionarios():
 
 
 
+
 @app.route('/mostrar_atividades', methods=['POST'])
 def mostrar_atividades():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Mostrar Atividades" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados = request.get_json()
         tipo_servico_solicitado = dados.get('msg')
@@ -1558,11 +1700,13 @@ def mostrar_atividades():
     except Exception as erro:
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: MOSTRAR ATIVIDADES')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Mostrar Atividades"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1574,15 +1718,16 @@ def mostrar_atividades():
 
 
 
-
-
-
-
-
-
 # rota que vai receber os dados la da tela de login
 @app.route('/receber_dados', methods=['POST'])
 def receber_dados():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "Receber Dados" Ativada ')
+    print('============================================')
+    print(' ')
+
     try:
         dados_recebidos = request.get_json()
         nome = dados_recebidos.get('nome')
@@ -1626,11 +1771,13 @@ def receber_dados():
         # A função rollback() é importante para garantir que nenhuma transação incompleta persista
         db.session.rollback()
 
-        print('=============================================')
-        print(f'ERRO DETECTADO, FUNÇÃO: RECEBER DADOS')
-        print(f'TIPO DO ERRO: {type(erro)}')
-        print(f'DESCRIÇÃO: {str(erro)}')
-        print('=============================================')
+        print(' ')
+        print('============================================')
+        print('ERRO DETECTADO FUNÇÃO: "Receber Dados"')
+        print(f'Tipo de erro: {type(erro)}')
+        print(f'Descrição: {str(erro)}')
+        print('============================================')
+        print(' ')
 
         return jsonify({
             "success": False,
@@ -1638,38 +1785,76 @@ def receber_dados():
         }), 500
 
 
-    
-
 
 @app.route('/tela02')
 def tela02():
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "TELA 02" Ativada ')
+    print('============================================')
+    print(' ')
+
     return render_template('tela02.html')
 
 
 @app.route('/pintura')
 def pintura():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "PINTURA" Ativada ')
+    print('============================================')
+    print(' ')
+
     return render_template('pintura.html')
 
 
 @app.route('/eletrica')
 def eletrica():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "ELETRÍCA" Ativada ')
+    print('============================================')
+    print(' ')
+
     return render_template('eletrica.html')
 
 
 @app.route('/mecanica')
 def mecanica():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "MECÂNICA" Ativada ')
+    print('============================================')
+    print(' ')
+
     return render_template('mecanica.html')
 
 
 @app.route('/telhado')
 def telhado():
+
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "TELHADO" Ativada ')
+    print('============================================')
+    print(' ')
+
     return render_template('telhado.html')
 
 
 @app.route('/adm')
 def adm():
-    return render_template('adm.html')
 
+    print(' ')
+    print('============================================')
+    print('FUNÇÂO: "ADM" Ativada ')
+    print('============================================')
+    print(' ')
+
+    return render_template('adm.html')
 
 
 

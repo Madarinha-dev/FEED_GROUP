@@ -601,7 +601,8 @@
                     recado.style.display = 'none';
 
                     if (retorno.funcao === 'pintura') {
-                        window.location = '/pintura';
+                        // window.location = '/pintura';
+                        window.location = `/pintura?nome=${encodeURIComponent(inputnome.value)}&funcao=${encodeURIComponent(retorno.funcao)}`;
 
                     } else if (retorno.funcao === 'eletrica') {
                         window.location = `/eletrica?nome=${encodeURIComponent(inputnome.value)}&funcao=${encodeURIComponent(retorno.funcao)}`;
@@ -610,12 +611,16 @@
 
                     } else if (retorno.funcao === 'adm' || retorno.funcao === 'seguranca' || retorno.funcao === 'administrativo') {
                         window.location = '/adm';
+                        // window.location = `/adm?nome=${encodeURIComponent{inputnome.value}}`;
 
                     } else if (retorno.funcao === 'telhado') {
-                        window.location = '/telhado';
+                        // window.location = '/telhado';
+                        window.location = `/telhado?nome=${encodeURIComponent(inputnome.value)}&funcao=${encodeURIComponent(retorno.funcao)}`;
+
 
                     } else if (retorno.funcao === 'mecanica') {
-                        window.location = '/mecanica';
+                        // window.location = '/mecanica';
+                        window.location = `/mecanica?nome=${encodeURIComponent(inputnome.value)}&funcao=${encodeURIComponent(retorno.funcao)}`;
                     }
 
                     inputnome.value = '';

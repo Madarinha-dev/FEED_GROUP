@@ -1219,17 +1219,6 @@
                     divPai.innerHTML = '';
                     fotos_salvas_local();
 
-                    console.log(' ');
-                    console.log('=============');
-                    console.log('- VALORES -');
-                    console.log(' [ LEGENDA ] = ',legenda);
-                    console.log(' [ DIV PAI ] = ',divPai);
-                    console.log(' [ FUNCIONARIO ] = ',funcionario);
-                    console.log(' [ RETORNO ] = ',retorno);
-                    console.log(' [ CAPUTREPHOTO ] = ',capturePhoto);
-                    console.log('=============');
-                    console.log(' ');
-
                 } else {
                     console.log(`ERRO do servidor: ${retorno.msg}`);
                     notificacao(`${retorno.msg}`,'error');
@@ -1320,7 +1309,8 @@
                         legenda: `[${hora}:${minuto}] - ${legenda.value}`,
                         imagemData: imageDataURL,
                         nome_Do_Funcionario: nome_do_funcionario
-                    }; 
+                    };
+                    notificacao('Foto Tirada', 'success');
 
                     // let nome = urlParams.get('nome');
 
@@ -1338,11 +1328,6 @@
                         const retorno = await resposta.json();
 
                         if (retorno.success) {
-                            // console.log('===========================');
-                            // console.log('FOTO SALVA NA TABELA TEMPORARIA');
-                            // console.log(`MSG DO SERVIDOR: ${retorno.msg}`);
-                            // console.log(`Conteudo: `, retorno);
-                            // console.log('===========================');
 
                             const container_img = `
                             <div style="background-color: rgba(175, 175, 175, 0.441);" data-id="${retorno.id_unico}">
