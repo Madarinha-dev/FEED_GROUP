@@ -23,7 +23,7 @@
 
             body {
                 /* background-image: url('/static/images/capa02.png'); */
-                background-image: url('{{ url_for("static", filename="images/capa02.png") }}');
+                background-image: url('{{ url_for("static", filename="images/capa02.webp")}}');
                 /* src="{{ url_for('static', filename='videos/video_principal.mp4')}}" */
                 background-size: cover;
                 background-repeat: no-repeat;
@@ -333,15 +333,15 @@
 <body>
 
     <video autoplay muted loop playsinline id="background-video">
-        <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4">
+        <!-- <source src="/PROJETO FEED/static/videos/video_principal.mp4" type="video/mp4"> -->
         
 
-        <source src="{{ url_for('static', filename='videos/video_principal.mp4')}}" type="video/mp4" >
+        <source src="{{ url_for('static', filename='videos/video_principal.webm')}}" type="video/mp4" >
         Seu navegador não suporta vídeos de fundo.
     </video>
 
     <div id="video-overlay"></div>
-    <img id="capa_de_fundo" src="/static/images/capa01.png" alt="">
+    <img id="capa_de_fundo" src="/static/images/capa01.webp" alt="">
 
 
     

@@ -474,15 +474,15 @@
         <div id="bloco">
             <p id="titulo-das-tabelas">Funcionários
                 <button onclick="adicionarFuncionario()" style="background-color: white;" id="adicionar-funcionario" class="botoes-das-tabelas">
-                     <img src="{{ url_for('static', filename='images/botao_adicionar.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                     <img src="{{ url_for('static', filename='images/botao_adicionar.webp') }}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
 
                 <button onclick="excluirFuncionario()" style="background-color: white;" id="excluir-funcionario" class="botoes-das-tabelas">
-                     <img src="{{ url_for('static', filename='images/excluir preto.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                     <img src="{{ url_for('static', filename='images/excluir preto.webp') }}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
 
                 <button onclick="alterarRegistro()" id="alterar-funcionario" class="botoes-das-tabelas">
-                     <img src="{{ url_for('static', filename='images/botao_editar.png') }}" alt="" style="width: 20px; pointer-events: none;">
+                     <img src="{{ url_for('static', filename='images/botao_editar.webp') }}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
 
                 <select name="" id="ordenartabelafuncionario">
@@ -661,15 +661,15 @@
         <div id="bloco">
             <p id="titulo-das-tabelas">Atividades
                 <button onclick="adicionaratividades()" style="background-color: white;" id="adicionar-atividades" class="botoes-das-tabelas">
-                    <img src="{{ url_for('static', filename='images/botao_adicionar.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                    <img src="{{ url_for('static', filename='images/botao_adicionar.webp')}}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
 
                 <button onclick="excluiratividades()" style="background-color: white;" id="excluir-atividades" class="botoes-das-tabelas">
-                     <img src="{{ url_for('static', filename='images/excluir preto.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                     <img src="{{ url_for('static', filename='images/excluir preto.webp')}}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
 
                 <button onclick="alteraratividades()" id="alterar-atividades" class="botoes-das-tabelas">
-                     <img src="{{ url_for('static', filename='images/botao_editar.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                     <img src="{{ url_for('static', filename='images/botao_editar.webp')}}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
                 <!-- <br> -->
             
@@ -883,7 +883,7 @@
                 style="background-color: white;
                 " id="" class="">
                 <!-- <img src="/PROJETO FEED/static/images/excluir preto.png" alt="" style="width: 20px; pointer-events: none;"> -->
-                <img src="{{ url_for('static', filename='images/excluir preto.png')}}" alt="" style="width: 20px; pointer-events: none;">
+                <img src="{{ url_for('static', filename='images/excluir preto.webp')}}" alt="" style="width: 20px; pointer-events: none;">
                 </button>
             </p> 
             
@@ -923,13 +923,13 @@
                     <div>
                         <p>
                             <button id="baixar" onclick="baixar(event)" onmouseover="baixarCima(event)"  onmouseout="baixarSaiu(event)">
-                                <img src="{{ url_for('static', filename='images/baixar fundo branco.png') }}" alt="baixar" style="height: 20px; display: inline;">
-                                <img src="{{ url_for('static', filename='images/baixar fundo preto.png') }}" alt="baixar" style="height: 20px; display: none;">
+                                <img src="{{ url_for('static', filename='images/baixar fundo branco.webp') }}" alt="baixar" style="height: 20px; display: inline;">
+                                <img src="{{ url_for('static', filename='images/baixar fundo preto.webp') }}" alt="baixar" style="height: 20px; display: none;">
                             </button>
 
                             <button id="excluir" onmouseover="excluirCima(event)" onmouseout="excluirSaiu(event)" onclick="excluir(event)" style="margin-left: 5px;">
-                                <img src="{{ url_for('static', filename='images/excluir preto.png') }}" alt="excluir" style="height: 20px; display: inline;">
-                                <img src="{{ url_for('static', filename='images/excluir branco.png') }}" alt="excluir" style="height: 20px; display: none;">
+                                <img src="{{ url_for('static', filename='images/excluir preto.webp') }}" alt="excluir" style="height: 20px; display: inline;">
+                                <img src="{{ url_for('static', filename='images/excluir branco.webp') }}" alt="excluir" style="height: 20px; display: none;">
                             </button>
 
                         </p>
@@ -965,13 +965,13 @@
 
 
         const videos = [
-            '{{ url_for("static", filename="videos/video_01.mp4") }}',
-            '{{ url_for("static", filename="videos/video_02.mp4") }}',
-            '{{ url_for("static", filename="videos/video_03.mp4") }}',
-            '{{ url_for("static", filename="videos/video_04.mp4") }}',
-            '{{ url_for("static", filename="videos/video_05.mp4") }}',
-            '{{ url_for("static", filename="videos/video_06.mp4") }}',
-            '{{ url_for("static", filename="videos/video_07.mp4") }}'
+            '{{ url_for("static", filename="videos/video_01.webm") }}',
+            '{{ url_for("static", filename="videos/video_02.webm") }}',
+            '{{ url_for("static", filename="videos/video_03.webm") }}',
+            '{{ url_for("static", filename="videos/video_04.webm") }}',
+            '{{ url_for("static", filename="videos/video_05.webm") }}',
+            '{{ url_for("static", filename="videos/video_06.webm") }}',
+            '{{ url_for("static", filename="videos/video_07.webm") }}'
         ];
 
         let videoElement = document.getElementById('background-video');
@@ -1293,7 +1293,7 @@
                             let imgPreto = document.createElement('img');
                             imgPreto.classList.add('preto');
                             // imgPreto.src = '/PROJETO FEED/static/img/baixar fundo branco.png'; // foto na pasta aqui mesmo
-                            imgPreto.src = `{{ url_for('static', filename='images/baixar fundo branco.png') }}`;
+                            imgPreto.src = `{{ url_for('static', filename='images/baixar fundo branco.webp') }}`;
                             imgPreto.style.height = '20px';
                             imgPreto.style.display = 'inline';
                             // imgPreto.alt = ''; // o identificador desse registro no banco de dados;
@@ -1301,7 +1301,7 @@
                             let imgBranco = document.createElement('img');
                             imgBranco.classList.add('branco');
                             // imgBranco.src = '/PROJETO FEED/static/img/baixar fundo preto.png';
-                            imgBranco.src = `{{ url_for('static', filename='images/baixar fundo preto.png') }}`;
+                            imgBranco.src = `{{ url_for('static', filename='images/baixar fundo preto.webp') }}`;
                             imgBranco.style.height = '20px';
                             imgBranco.style.display = 'none';
                             // imgBranco.alt = '';
@@ -1319,7 +1319,7 @@
                             let imgExcluirPreto = document.createElement('img');
                             imgExcluirPreto.id = 'imgExcluirPreto';
                             // imgExcluirPreto.src = '/PROJETO FEED/static/img/excluir preto.png';
-                            imgExcluirPreto.src = `{{ url_for('static', filename='images/excluir preto.png') }}`;
+                            imgExcluirPreto.src = `{{ url_for('static', filename='images/excluir preto.webp') }}`;
                             imgExcluirPreto.style.height = '20px';
                             imgExcluirPreto.style.display = 'inline';
                             // imgExcluirPreto.alt = '';
@@ -1327,7 +1327,7 @@
                             let imgExcluirBranco = document.createElement('img');
                             imgExcluirBranco.id = 'imgExcluirBranco';
                             // imgExcluirBranco.src = '/PROJETO FEED/static/img/excluir branco.png';
-                            imgExcluirBranco.src = `{{ url_for('static', filename='images/excluir branco.png') }}`;
+                            imgExcluirBranco.src = `{{ url_for('static', filename='images/excluir branco.webp') }}`;
                             imgExcluirBranco.style.height = '20px';
                             imgExcluirBranco.style.display = 'none';
                             // imgExcluirBranco.alt = '';
