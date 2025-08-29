@@ -32,8 +32,6 @@ lista = []
 
 
 
-
-
 class Funcionario(db.Model):
     __tablename__ = 'funcionarios_cadastrados'
     id_funcionario = db.Column(db.Integer, primary_key=True, autoincrement=True)
