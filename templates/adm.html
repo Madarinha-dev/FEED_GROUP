@@ -1257,7 +1257,7 @@
                 if (!resultado.ok) {
                     const erro = await resultado.json().catch(() => ({}));
                     console.error(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
-                    alert(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`);
+                    // alert(`ERRO HTTP: ${resultado.status}: MSG: ${erro.msg}`); muito chato na tela
                     notificacao(`${resultado.status}; ${erro.msg || "Erro ao conectar"}`,'error');
                     return;
                 }
